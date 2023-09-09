@@ -1,0 +1,13 @@
+@mixin icon($url, $position, $size) {
+    background: url($url) no-repeat;
+    background-position: $position;
+    background-size: $size;
+}
+
+@mixin min-width-container(){
+    min-width: 366px;
+}
+
+@mixin min-height-container(){
+    min-height: 584px;
+}

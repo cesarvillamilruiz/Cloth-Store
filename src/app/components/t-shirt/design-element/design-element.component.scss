@@ -1,0 +1,35 @@
+.elementContainer {
+  position: relative;
+  top: 20px;
+  left: 20px;
+  width: 100px;
+  height: 100px;
+  border: 1px dashed darkcyan;
+  background-color: lawngreen;
+  &__resizeHandle{
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: darkgoldenrod;
+    &--topLeft{      
+      top: -3px;
+      left: -3px;
+    }
+    &--topRight{
+      left: calc(100% - 5px);
+      top: -3px;
+    }
+    &--bottomLeft{
+      top: calc(100% - 5px);
+      left: -3px;
+    }
+    &--bottomRight{
+      top: calc(100% - 5px);
+      left: calc(100% - 5px);
+    }
+  }
+}
+
+svg text {
+  user-select: none;
+}

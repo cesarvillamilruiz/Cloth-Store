@@ -1,0 +1,48 @@
+@import "../../../mixin/general/mixin.scss";
+
+.designContainer {
+  @include min-width-container();
+  @include min-height-container();
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 10% 90%;
+  grid-template-rows: 10% 80% 10%;
+  &__header {
+    grid-column: 1 / 3;
+    grid-row: 1;
+  }
+  &__designer {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+  }
+  &__option {
+    grid-column: 1 / 3;
+    grid-row: 3;
+  }
+}
+
+@media (min-width: 768px) {
+  .designContainer {
+    grid-template-columns: 10% 90%;
+    grid-template-rows: 10% 90%;
+    &__header {
+      grid-column: 1 / 3;
+      grid-row: 1;
+    }
+    &__designer {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+    }
+    &__option {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+    }
+  }
+}
+
+@media(min-width: 1446px){
+  .designContainer {
+    grid-template-columns: 100px 1fr;
+  }
+}

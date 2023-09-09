@@ -1,0 +1,17 @@
+.optionContainer {
+  width: 100%;
+  height: 100%;
+  &__option {
+    width: 25%;
+    height: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .optionContainer {
+    &__option {
+      width: 100%;
+      height: 10%;
+    }
+  }
+}

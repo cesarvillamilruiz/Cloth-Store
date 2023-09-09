@@ -1,0 +1,18 @@
+<div class="optionTextContainer">
+    <header>
+        <div class="optionTextContainer__title">
+            <h2>Editar texto</h2>
+            <button class="optionTextContainer__closeButton" (click)="onCloseOptionProduct()">X</button>
+        </div>
+        <p>Aqui puedes seleccionar tu genero, talla y color de tu camiseta</p>
+    </header>
+    <hr>
+    <div>
+       <input type="text" class="optionTextContainer__input" (input)="onTextInput($event)">
+    </div>
+    <div>
+        <p>Selecciona el color</p>
+        <div class="optionTextContainer__color">
+        </div>
+    </div>
+</div>

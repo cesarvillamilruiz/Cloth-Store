@@ -1,0 +1,26 @@
+<div class="optionProductContainer">
+    <header>
+        <div ngClass="optionProductContainer__title">
+            <h2>Administra tus productos</h2>
+            <button class="optionProductContainer__closeButton" (click)="onCloseOptionProduct()">X</button>
+        </div>
+        <p>Aqui puedes seleccionar tu genero, talla y color de tu camiseta</p>
+    </header>
+    <hr>
+    <div>
+        <p>Selecciona tu genero</p>
+        <button class="optionProductContainer__men"><img ngSrc="../../../../assets/icon/man.png" width="30" height="30" priority></button>
+        <button class="optionProductContainer__kid"><img ngSrc="../../../../assets/icon/little-kid.png" width="30" height="30" priority></button>
+    </div>
+    <div>
+        <p>Selecciona el color</p>
+        <div class="optionProductContainer__color">
+            <button ngClass="optionProductContainer__color--red" (click)="setTShirtColor(color.red)"></button>
+            <button ngClass="optionProductContainer__color--yellow" (click)="setTShirtColor(color.yellow)"></button>
+            <button ngClass="optionProductContainer__color--green" (click)="setTShirtColor(color.green)"></button>
+            <button ngClass="optionProductContainer__color--blue" (click)="setTShirtColor(color.blue)"></button>
+            <button ngClass="optionProductContainer__color--purple" (click)="setTShirtColor(color.purple)"></button>
+            <button ngClass="optionProductContainer__color--pink" (click)="setTShirtColor(color.pink)"></button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="productDesingContainer">
+    <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.product">
+        <div class="productDesingContainer__optionMenu">
+            <app-option-product  (closeOptionProduct)="onCloseOptionProduct()"></app-option-product>
+        </div>
+    </div>    
+
+    <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.text">
+        <div class="productDesingContainer__optionMenu">
+            <app-option-text (closeOptionProduct)="onCloseOptionProduct()" (textValue)="onTextValue($event)"></app-option-text>
+        </div>
+    </div> 
+    
+    <div class="productDesingContainer__canvas" #canvas>
+        <div class="productDesingContainer__workArea"  #workArea>             
+            <div #baseComponent></div>
+        </div>
+    </div>    
+    
+    <button class="productDesingContainer__rotate" (click)="onRotate()"><img ngSrc="../../../../assets/icon/refresh.png"
+            width="30" height="30" priority></button>
+</div>
