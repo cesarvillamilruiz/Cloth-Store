@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Cloth-Store:build:production"
+              "buildTarget": "Cloth-Store:build:production"
             },
             "development": {
-              "browserTarget": "Cloth-Store:build:development"
+              "buildTarget": "Cloth-Store:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Cloth-Store:build"
+            "buildTarget": "Cloth-Store:build"
           }
         },
         "test": {
