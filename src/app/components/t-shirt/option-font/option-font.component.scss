@@ -1,0 +1,19 @@
+@import "../../../mixin/general/mixin.scss";
+
+.optionFontContainer{
+    margin-top: 10px;
+    height: 100%;
+    background-color: rgb(145, 103, 212);
+    position: absolute;
+    &__fontOption{
+        @include make-flex(center, center);        
+        flex-wrap: wrap;
+        overflow: auto;
+        max-height: 83%;
+        div{
+            width: 50%;
+            margin-top: 40px;
+        }
+    }
+}
+

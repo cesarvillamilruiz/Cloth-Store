@@ -1,0 +1,42 @@
+<section class="optionDrawContainer">    
+    <!-- <div class="optionDrawContainer__tab">
+        <input type="checkbox" name="accordion-1" id="cb1" checked>
+        <label for="cb1" class="optionDrawContainer__tabLabel">Diseños</label>
+        <div class="optionDrawContainer__tabContent">
+            <button *ngFor="let desing of designNodeList" class="optionDrawContainer__tabContentLabel"
+            (click)="onSelectDesign(desing.name)">
+                <img  ngSrc="{{ desing.path }}" width="60" height="70"  priority/>
+            </button>
+        </div>
+    </div>
+    <div class="optionDrawContainer__tab">
+        <input type="checkbox" name="accordion-1" id="cb1" checked>
+        <label for="cb1" class="optionDrawContainer__tabLabel">Diseños</label>
+        <div class="d-flex flex-column align-items-center">
+            <input type="text" [(ngModel)]="prompt" class="bg-primary propmt">
+            <button (click)="generateImage()" [disabled]="!prompt">Generate Image</button>
+            <img *ngIf="generatedImageUrl" [ngSrc]="generatedImageUrl" alt="Generated Image" width="200" height="200" priority/>
+        </div>
+    </div>    -->
+
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          {{node.name}}
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle
+                       [cdkTreeNodeTypeaheadLabel]="node.name">
+          <button mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          {{node.name}}
+        </mat-tree-node>
+      </mat-tree>
+      
+</section>

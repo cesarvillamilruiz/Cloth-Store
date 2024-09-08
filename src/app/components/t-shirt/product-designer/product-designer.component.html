@@ -7,11 +7,46 @@
 
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.text">
         <div class="productDesingContainer__optionMenu">
-            <app-option-text (closeOptionProduct)="onCloseOptionProduct()" (textValue)="onTextValue($event)"></app-option-text>
+            <app-option-text
+                [invputValue]="inputValue"
+                [selectedFont]="selectedFont"
+                [selectedFontColor]="selectedFontColor"
+                [selectedOutlineFontColor]="selectedOutlineFontColor"
+                (closeOptionProduct)="onCloseOptionProduct()"
+                (textValue)="onTextValue($event)"
+                (switchHorizontalDirection)="onRotateHorizontal()"
+                (switchVerticalDirection)="onRotateVertical()"></app-option-text>
+        </div>
+    </div>
+
+    <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.draw">
+        <div class="productDesingContainer__optionMenu">
+            <app-option-draw 
+                (closeOptionProduct)="onCloseOptionProduct()"
+                (selectedDesignName)="onSelectDesign($event)"></app-option-draw>
+        </div>
+    </div>
+
+    <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.upload">
+        <div class="productDesingContainer__optionMenu">
+            <app-option-upload (fileUpload)="onFileUpload($event)"></app-option-upload>
         </div>
     </div> 
     
-    <div class="productDesingContainer__canvas" #canvas>
+    <div class="productDesingContainer__canvas" #canvas (click)="onSelectWorkArea()">
+        <div class="productDesingContainer__optionMovement">
+            <ul *ngIf="currentEditOption === optionEditEnum.layer && dynamicComponentsArray.length > defaultTypeValueEnum.firstNumber">
+                <li (click)="moveToFront()">Mover al frente</li>
+                <li (click)="moveToBack()">Mover atras</li>
+                <li (click)="moveForward()">Mover un paso al frente</li>
+                <li (click)="moveBackward()">Mover un paso al atras</li>
+            </ul>
+        </div>
+        
+        <div class="productDesingContainer__editor">            
+            <button *ngIf="dynamicComponentsArray.length" (click)="deleteElement()"><img ngSrc="../../../../assets/icon/trash.png" width="20" height="20" priority></button>
+            <button *ngIf="dynamicComponentsArray.length > defaultTypeValueEnum.firstNumber" (click)="openLayerPicker()"><img ngSrc="../../../../assets/icon/layer-regular.png" width="20" height="20" priority></button>                
+        </div>        
         <div class="productDesingContainer__workArea"  #workArea>             
             <div #baseComponent></div>
         </div>

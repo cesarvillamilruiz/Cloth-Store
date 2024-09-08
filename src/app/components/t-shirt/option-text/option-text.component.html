@@ -4,15 +4,20 @@
             <h2>Editar texto</h2>
             <button class="optionTextContainer__closeButton" (click)="onCloseOptionProduct()">X</button>
         </div>
-        <p>Aqui puedes seleccionar tu genero, talla y color de tu camiseta</p>
     </header>
-    <hr>
     <div>
-       <input type="text" class="optionTextContainer__input" (input)="onTextInput($event)">
+       <input type="text" class="optionTextContainer__input" [value]="invputValue()" (input)="onTextInput($event)" #textInput>
     </div>
-    <div>
-        <p>Selecciona el color</p>
-        <div class="optionTextContainer__color">
-        </div>
+    <div *ngIf="invputValue()" class="optionTextContainer__action">
+        <button (click)="onRotateHorizontal()"><img ngSrc="../../../../assets/icon/reflect-horizontal.png" width="30" height="30" priority></button>
+        <button (click)="onRotateVertical()"><img ngSrc="../../../../assets/icon/reflect-vertical.png" width="30" height="30" priority></button>        
+    </div>
+    <div class="optionTextContainer__font">
+        <app-button-two [label]="labelFont" (clickEvent)="onSelectFontOption('showFontOptions')"></app-button-two>
+        <app-button-two [label]="labelColor" (clickEvent)="onSelectFontOption('showFontColorOption')"></app-button-two>
+        <app-button-two [label]="labelOutlineColor" (clickEvent)="onSelectFontOption('showOutlineColorOption')"></app-button-two>
+        <app-option-font *ngIf="showFontOptions" [selectedFont]="selectedFont"></app-option-font>
+        <app-option-color *ngIf="showFontColorOption" [selectedColor]="selectedFontColor"></app-option-color>
+        <app-option-color *ngIf="showOutlineColorOption" [selectedColor]="selectedOutlineFontColor"></app-option-color>
     </div>
 </div>

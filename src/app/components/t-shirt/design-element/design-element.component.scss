@@ -1,9 +1,9 @@
 .elementContainer {
-  position: relative;
-  top: 20px;
-  left: 20px;
+  position: absolute;
   width: 100px;
+  min-width: 10px;
   height: 100px;
+  min-height: 10px;
   border: 1px dashed darkcyan;
   background-color: lawngreen;
   &__resizeHandle{
@@ -11,6 +11,7 @@
     width: 8px;
     height: 8px;
     background-color: darkgoldenrod;
+    cursor: crosshair;
     &--topLeft{      
       top: -3px;
       left: -3px;
@@ -32,4 +33,19 @@
 
 svg text {
   user-select: none;
+}
+
+.horizontalInverted{
+  transform: scaleX(-1) !important;
+}
+
+.verticalInverted{
+  transform: scaleY(-1) !important;
+}
+
+.rotateDiv{
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  margin-top: -20px;
 }

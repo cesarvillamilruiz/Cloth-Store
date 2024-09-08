@@ -4,10 +4,16 @@
     background-size: $size;
 }
 
-@mixin min-width-container(){
+@mixin min-width-container() {
     min-width: 366px;
 }
 
-@mixin min-height-container(){
+@mixin min-height-container() {
     min-height: 584px;
+}
+
+@mixin make-flex($justify, $align) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
 }

@@ -1,0 +1,7 @@
+<div class="optionFontContainer">
+    <div class="optionFontContainer__fontOption">
+        <div *ngFor="let font of optionFont">     
+            <app-button-one [label]="font.name" [font]="font.value" (click)="onSelectFont(font.value)"></app-button-one>
+        </div> 
+    </div>       
+</div>

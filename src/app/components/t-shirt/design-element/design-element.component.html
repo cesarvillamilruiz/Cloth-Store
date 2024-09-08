@@ -1,9 +1,30 @@
-<div class="elementContainer" [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px)'" [style.width.px]='width()'
-    [style.height.px]='height()' (mousedown)="setStatus($event, 2)" (window:mouseup)="setStatus($event, 0)" (click)="onCLick()">
 
-    <svg [attr.width]="imgWidth()" [attr.height]="imgHeight()">
-        <text x="0" y="12%" style="dominant-baseline: hanging;" [attr.font-size]="imgHeight()"
+
+<div class="elementContainer"
+    [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px) rotate(' + rotateDegree + 'deg)'" 
+    [style.width.px]='width()'
+    [style.zIndex]="zIndex()"
+    [style.height.px]='height()'
+    (mousedown)="setStatus($event, 2)" #mainElement>
+
+    <div class="rotateDiv" (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true" (drag)="onDragRotate($event)"></div>
+    
+    <svg
+        [ngClass]="{'horizontalInverted' : isHorizontalInverted, 'verticalInverted' : isVerticalInverted}"
+        [attr.width]="imgWidth()"
+        [attr.height]="imgHeight()">
+        <text *ngIf="showText"
+            x="0"
+            y="12%"
+            style="dominant-baseline: hanging;"
+            [attr.font-size]="imgHeight()"
+            [attr.font-family]="selectedFont()"
+            [attr.fill]="selectedFontColor()"
+            [attr.stroke]="selectedOutlineFontColor()"
+            stroke-width="5px"
         textLength="100%" lengthAdjust="spacingAndGlyphs">{{ text() }}</text>
+
+        <image *ngIf="!showText" [attr.xlink:href]="imagePath" y="8" [attr.width]="imgWidth()" width="90%" height="90%" preserveAspectRatio="none"/>
     </svg>
 
     <div class="elementContainer__resizeHandle elementContainer__resizeHandle--topLeft" (mousedown)="setStatus($event, 1, topLeftResize)"></div>

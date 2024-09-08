@@ -14,32 +14,12 @@
       height: 50%;
     }
   }
-  &__color {
-    button {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-    display: flex;
-    justify-content: space-around;
-    &--red {
-      background-color: #ff0000;
-    }
-    &--yellow {
-      background-color: #ecff00;
-    }
-    &--green {
-      background-color: #18ff00;
-    }
-    &--blue {
-      background-color: #00fffc;
-    }
-    &--purple {
-      background-color: #0000ff;
-    }
-    &--pink {
-      background-color: #ff00f2;
-    }
+  &__action{
+    padding-top: 10px;
+    @include make-flex(center, center);
+  }
+  &__font{
+    padding-top: 10px;
   }
 }
 
