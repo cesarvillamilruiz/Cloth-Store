@@ -1,3 +1,17 @@
-.file-input{
-    display: none;
+.optionProductUploadContainer {
+    height: 100%;
+    display: block;
+    padding-left: 20px;
 }
+
+ngx-dropzone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  ngx-dropzone-label {
+    font-size: 16px;
+    color: #666;
+  }

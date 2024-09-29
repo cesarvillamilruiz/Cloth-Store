@@ -1,4 +1,15 @@
-<input type="file" class="file-input" (change)="onFileSelected($event)" #fileInput>
-<div>
-    <button (click)="fileInput.click()">upload</button>
+<div class="optionProductUploadContainer pt-3 col-11">
+    <header>
+        <div class="d-flex justify-content-between flex-nowrap mt-4">
+            <h6>Sube Archivos</h6>
+            <button type="button" class="btn-close mr-3" (click)="closeOptionProduct.emit()" aria-label="Close"></button>
+        </div>
+        <h2>Escoge tus archivos para subir</h2>
+        <p>Aqui puedes seleccionar multiples archivos para subir</p>
+    </header>
+    <ngx-dropzone (change)="onFileSelected($event)">
+        <ngx-dropzone-label>
+            Arrastra y suelta una imagen aquí o haz click para cargar una imagen
+        </ngx-dropzone-label>
+      </ngx-dropzone>
 </div>

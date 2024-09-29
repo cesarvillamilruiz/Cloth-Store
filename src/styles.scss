@@ -1,5 +1,35 @@
+@font-face {
+    font-family: 'lexend-bold';
+    src: local('lexend'), url('./assets/fonts/lexend/Lexend-Bold.ttf') format('truetype');
+  }
+
+@font-face {
+    font-family: 'lexend-medium';
+    src: local('lexend'), url('./assets/fonts/lexend/Lexend-Medium.ttf') format('truetype');
+  }
+
+@font-face {
+    font-family: 'lexend-light';
+    src: local('lexend'), url('./assets/fonts/lexend/Lexend-Light.ttf') format('truetype');
+  }
+
+@font-face {
+    font-family: 'lexend-regular';
+    src: local('lexend'), url('./assets/fonts/lexend/Lexend-Regular.ttf') format('truetype');
+  }
+
 /* You can add global styles to this file, and also import other style files */
 body {
     margin: 0;
     padding: 0;
+}
+
+h2{
+    font-family: lexend-bold;
+    font-size: 18px !important;
+}
+
+p{
+    font-family: lexend-regular;
+    font-size: 15px !important;
 }

@@ -1,7 +1,7 @@
 <div class="productDesingContainer">
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.product">
         <div class="productDesingContainer__optionMenu">
-            <app-option-product  (closeOptionProduct)="onCloseOptionProduct()"></app-option-product>
+            <app-option-product [products]="products" [selectedIndexProduct]="selectedIndexProduct" (closeOptionProduct)="onCloseOptionProduct()"></app-option-product>
         </div>
     </div>    
 
@@ -29,7 +29,9 @@
 
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.upload">
         <div class="productDesingContainer__optionMenu">
-            <app-option-upload (fileUpload)="onFileUpload($event)"></app-option-upload>
+            <app-option-upload
+            (fileUpload)="onFileUpload($event)"
+            (closeOptionProduct)="onCloseOptionProduct()"></app-option-upload>
         </div>
     </div> 
     

@@ -1,57 +1,82 @@
-/* relevant portion */
-button {
-	--border-radius: 14px;
-	--border-width: 4px;
+@import "../../../theme/styles/variables";
+@import "../../../mixin/general/mixin.scss";
 
-	appearance: none;
-	position: relative;
-	padding: 0.5em 1em;
-	border: 0;
-	background-color: transparent;
-	font-family: "Montserrat", sans-serif;
-	font-weight: 200;
-	color: #111010;
+.sideBar{
+    border-radius: 15% !important;
+    min-height: 100px !important;
+    background-color: transparent;
+    color: $black;
+    display: flex;
+    flex-direction: column;
+    @include make-flex(center, center);
+    flex-wrap: nowrap;
+    &__selected{
+      background-color: $blue-light;
+      min-width: calc(100% + 10px);
+      box-shadow: 0 0 5px $blue-light,
+                0 0 25px $blue-light,
+                0 0 50px $blue-light,
+                0 0 200px $blue-light;
+    }
+  }
+
+.designer{
+  padding: 5px 3px;
+  background-color: transparent;
+  color: $black;
+  font-weight: bold;
+  border: none;    
+  letter-spacing: 4px;
+  overflow: hidden;
+  transition: 0.5s;
+  padding: 10px;
 }
 
-button::after {
-	--m-i: linear-gradient(#000, #000);
-	--m-o: content-box, padding-box;
-
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	padding: var(--border-width);
-	border-radius: var(--border-radius);
-	background-image: conic-gradient(
-		#488cfb,
-		#29dbbc,
-		#ddf505,
-		#ff9f0e,
-		#e440bb,
-		#655adc,
-		#488cfb
-	);
-
-	mask-image: var(--m-i), var(--m-i);
-	mask-origin: var(--m-o);
-	mask-clip: var(--m-o);
-	mask-composite: exclude;
-	-webkit-mask-composite: destination-out;
-
-	filter: hue-rotate(0);
-	animation: hue linear 500ms infinite;
-	animation-play-state: paused;
+.underline{
+  border-bottom: 2px solid #000;
 }
 
-button:hover::after {
-	animation-play-state: running;
+.fontOption{
+  height: 30px;
+  background-color: transparent;
+  border: none;
 }
 
-@keyframes hue {
-	to {
-		filter: hue-rotate(1turn);
-	}
+.color{
+  width: 30px;
+  height: 40px;
+  border-radius: 15%;
+  border:none;
+}
+
+.white {
+  background-color: #e6e4e4;
+}
+
+.red {
+  background-color: #ff0000;
+}
+
+.yellow {
+  background-color: #ecff00;
+}
+
+.green {
+  background-color: #18ff00;
+}
+
+.blue {
+  background-color: #00fffc;
+}
+
+.purple {
+  background-color: #0000ff;
+}
+
+.pink {
+  background-color: #ff00f2;
+}
+
+.blue-light{
+  background-color: $blue-light;
 }

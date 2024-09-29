@@ -1,7 +1,5 @@
-<div class="optionFontContainer">
-    <div class="optionFontContainer__fontOption">
-        <div *ngFor="let font of optionFont">     
-            <app-button-one [label]="font.name" [font]="font.value" (click)="onSelectFont(font.value)"></app-button-one>
-        </div> 
-    </div>       
+<div class="d-flex justify-content-between col-11 flex-wrap">
+    <div *ngFor="let font of optionFont" class="col-6 d-flex justify-content-center">
+        <app-button-one [label]="font.name" [font]="font.value" class="fontOption" (click)="onSelectFont(font.value)"></app-button-one>
+    </div>
 </div>

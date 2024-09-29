@@ -1,6 +1,10 @@
+@import "./../../../theme/styles/variables";
+
 .optionContainer {
   width: 100%;
-  height: 100%;
+  height: 99%;
+  box-shadow: 24px 31px 47px 7px rgba(0,0,0,0.25);
+  z-index: 1000 !important;
   &__option {
     width: 25%;
     height: 100%;

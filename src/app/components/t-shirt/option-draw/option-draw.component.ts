@@ -1,21 +1,15 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {  Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DesignNode } from 'src/app/model/Utility/design-node.model';
 import { NgOptimizedImage } from '@angular/common'
-import { ImageCreatorServiceService } from 'src/app/services/image-creator-service.service';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular/material/tree';
-import {FlatTreeControl} from '@angular/cdk/tree';
-import { TreeNode } from '../../../model/Utility/tree-node.model';
-import { NodeInformation } from 'src/app/model/Utility/node-information.model';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-option-draw',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, HttpClientModule, FormsModule, MatTreeModule, MatButtonModule, MatIconModule],
+  imports: [MatExpansionModule, CommonModule, NgOptimizedImage, FormsModule ],
   templateUrl: './option-draw.component.html',
   styleUrls: ['./option-draw.component.scss']
 })
@@ -28,54 +22,13 @@ export class OptionDrawComponent implements OnInit {
   prompt: string;
   generatedImageUrl: string | null = null;
 
-  treeData: TreeNode[] = [
-    {
-      name: 'Fruit',
-      children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-    {
-      name: 'Vegetables',
-      children: [
-        {
-          name: 'Green',
-          children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-        },
-        {
-          name: 'Orange',
-          children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
-        },
-      ],
-    },
-  ];
+  readonly panelOpenState = signal(false);
 
-  constructor(private http: HttpClient) {
-    this.dataSource.data = this.treeData;
-  }
+  // setPanelOpenState(value: boolean): void {
+  //   this.panelOpenState = value;
+  // }
 
-  private _transformer = (node: TreeNode, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-    };
-  };
-
-  treeControl = new FlatTreeControl<NodeInformation>(
-    node => node.level,
-    node => node.expandable,
-  );
-
-  treeFlattener = new MatTreeFlattener(
-    this._transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
-  );
-
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-
-  hasChild = (_: number, node: NodeInformation) => node.expandable;
+  constructor(private http: HttpClient) {}
 
   private apiUrl = `https://api.openai.com/v1/images/generations`; // Replace with actual API URL
   apiKey = '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';
@@ -107,7 +60,41 @@ export class OptionDrawComponent implements OnInit {
 
   setDesignNodeList(): void {
     let root = './../../../../assets/design/';
+    
     this.designNodeList = [
+      {
+        name : 'bird.png',
+        path : `${root}bird.png`
+      },
+      {
+        name : 'branches.png',
+        path : `${root}branches.png`
+      },
+      {
+        name : 'decorative.png',
+        path : `${root}decorative.png`
+      },
+      {
+        name : 'flock.png',
+        path : `${root}flock.png`
+      },
+      {
+        name : 'floral.png',
+        path : `${root}floral.png`
+      },
+      {
+        name : 'mushrooms.png',
+        path : `${root}mushrooms.png`
+      },
+      {
+        name : 'sugar-skull.png',
+        path : `${root}sugar-skull.png`
+      },
+      {
+        name : 'tropical.png',
+        path : './../../../../assets/design/tropical.png'
+      },
+      //TODO Repeated
       {
         name : 'bird.png',
         path : `${root}bird.png`
@@ -145,9 +132,5 @@ export class OptionDrawComponent implements OnInit {
 
   onSelectDesign(selectedDesignName: string): void {
     this.selectedDesignName.emit(selectedDesignName);
-  }
-
-  onCloseOptionProduct(): void {
-    this.closeOptionProduct.emit();
   }
 }

@@ -1,21 +1,29 @@
-<div class="optionTextContainer">
-    <header>
-        <div class="optionTextContainer__title">
-            <h2>Editar texto</h2>
-            <button class="optionTextContainer__closeButton" (click)="onCloseOptionProduct()">X</button>
+<div class="optionTextContainer d-flex flex-column pb-5 col-11">
+    <div class="optionTextContainer__header">
+        <header>
+            <div class="d-flex justify-content-between flex-nowrap mt-4">
+                <h6>Editar texto</h6>
+                <button type="button" class="btn-close mr-3" (click)="closeOptionProduct.emit()" aria-label="Close"></button>
+            </div>
+        </header>
+        <hr>
+        <div>
+           <textarea class="form-control" rows="2" maxlength="30" placeholder="Escribe aqui" [value]="invputValue()" (input)="onTextInput($event)" #textInput></textarea>
         </div>
-    </header>
+        <div *ngIf="invputValue()" class="optionTextContainer__action">
+            <button (click)="onRotateHorizontal()"><img ngSrc="../../../../assets/icon/reflect-horizontal.png" width="30" height="30" priority></button>
+            <button (click)="onRotateVertical()"><img ngSrc="../../../../assets/icon/reflect-vertical.png" width="30" height="30" priority></button>        
+        </div>
+    </div>    
     <div>
-       <input type="text" class="optionTextContainer__input" [value]="invputValue()" (input)="onTextInput($event)" #textInput>
+        <div class="mt-4 d-flex justify-content-between flex-nowrap col-12">
+            <app-button-one [label]="labelFont" class="{{ showFontOptions === true ? 'designer underline' : 'designer'}}" (click)="onSelectFontOption('showFontOptions')"></app-button-one>
+            <app-button-one [label]="labelColor" class="{{ showFontColorOption === true ? 'designer underline' : 'designer'}}" (click)="onSelectFontOption('showFontColorOption')"></app-button-one>
+            <app-button-one [label]="labelOutlineColor" class="{{ showOutlineColorOption === true ? 'designer underline' : 'designer'}}" (click)="onSelectFontOption('showOutlineColorOption')"></app-button-one>
+        </div>
+        <hr>        
     </div>
-    <div *ngIf="invputValue()" class="optionTextContainer__action">
-        <button (click)="onRotateHorizontal()"><img ngSrc="../../../../assets/icon/reflect-horizontal.png" width="30" height="30" priority></button>
-        <button (click)="onRotateVertical()"><img ngSrc="../../../../assets/icon/reflect-vertical.png" width="30" height="30" priority></button>        
-    </div>
-    <div class="optionTextContainer__font">
-        <app-button-two [label]="labelFont" (clickEvent)="onSelectFontOption('showFontOptions')"></app-button-two>
-        <app-button-two [label]="labelColor" (clickEvent)="onSelectFontOption('showFontColorOption')"></app-button-two>
-        <app-button-two [label]="labelOutlineColor" (clickEvent)="onSelectFontOption('showOutlineColorOption')"></app-button-two>
+    <div class="optionTextContainer__buttons">
         <app-option-font *ngIf="showFontOptions" [selectedFont]="selectedFont"></app-option-font>
         <app-option-color *ngIf="showFontColorOption" [selectedColor]="selectedFontColor"></app-option-color>
         <app-option-color *ngIf="showOutlineColorOption" [selectedColor]="selectedOutlineFontColor"></app-option-color>

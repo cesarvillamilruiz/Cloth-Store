@@ -21,12 +21,13 @@ import { OptionEdit, OptionWindow } from 'src/app/enum/option.enum';
 import { DesignElementComponent } from '../design-element/design-element.component';
 import { HiddenOptionValidation } from 'src/app/model/Utility/hidden-option-validation.model';
 import { isHiddenOption } from 'src/app/validation/design/design.validationb';
-import { ScreenSize } from 'src/app/enum/size.enum';
+import { ScreenSize } from 'src/app/enum/screen-size.enum';
 import { Position } from 'src/app/enum/position.enum';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.validation';
 import { OptionDrawComponent } from '../option-draw/option-draw.component';
 import { OptionUploadComponent } from "../option-upload/option-upload.component";
+import { Product } from 'src/app/model/t-shirt/product.model';
 
 @Component({
   selector: 'app-product-designer',
@@ -64,6 +65,8 @@ export class ProductDesignerComponent
   selectedFontColor: WritableSignal<string>;
   selectedOutlineFontColor: WritableSignal<string>;
   uploadedImageUrl: string | ArrayBuffer | null = null;
+  products: WritableSignal<Product[]>;
+  selectedIndexProduct: WritableSignal<number>;
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('workArea') workArea: ElementRef;
@@ -104,6 +107,8 @@ export class ProductDesignerComponent
     this.selectedFont = signal('');
     this.selectedFontColor = signal('');
     this.selectedOutlineFontColor = signal('');
+    this.products = signal<Product[]>([]);
+    this.selectedIndexProduct = signal(0);
   }
 
   private setTShirtSource(): void {
@@ -142,12 +147,8 @@ export class ProductDesignerComponent
     return;
   }
   
-  onFileUpload(event: any): void {
-    const file:File = event.target.files[0];
+  onFileUpload(file: File): void {
     if (file) {
-      // this.fileName = file.name;
-      // const formData = new FormData();
-      // formData.append("thumbnail", file);
       
       const reader = new FileReader();
       reader.onload = e => {
@@ -221,7 +222,6 @@ export class ProductDesignerComponent
       this.inputValue.set(DefaultTypeValue.emptyString);
       return;
     }
-
     this.setCurrentOption(OptionWindow.text);
     this.isCloseOptionAllowed.set(true);
   }

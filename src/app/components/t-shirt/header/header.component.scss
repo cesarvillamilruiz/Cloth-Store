@@ -1,18 +1,9 @@
-.headerContainer {
-  display: flex;
-  height: 100%;
-  width: 100%;
-  &__home{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40%;
-  }
-  &__contact{
-    width: 40%;
-  }
-  &__save{
-    width: 20%;
-  }
+.whatsappIcon{
+  font-size: 2rem;
+  color: rgb(37, 211, 102);
 }
 
+a{
+  color: rgb(37, 211, 102);
+  text-decoration: none !important;
+}

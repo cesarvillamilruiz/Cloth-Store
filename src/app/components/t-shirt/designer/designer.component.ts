@@ -30,9 +30,4 @@ export class DesignerComponent implements OnInit{
     this.currentOption = signal(OptionWindow.empty);
     this.isNewElement = signal(true);
   }
-
-  setCurrentOption(currentOption: OptionWindow): void {
-    this.currentOption.set(currentOption);
-    this.isNewElement.set(true);
-  }
 }

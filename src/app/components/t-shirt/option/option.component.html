@@ -1,6 +1,6 @@
-<div ngClass="optionContainer">
-    <button ngClass="optionContainer__option optionContainer__option--product" (click)="onSelectCurrentOption(option.product)"><img ngSrc="../../../../assets/icon/color-picker.png" width="30" height="30" priority></button>
-    <button ngClass="optionContainer__option optionContainer__option--text" (click)="onSelectCurrentOption(option.text)"><img ngSrc="../../../../assets/icon/text.png" width="30" height="30" priority></button>
-    <button ngClass="optionContainer__option optionContainer__option--upload" (click)="onSelectCurrentOption(option.upload)"><img ngSrc="../../../../assets/icon/cloud-computing.png" width="30" height="30" priority></button>
-    <button ngClass="optionContainer__option optionContainer__option--form" (click)="onSelectCurrentOption(option.draw)"><img ngSrc="../../../../assets/icon/star.png" width="30" height="30" priority></button>  
+<div class="optionContainer">
+    <app-button-one label="{{'Productos'}}" imageUrl="{{'../../../../assets/icon/tshirt.png'}}" [class]="getButtoClass(option.product)" (click)="onSetCurrentOption(option.product)"></app-button-one>
+    <app-button-one label="{{'Agregar texto'}}" imageUrl="{{'../../../../assets/icon/text.png'}}" [class]="getButtoClass(option.text)" (click)="onSetCurrentOption(option.text)"></app-button-one>
+    <app-button-one label="{{'Cargar imagen'}}" imageUrl="{{'../../../../assets/icon/cloud-computing.png'}}" [class]="getButtoClass(option.upload)" (click)="onSetCurrentOption(option.upload)"></app-button-one>
+    <app-button-one label="{{'Arte'}}" imageUrl="{{'../../../../assets/icon/star.png'}}" [class]="getButtoClass(option.draw)" (click)="onSetCurrentOption(option.draw)"></app-button-one>
 </div>

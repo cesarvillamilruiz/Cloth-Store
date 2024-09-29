@@ -15,13 +15,13 @@ import {
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { OptionFontComponent } from '../option-font/option-font.component';
-import { ButtonTwoComponent } from '../../generic/button-two/button-two.component';
 import { OptionColorComponent } from '../option-color/option-color.component';
+import { ButtonOneComponent } from '../../generic/button-one/button-one.component';
 
 @Component({
   selector: 'app-option-text',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, OptionFontComponent, ButtonTwoComponent, OptionColorComponent],
+  imports: [CommonModule, NgOptimizedImage, OptionFontComponent, ButtonOneComponent, OptionColorComponent],
   templateUrl: './option-text.component.html',
   styleUrls: ['./option-text.component.scss'],
 })
@@ -75,10 +75,6 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
     this.textValue.emit(event.target.value);
   }
 
-  onCloseOptionProduct(): void {
-    this.closeOptionProduct.emit();
-  }
-
   ngOnDestroy(): void {
     this.invputValue.set(DefaultTypeValue.emptyString);
   }
@@ -111,5 +107,4 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
     this.showFontOptions = false;
     this.showOutlineColorOption = false;
   }
-
 }

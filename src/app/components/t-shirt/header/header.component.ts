@@ -10,5 +10,5 @@ import { NgOptimizedImage } from '@angular/common'
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
+  whatsAppUrl: string = 'https://wa.me/573118317702';
 }

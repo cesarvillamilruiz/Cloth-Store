@@ -1,25 +1,20 @@
 @import "../../../mixin/general/mixin.scss";
 
 .optionTextContainer {
-  @include min-width-container();
-  width: 100%;
   height: 100%;
-  background-color: #ecff00;
+  max-height: 100%;
+  padding-left: 20px;
   display: block;
-  &__title {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    button {
-      height: 50%;
-    }
-  }
+  overflow: hidden;
   &__action{
     padding-top: 10px;
     @include make-flex(center, center);
   }
-  &__font{
-    padding-top: 10px;
+  &__header{
+    max-height: 30%;
+  }
+  &__buttons{
+      overflow-y: scroll;
   }
 }
 
@@ -27,6 +22,6 @@
  .optionTextContainer{
     &__closeButton{
       display: none;
-    }
+    }    
   }
 }

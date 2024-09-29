@@ -1,46 +1,22 @@
 @import "../../../mixin/general/mixin.scss";
+@import "../../../theme/styles/variables";
 
 .optionProductContainer {
-  @include min-width-container();
-  width: 100%;
   height: 100%;
-  background-color: #ecff00;
   display: block;
-  &__title {
+  padding-left: 20px;
+  &__product{
+    max-height: 25%;
+    overflow-y: auto;
+  }
+  &__color {    
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    button {
-      height: 50%;
-    }
   }
-  &__color {
-    button {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-    display: flex;
-    justify-content: space-around;
-    &--red {
-      background-color: #ff0000;
-    }
-    &--yellow {
-      background-color: #ecff00;
-    }
-    &--green {
-      background-color: #18ff00;
-    }
-    &--blue {
-      background-color: #00fffc;
-    }
-    &--purple {
-      background-color: #0000ff;
-    }
-    &--pink {
-      background-color: #ff00f2;
-    }
-  }
+  &__closeButton{
+    background-color: transparent;
+    border: none;
+  }  
 }
 
 @media(min-width: 1446px){
@@ -49,4 +25,36 @@
       display: none;
     }
   }
+}
+
+.elementProduct{
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: clamp(45px, 100%, 60px) auto;
+  background-position: center;  
+  border-radius: 10px;
+  margin: 3px 2px;
+  &__selected{
+    border: 1px solid #27a6ff;
+  }
+}
+
+.closeProduct{
+  margin-left: -10px !important;
+  margin-top: -5px !important;
+  border-radius: 50%;
+  z-index: 1000;
+  background-color: $white;
+  color: $gray-mid;  
+  width: 40%;
+  height: 40%;
+  @include make-flex(center, center);
+}
+
+.mr-5{
+  margin-right: 20px;
 }

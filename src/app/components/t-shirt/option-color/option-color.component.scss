@@ -2,15 +2,14 @@
 
 .optionFontColorContainer{
     margin-top: 10px;
-    background-color: rgb(145, 103, 212);
     position: absolute;
     @include make-flex(start, center);        
     flex-wrap: wrap;
     overflow: auto;
     button{
-        width: 25px;
-        height: 25px;
-        margin: 5px;
-        border-radius: 50%;
+        width: 30px;
+        height: 40px;
+        border-radius: 15%;
+        border:none;
     }
 }

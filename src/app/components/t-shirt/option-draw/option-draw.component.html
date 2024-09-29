@@ -1,42 +1,37 @@
-<section class="optionDrawContainer">    
-    <!-- <div class="optionDrawContainer__tab">
-        <input type="checkbox" name="accordion-1" id="cb1" checked>
-        <label for="cb1" class="optionDrawContainer__tabLabel">Diseños</label>
-        <div class="optionDrawContainer__tabContent">
-            <button *ngFor="let desing of designNodeList" class="optionDrawContainer__tabContentLabel"
-            (click)="onSelectDesign(desing.name)">
-                <img  ngSrc="{{ desing.path }}" width="60" height="70"  priority/>
-            </button>
-        </div>
+<div class="optionDrawContainer d-flex flex-column pt-3 col-11">  
+  <header>
+    <div class="d-flex justify-content-between flex-nowrap mt-4">
+      <h6>Genera Imagenes</h6>
+      <button type="button" class="btn-close mr-3" (click)="closeOptionProduct.emit()" aria-label="Close"></button>
     </div>
-    <div class="optionDrawContainer__tab">
-        <input type="checkbox" name="accordion-1" id="cb1" checked>
-        <label for="cb1" class="optionDrawContainer__tabLabel">Diseños</label>
+    <h2>Genera Imagenes con inteligencia artificial</h2>
+    <p>Aqui puedes generar imagenes basadas en tus ideas</p>
+  </header>
+  <section class="optionDrawContainerBody">    
+    <mat-accordion>
+      <div class="optionDrawContainerBody__designsList mb-2">
+        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Diseños</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div>
+            <button *ngFor="let desing of designNodeList" class="optionDrawContainerBody__designOption my-2"
+              (click)="onSelectDesign(desing.name)">
+              <img  ngSrc="{{ desing.path }}" width="60" height="70"  priority/>
+            </button>
+          </div>
+        </mat-expansion-panel>
+      </div>
+      <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Crea tu diseño con IA</mat-panel-title>
+        </mat-expansion-panel-header>
         <div class="d-flex flex-column align-items-center">
-            <input type="text" [(ngModel)]="prompt" class="bg-primary propmt">
-            <button (click)="generateImage()" [disabled]="!prompt">Generate Image</button>
-            <img *ngIf="generatedImageUrl" [ngSrc]="generatedImageUrl" alt="Generated Image" width="200" height="200" priority/>
-        </div>
-    </div>    -->
-
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-        <!-- This is the tree node template for leaf nodes -->
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-          <!-- use a disabled button to provide padding for tree leaf -->
-          <button mat-icon-button disabled></button>
-          {{node.name}}
-        </mat-tree-node>
-        <!-- This is the tree node template for expandable nodes -->
-        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle
-                       [cdkTreeNodeTypeaheadLabel]="node.name">
-          <button mat-icon-button matTreeNodeToggle
-                  [attr.aria-label]="'Toggle ' + node.name">
-            <mat-icon class="mat-icon-rtl-mirror">
-              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-            </mat-icon>
-          </button>
-          {{node.name}}
-        </mat-tree-node>
-      </mat-tree>
-      
-</section>
+          <input type="text" [(ngModel)]="prompt" class="form-control mb-2">
+          <button (click)="generateImage()" [disabled]="!prompt">Generate Image</button>
+          <img *ngIf="generatedImageUrl" [ngSrc]="generatedImageUrl" width="200" height="200" priority/>
+          </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </section>
+</div>
