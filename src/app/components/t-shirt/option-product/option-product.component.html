@@ -1,98 +1,104 @@
 <div class="optionProductContainer col-11">
-    <header>
+    <header class="mt-3">
+        <h6 class="optionProductContainer__title">Productos</h6>
         <div class="d-flex justify-content-between flex-nowrap mt-4">
-            <h6>Productos</h6>
-            <button type="button" class="btn-close mr-3" (click)="closeOptionProduct.emit()"
-                aria-label="Close"></button>
+            <h2>Administra tus productos</h2>
+            <button type="button" class="btn-close mr-3 optionProductContainer__closeButton"
+                (click)="closeOptionProduct.emit()" aria-label="Close"></button>
         </div>
-        <h2>Administra tus productos</h2>
-        <p>Aqui puedes seleccionar multiples tallas y colores de camiseta</p>
+        <p class="optionProductContainer__subtitle">Aqui puedes seleccionar multiples tallas y colores de camiseta</p>
     </header>
     <hr>
-    <div class="card optionProductContainer__product">
-        <div class="card-body">
-            <div class="d-flex flex-nowrap justify-content-between">
-                <p>Productos</p>
-                <app-button-one label="{{'Agregar camiseta'}}" class="rounded-pill blue-light p-2 px-3" [disabled]="products().length > 11"
-                    (click)="onAddProduct()"></app-button-one>
-            </div>
-            <div class="d-flex justify-content-start flex-wrap col-12">
-                <div *ngFor="let product of products(); let i = index" class="col-2 d-flex flex-nowrap mr-5" (click)="onSelectProduct(i)">
-                    <div [ngClass]="selectedIndexProduct() === i ? 'elementProduct elementProduct__selected col-12' : 'elementProduct col-12 mr-4'"
-                    [style.backgroundImage]="getBackGroundImageUrl(product)"></div>
-                    <button *ngIf="products().length > 1" type="button" class="closeProduct p-0 rounded-circle col-1" (click)="onRemoveProduct(i)">X</button>
+    <div class="optionProductContainer__card optionProductContainer__list px-2 py-1">
+        <div class="d-flex flex-nowrap justify-content-between">
+            <p>Productos</p>
+            <app-button-one label="{{'Agregar camiseta'}}" class="addProduct" [disabled]="products().length > 11"
+                (click)="onAddProduct()"></app-button-one>
+        </div>
+        <div class="d-flex flex-wrap col-12 justify-content-start">
+            <div *ngFor="let product of products(); let i = index"
+                (mouseenter)="hoverIndex=i" (mouseleave)="hoverIndex=-1"
+                class="d-flex flex-column align-items-center flex-nowrap mt-3"
+                class="productElement d-flex flex-nowrap flex-column align-items-center"
+                (click)="onSelectProduct(i)">
+                <div [ngClass]="{'productElement__selected':selectedIndexProduct() === i }">
+                    <button type="button" [ngClass]="['closeProduct p-0 rounded-circle col-1', hoverIndex === i && products().length > 1 ? 'closeProduct__bg--white' : '']"
+                        (click)="onRemoveProduct(i)">{{products().length > 1 ? 'X' : ''}}</button>
+                    <div Class="element col-12 mr-4"
+                        [style.backgroundImage]="getBackGroundImageUrl(product)"></div>
+                </div>
+                <div class="productsColorChange" (click)="toggleShowColorTooltip()">
+                    <div [ngClass]="product.color"></div>Cambiar
+                </div>
+                <div *ngIf="showColorTooltip && i === selectedIndexProduct()"
+                    class="optionProductContainer__card colorTooltip px-2 py-1"
+                    (click)="onShowColorTooltip()">
+                    <div class="d-flex flex-nowrap justify-content-between">
+                        <p  class="blue-light">Cambia el color</p>
+                        <button type="button" class="btn-close mr-3 optionProductContainer__closeButton"
+                        (click)="toggleShowColorTooltip()" aria-label="Close"></button>
+                    </div>
+
+                    <div class="optionProductContainer__colorSelector">
+                        <button class="color white" (mouseenter)="setPreviewColor(color.white)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.white)"></button>
+                        <button class="color red" (mouseenter)="setPreviewColor(color.red)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.red)"></button>
+                        <button class="color yellow" (mouseenter)="setPreviewColor(color.yellow)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.yellow)"></button>
+                        <button class="color green" (mouseenter)="setPreviewColor(color.green)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.green)"></button>
+                        <button class="color blue" (mouseenter)="setPreviewColor(color.blue)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.blue)"></button>
+                        <button class="color purple" (mouseenter)="setPreviewColor(color.purple)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.purple)"></button>
+                        <button class="color pink" (mouseenter)="setPreviewColor(color.pink)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.pink)"></button>
+                    </div>
+                </div>
+                <div *ngIf="showColorTooltip && i === selectedIndexProduct()" class="colorTooltip__arrow">
                 </div>
             </div>
         </div>
     </div>
     <div *ngIf="products().length">
         <hr>
-        <div class="card">
-            <div class="card-body">
-                <p>Selecciona el color</p>
-                <div class="optionProductContainer__color">
-                    <app-button-one class="color white" (click)="setTShirtColor(color.white)"></app-button-one>
-                    <app-button-one class="color red" (click)="setTShirtColor(color.red)"></app-button-one>
-                    <app-button-one class="color yellow" (click)="setTShirtColor(color.yellow)"></app-button-one>
-                    <app-button-one class="color green" (click)="setTShirtColor(color.green)"></app-button-one>
-                    <app-button-one class="color blue" (click)="setTShirtColor(color.blue)"></app-button-one>
-                    <app-button-one class="color purple" (click)="setTShirtColor(color.purple)"></app-button-one>
-                    <app-button-one class="color pink" (click)="setTShirtColor(color.pink)"></app-button-one>
+        <div class="optionProductContainer__card px-2 py-1">
+            <p>Selecciona tu talla</p>
+            <div class="col-12 d-flex justify-content-between flex-nowrap">
+                <div class="col-2 d-flex flex-column align-items-center">
+                    <label>S</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.s)"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
+                    </div>
                 </div>
-            </div>
-        </div>
-        <hr>
-        <div class="card mt-4">
-            <div class="card-body">
-                <p>Selecciona tu talla</p>
-                <div class="col-12 d-flex justify-content-between flex-nowrap">
-                    <div class="col-2 d-flex flex-column align-items-center">
-                        <label>S</label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.s)"
-                                (keypress)="onValidateSizeAmount($event)" maxlength="2"
-                                [disabled]="products().length < 1">
-                        </div>
+                <div class="col-2 d-flex flex-column align-items-center">
+                    <label>M</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.m)"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
                     </div>
-                    <div class="col-2 d-flex flex-column align-items-center">
-                        <label>M</label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.m)"
-                                (keypress)="onValidateSizeAmount($event)" maxlength="2"
-                                [disabled]="products().length < 1">
-                        </div>
+                </div>
+                <div class="col-2 d-flex flex-column align-items-center">
+                    <label>L</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.l)"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
                     </div>
-                    <div class="col-2 d-flex flex-column align-items-center">
-                        <label>L</label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.l)"
-                                (keypress)="onValidateSizeAmount($event)" maxlength="2"
-                                [disabled]="products().length < 1">
-                        </div>
+                </div>
+                <div class="col-2 d-flex flex-column align-items-center">
+                    <label>XL</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.xl)"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
                     </div>
-                    <div class="col-2 d-flex flex-column align-items-center">
-                        <label>XL</label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.xl)"
-                                (keypress)="onValidateSizeAmount($event)" maxlength="2"
-                                [disabled]="products().length < 1">
-                        </div>
+                </div>
+                <div class="col-2 d-flex flex-column align-items-center">
+                    <label>XXL</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.xxl)"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
                     </div>
-                    <div class="col-2 d-flex flex-column align-items-center">
-                        <label>XXL</label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.xxl)"
-                                (keypress)="onValidateSizeAmount($event)" maxlength="2"
-                                [disabled]="products().length < 1">
-                        </div>
-                    </div>
-                    <div class="col-2 d-flex flex-column align-items-center">
-                        <label>XXXL</label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.xxxl)"
-                                (keypress)="onValidateSizeAmount($event)" maxlength="2"
-                                [disabled]="products().length < 1">
-                        </div>
+                </div>
+                <div class="col-2 d-flex flex-column align-items-center">
+                    <label>XXXL</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.xxxl)"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
                     </div>
                 </div>
             </div>

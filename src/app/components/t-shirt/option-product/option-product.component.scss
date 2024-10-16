@@ -1,22 +1,52 @@
 @import "../../../mixin/general/mixin.scss";
 @import "../../../theme/styles/variables";
 
+.colorTooltip{
+  position: absolute;
+  bottom: 5px;
+  left: 75px;
+  z-index: 9999990;
+  width: 230px;
+  &__arrow{
+    position: absolute;
+    bottom: 5px;
+    left: 70px;
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid $white;
+    border-left: 10px solid transparent;
+    box-shadow: 3px 0 12px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
 .optionProductContainer {
   height: 100%;
   display: block;
   padding-left: 20px;
-  &__product{
-    max-height: 25%;
-    overflow-y: auto;
+  &__title{
+    font-size: 0.9rem;
+    color: $blue-light;
   }
-  &__color {    
+  &__subtitle{
+    font-size: .55em;
+    color: #8d9095;
+  }
+  &__card{   
+    box-shadow: 3px 0 12px 0 rgba(0, 0, 0, .1);
+    border: 1px solid #e3e7eb;
+    border-radius: 8px;
+    background-color: #f5f8f8;
+  }
+  &__colorSelector {    
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
   }
   &__closeButton{
-    background-color: transparent;
-    border: none;
-  }  
+    font-size: 12px !important;
+  }
+  &__list{
+    max-height: 360px;
+  }
 }
 
 @media(min-width: 1446px){
@@ -27,8 +57,9 @@
   }
 }
 
-.elementProduct{
-  height: 40px;
+.element{
+  height: 50px;
+  width: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,24 +68,110 @@
   background-size: clamp(45px, 100%, 60px) auto;
   background-position: center;  
   border-radius: 10px;
-  margin: 3px 2px;
+  margin: 3px 2px;  
+}
+
+.color{
+  border-radius: 5%;
+}
+
+.closeProduct{
+  position: absolute;
+  top: 0px;
+  right: -5px;
+  justify-self: end;
+  align-self: end; 
+  z-index: 1000;
+  width: 20px;
+  height: 20px;
+  @include make-flex(center, center);
+  border: 0;
+  color: transparent !important;
+  background-color: transparent;
+  &__bg--white{
+    background-color: $white;
+    color: rgb(64, 64, 64) !important;
+  }
+}
+
+.productElement{
+  margin-right: 10px;
+  width: 68px;
+  padding: 6px 6px 6px 6px;
+  cursor: pointer;
+  position: relative;
+  background-color: transparent !important;
+  &> :nth-child(1){
+    color: transparent !important;
+  }
   &__selected{
+    border-radius: 8px;
     border: 1px solid #27a6ff;
   }
 }
 
-.closeProduct{
-  margin-left: -10px !important;
-  margin-top: -5px !important;
-  border-radius: 50%;
-  z-index: 1000;
-  background-color: $white;
-  color: $gray-mid;  
-  width: 40%;
-  height: 40%;
-  @include make-flex(center, center);
+.productsColorChange {  
+  width: 68px;
+  padding: 5px;
+  color: #27a6ff;
+  font-size: 10px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,.1);
+  backface-visibility: hidden;
+  transition: color .2s linear,border-color .2s linear,background-color .2s linear;
+  z-index: 2;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+  white-space: nowrap;
+  div{
+    width: 12px;
+    height: 12px;
+    border: 1px solid #e3e7eb;
+    border-radius: 100%;
+  }
 }
 
-.mr-5{
-  margin-right: 20px;
+.color{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border:none;
+}
+
+.white {
+  background-color: #e6e4e4;
+}
+
+.red {
+  background-color: #ff0000;
+}
+
+.yellow {
+  background-color: #ecff00;
+}
+
+.green {
+  background-color: #18ff00;
+}
+
+.blue {
+  background-color: #00fffc;
+}
+
+.purple {
+  background-color: #0000ff;
+}
+
+.pink {
+  background-color: #ff00f2;
+}
+
+.blue-light{
+  color: $blue-light;
 }

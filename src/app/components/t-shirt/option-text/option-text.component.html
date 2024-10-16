@@ -1,31 +1,53 @@
 <div class="optionTextContainer d-flex flex-column pb-5 col-11">
     <div class="optionTextContainer__header">
-        <header>
+        <header class="mt-3">
+            <h6 class="optionTextContainer__title">Editor de texto</h6>
             <div class="d-flex justify-content-between flex-nowrap mt-4">
-                <h6>Editar texto</h6>
-                <button type="button" class="btn-close mr-3" (click)="closeOptionProduct.emit()" aria-label="Close"></button>
+                <h2 *ngIf="!showFontOption && !showFontColorOption && !showOutlineColorOption; else selectedOption">{{invputValue() ? 'Editar' : 'Agregar'}} texto</h2>
+                <ng-template #selectedOption>
+                    <div class="d-flex justify-content-between flex-nowrap col-8">                    
+                        <i class="bi bi-arrow-bar-left pointer" (click)="hideOption()"></i>
+                        <h6 *ngIf="showFontOption">Seleccionala fuente de letra</h6>
+                        <h6 *ngIf="showFontColorOption">Seleccionala color de letra</h6>
+                        <h6 *ngIf="showOutlineColorOption">Seleccionala color de borde</h6>
+                    </div>
+                </ng-template>
+                <button type="button" class="btn-close mr-3 optionTextContainer__closeButton" (click)="closeOptionProduct.emit()" aria-label="Close"></button>                
             </div>
         </header>
         <hr>
         <div>
            <textarea class="form-control" rows="2" maxlength="30" placeholder="Escribe aqui" [value]="invputValue()" (input)="onTextInput($event)" #textInput></textarea>
         </div>
-        <div *ngIf="invputValue()" class="optionTextContainer__action">
-            <button (click)="onRotateHorizontal()"><img ngSrc="../../../../assets/icon/reflect-horizontal.png" width="30" height="30" priority></button>
-            <button (click)="onRotateVertical()"><img ngSrc="../../../../assets/icon/reflect-vertical.png" width="30" height="30" priority></button>        
+        <div *ngIf="invputValue()" class="d-flex flex-nowrap justify-content-center mt-4">
+            <button class="optionTextContainer__action" (click)="onRotateHorizontal()"><img ngSrc="../../../../assets/icon/reflect-horizontal.png" width="25" height="25" priority></button>
+            <button class="optionTextContainer__action" (click)="onRotateVertical()"><img ngSrc="../../../../assets/icon/reflect-vertical.png" width="25" height="25" priority></button>        
         </div>
-    </div>    
-    <div>
-        <div class="mt-4 d-flex justify-content-between flex-nowrap col-12">
-            <app-button-one [label]="labelFont" class="{{ showFontOptions === true ? 'designer underline' : 'designer'}}" (click)="onSelectFontOption('showFontOptions')"></app-button-one>
-            <app-button-one [label]="labelColor" class="{{ showFontColorOption === true ? 'designer underline' : 'designer'}}" (click)="onSelectFontOption('showFontColorOption')"></app-button-one>
-            <app-button-one [label]="labelOutlineColor" class="{{ showOutlineColorOption === true ? 'designer underline' : 'designer'}}" (click)="onSelectFontOption('showOutlineColorOption')"></app-button-one>
-        </div>
-        <hr>        
     </div>
-    <div class="optionTextContainer__buttons">
-        <app-option-font *ngIf="showFontOptions" [selectedFont]="selectedFont"></app-option-font>
-        <app-option-color *ngIf="showFontColorOption" [selectedColor]="selectedFontColor"></app-option-color>
-        <app-option-color *ngIf="showOutlineColorOption" [selectedColor]="selectedOutlineFontColor"></app-option-color>
+    <hr>
+    <div *ngIf="!showFontOption && !showFontColorOption && !showOutlineColorOption">
+        <div class="d-flex flex-nowrap justify-content-between optionTextContainer__option" (click)="onSelectFontOption('showFontOption')">
+            <div>Fuente</div>
+            <i class="bi bi-chevron-right"></i>
+        </div>
+        <hr>
+        <div class="d-flex flex-nowrap justify-content-between optionTextContainer__option" (click)="onSelectFontOption('showFontColorOption')">
+            <div>Color</div>
+            <i class="bi bi-chevron-right"></i>
+        </div>
+        <hr>
+        <div class="d-flex flex-nowrap justify-content-between optionTextContainer__option" (click)="onSelectFontOption('showOutlineColorOption')">
+            <div>Borde</div>
+            <i class="bi bi-chevron-right"></i>
+        </div>    
+    </div>
+    <div class="optionTextContainer__buttons" *ngIf="showFontOption">
+        <app-option-font [selectedFont]="selectedFont"></app-option-font>
+    </div>
+    <div class="optionTextContainer__buttons" *ngIf="showFontColorOption">
+        <app-option-color [selectedColor]="selectedFontColor"></app-option-color>
+    </div>
+    <div class="optionTextContainer__buttons" *ngIf="showOutlineColorOption">
+        <app-option-color [selectedColor]="selectedOutlineFontColor"></app-option-color>
     </div>
 </div>

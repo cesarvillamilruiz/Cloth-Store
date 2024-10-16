@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { DragStatus } from 'src/app/enum/drag-status.enum';
 import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.validation';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
+import { OptionWindow } from 'src/app/enum/option.enum';
 
 @Component({
   selector: 'app-design-element',
@@ -52,6 +53,7 @@ export class DesignElementComponent implements OnInit {
   isDraggingCorner: WritableSignal<boolean>;
   resizer: any | Function;
   status: DragStatus;
+  optionType: OptionWindow;
 
   ngOnInit(): void {
     this.setInitialValue();

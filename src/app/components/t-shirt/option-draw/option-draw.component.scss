@@ -1,9 +1,21 @@
 @import "../../../mixin/general/mixin.scss";
+@import "../../../theme/styles/variables";
 
 .optionDrawContainer{
   height: 100%;
   display: block;
   padding-left: 20px;
+  &__title{
+    font-size: 0.9rem;
+    color: $blue-light;
+  }
+  &__subtitle{
+    font-size: .55em;
+    color: #8d9095;
+  }
+  &__closeButton{
+    font-size: 12px !important;
+  }
   &Body{
     &__designsList{
       max-height: 80%;

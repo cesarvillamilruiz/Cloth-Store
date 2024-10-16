@@ -8,7 +8,7 @@
   &__optionProduct{
     display: flex;
     align-items: end;
-    width: 100%;
+    width: 35%;
     height: 320px;
     @include min-width-container(); 
     min-height: 320px;
@@ -20,7 +20,7 @@
     height: 100%;
   }
   &__canvas{
-    width: 100%;
+    width: calc(100% - 400px);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -75,7 +75,7 @@
       width: 40%;
       height: 100%;
       position: relative;    
-      overflow-y: hidden;
+      // overflow-y: hidden;
     }
   }
 }
@@ -83,7 +83,7 @@
 @media(min-width: 1357px){
   .productDesingContainer{
     &__optionProduct{
-      width: 30%;      
+      width: 400px;      
     }   
   }
 }

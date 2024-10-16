@@ -3,6 +3,7 @@
 
 .sideBar{
     border-radius: 15% !important;
+    border:none;
     min-height: 100px !important;
     background-color: transparent;
     color: $black;
@@ -13,10 +14,6 @@
     &__selected{
       background-color: $blue-light;
       min-width: calc(100% + 10px);
-      box-shadow: 0 0 5px $blue-light,
-                0 0 25px $blue-light,
-                0 0 50px $blue-light,
-                0 0 200px $blue-light;
     }
   }
 
@@ -37,16 +34,11 @@
 }
 
 .fontOption{
-  height: 30px;
+  height: 100%;
   background-color: transparent;
   border: none;
-}
-
-.color{
-  width: 30px;
-  height: 40px;
-  border-radius: 15%;
-  border:none;
+  font-size: 1.4rem;
+  @include make-flex(center, center);
 }
 
 .white {
@@ -77,6 +69,15 @@
   background-color: #ff00f2;
 }
 
-.blue-light{
-  background-color: $blue-light;
+.addProduct{
+  color: #27a6ff;
+  border-color: #27a6ff;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 999px;
+  background-color: transparent;
+  height: 22px;
+  max-width: 150px;
+  padding: 0 12px;
+  font-size: 10px;
 }

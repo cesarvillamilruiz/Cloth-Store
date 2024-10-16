@@ -42,7 +42,7 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   labelFont: string;
   labelColor: string;
   labelOutlineColor: string;
-  showFontOptions: boolean;
+  showFontOption: boolean;
   showFontColorOption: boolean;
   showOutlineColorOption: boolean;
 
@@ -88,23 +88,23 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   }
 
   onSelectFontOption(showOption: string): void {
-    this.hideAllOption();
+    this.hideOption();
 
     switch(showOption) {
       case 'showFontColorOption':
         this.showFontColorOption = true;
         break;
-      case 'showFontOptions':
-        this.showFontOptions = true;
+      case 'showFontOption':
+        this.showFontOption = true;
         break;
       case 'showOutlineColorOption':
         this.showOutlineColorOption = true;
       }
   }
 
-  hideAllOption(): void {
+  hideOption(): void {
     this.showFontColorOption = false;
-    this.showFontOptions = false;
+    this.showFontOption = false;
     this.showOutlineColorOption = false;
   }
 }

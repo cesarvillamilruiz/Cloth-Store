@@ -1,21 +1,42 @@
 @import "../../../mixin/general/mixin.scss";
+@import "../../../theme/styles/variables";
 
 .optionTextContainer {
   height: 100%;
   max-height: 100%;
   padding-left: 20px;
   display: block;
-  overflow: hidden;
   &__action{
-    padding-top: 10px;
+    width: 46px;
+    height: 30px;
     @include make-flex(center, center);
+    border: 1px solid #cccfd6;
+    border-radius: 8px;
+    &:hover{
+      border-color: $blue-light;
+    }
   }
   &__header{
-    max-height: 30%;
+    max-height: 40%;
   }
   &__buttons{
       overflow-y: scroll;
+      max-height: 100%;
   }
+  &__title{
+    font-size: 0.9rem;
+    color: $blue-light;
+  }
+  &__closeButton{
+    font-size: 12px !important;
+  }
+  &__option{
+    cursor: pointer;
+  }
+}
+
+.pointer{
+  cursor: pointer;
 }
 
 @media(min-width: 1446px){

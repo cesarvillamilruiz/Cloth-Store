@@ -135,6 +135,7 @@ export class ProductDesignerComponent
     newDesignElementComponent.instance.zIndex = signal(this.dynamicComponentsArray.length);
     newDesignElementComponent.instance.showText = false;
     newDesignElementComponent.instance.imagePath = `../../../../assets/design/${selectedDesignName}`;
+    newDesignElementComponent.instance.optionType = OptionWindow.draw;
 
     newDesignElementComponent.instance.currentElement.subscribe(() => {        
       this.currenElementIndex.set(newDesignElementComponent.instance.id());
@@ -161,6 +162,7 @@ export class ProductDesignerComponent
         newDesignElementComponent.instance.zIndex = signal(this.dynamicComponentsArray.length);
         newDesignElementComponent.instance.showText = false;
         newDesignElementComponent.instance.imagePath = this.uploadedImageUrl as string;
+        newDesignElementComponent.instance.optionType = OptionWindow.upload;
 
         newDesignElementComponent.instance.currentElement.subscribe(() => {        
           this.currenElementIndex.set(newDesignElementComponent.instance.id());
@@ -198,6 +200,7 @@ export class ProductDesignerComponent
       newDesignElementComponent.instance.selectedFontColor = this.selectedFontColor;
       newDesignElementComponent.instance.selectedOutlineFontColor = this.selectedOutlineFontColor;
       newDesignElementComponent.instance.showText = true;      
+      newDesignElementComponent.instance.optionType = OptionWindow.text;
 
       newDesignElementComponent.instance.currentElement.subscribe(() => {        
         this.currenElementIndex.set(newDesignElementComponent.instance.id());
@@ -218,11 +221,15 @@ export class ProductDesignerComponent
 
   onSelectWorkArea(): void {
     if (this.isCloseOptionAllowed()) {
-      this.setCurrentOption(OptionWindow.product);
+      this.setCurrentOption(OptionWindow.product);      
       this.inputValue.set(DefaultTypeValue.emptyString);
       return;
     }
-    this.setCurrentOption(OptionWindow.text);
+
+    if(this.dynamicComponentsArray[this.currenElementIndex()].instance.optionType != OptionWindow.upload){
+      this.setCurrentOption(this.dynamicComponentsArray[this.currenElementIndex()].instance.optionType);
+    }
+    
     this.isCloseOptionAllowed.set(true);
   }
 
