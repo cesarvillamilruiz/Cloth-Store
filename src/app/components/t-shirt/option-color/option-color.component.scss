@@ -1,15 +1,32 @@
 @import "../../../mixin/general/mixin.scss";
+@import "../../../theme/styles/variables";
 
-.optionFontColorContainer{
-    margin-top: 10px;
-    position: absolute;
+.optionColorContainer{
     @include make-flex(start, center);        
     flex-wrap: wrap;
-    overflow: auto;
+    overflow: hidden;
     button{
         border-radius: 50%;
         width: 24px;
         height: 24px;
-        border:none;
+        border-color: transparent;
+        border-width: 2px;
+        border-style: solid;
     }
+    &__colorButton--selected{
+        border-color: $blue-light !important;
+        border-width: 2px;
+        border-style: solid;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    }
+}
+
+.border {
+    border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
 }

@@ -1,5 +1,8 @@
-<div class="optionFontColorContainer">
-    <div *ngFor="let fontColor of optionFontColor; ; first as isFirst"> 
-        <button [style.background-color]="fontColor.value" ngClass="{'mx-1 border border-dark':isFirst} mx-1" (click)="onSelectFontColor(fontColor.value)"></button>
+<div class="optionColorContainer">
+    <div *ngFor="let fontColor of optionFontColor; index as i; first as isFirst"> 
+        <div ngClass="{{i === selectedIndex ? 'optionColorContainer__colorButton--selected m-1':'m-1'}}">
+            <button [style.background-color]="fontColor.value" ngClass="{{ isFirst ? 'border optionColorContainer__colorButton': 'optionColorContainer__colorButton'}}" (click)="onSelectFontColor(fontColor.value, i)"></button>
+        </div>
     </div>      
 </div>
+<app-button-one class="fontOption" label="Seleccione un color"></app-button-one>

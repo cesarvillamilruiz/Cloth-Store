@@ -81,3 +81,21 @@
   padding: 0 12px;
   font-size: 10px;
 }
+
+.fontOption{
+  width: 100%;
+  background-color: $blue-light;
+  display: flex;
+  justify-content: center;
+  height: 42px;
+  padding: 0 25px;
+  color: $white;
+  white-space: nowrap;
+  outline: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 999px;
+  box-shadow: none;
+  font-size: 14px;
+  margin-top: 10px;
+}

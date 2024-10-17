@@ -13,9 +13,11 @@ import { ButtonOneComponent } from '../../generic/button-one/button-one.componen
 export class OptionColorComponent {
   @Input() selectedColor: WritableSignal<string>;
   
-  optionFontColor = optionFontColor;  
+  optionFontColor = optionFontColor;
+  selectedIndex: number;
 
-  onSelectFontColor(selectedColor: string): void {
+  onSelectFontColor(selectedColor: string, index: number): void {
+    this.selectedIndex = index;
     this.selectedColor.set(selectedColor);
   }
 }

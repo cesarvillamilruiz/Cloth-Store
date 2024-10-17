@@ -28,17 +28,26 @@
     <div *ngIf="!showFontOption && !showFontColorOption && !showOutlineColorOption">
         <div class="d-flex flex-nowrap justify-content-between optionTextContainer__option" (click)="onSelectFontOption('showFontOption')">
             <div>Fuente</div>
-            <i class="bi bi-chevron-right"></i>
+            <div [style.fontFamily]="selectedFont()" class="d-flex flex-nowrap justify-content-end align-items-center">
+                <div  [style.fontSize]="'1.3rem'">{{selectedFont()}}</div>                
+                <i class="bi bi-chevron-right"></i>
+            </div>
         </div>
         <hr>
         <div class="d-flex flex-nowrap justify-content-between optionTextContainer__option" (click)="onSelectFontOption('showFontColorOption')">
             <div>Color</div>
-            <i class="bi bi-chevron-right"></i>
+            <div class="d-flex flex-nowrap justify-content-end align-items-center">
+                <div [style.backgroundColor]="selectedFontColor()" class="selectedFontColorPreview"></div>
+                <i class="bi bi-chevron-right"></i>
+            </div>
         </div>
         <hr>
         <div class="d-flex flex-nowrap justify-content-between optionTextContainer__option" (click)="onSelectFontOption('showOutlineColorOption')">
             <div>Borde</div>
-            <i class="bi bi-chevron-right"></i>
+            <div class="d-flex flex-nowrap justify-content-end align-items-center">
+                <div [style.backgroundColor]="selectedOutlineFontColor()" class="selectedFontColorPreview"></div>
+                <i class="bi bi-chevron-right"></i>
+            </div>
         </div>    
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showFontOption">

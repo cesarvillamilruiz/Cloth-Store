@@ -20,7 +20,6 @@
     max-height: 40%;
   }
   &__buttons{
-      overflow-y: scroll;
       max-height: 100%;
   }
   &__title{
@@ -45,4 +44,10 @@
       display: none;
     }    
   }
+}
+
+.selectedFontColorPreview{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
 }
