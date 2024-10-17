@@ -30,6 +30,7 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   @Input() selectedFont: WritableSignal<string>;
   @Input() selectedFontColor: WritableSignal<string>;
   @Input() selectedOutlineFontColor: WritableSignal<string>;
+  @Input() selectedIndexFontColor: WritableSignal<number>;
 
   @Output() closeOptionProduct = new EventEmitter<void>();
   @Output() textValue = new EventEmitter<string>();
@@ -88,7 +89,7 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   }
 
   onSelectFontOption(showOption: string): void {
-    this.hideOption();
+    this.onHideOption();
 
     switch(showOption) {
       case 'showFontColorOption':
@@ -102,7 +103,7 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
       }
   }
 
-  hideOption(): void {
+  onHideOption(): void {
     this.showFontColorOption = false;
     this.showFontOption = false;
     this.showOutlineColorOption = false;

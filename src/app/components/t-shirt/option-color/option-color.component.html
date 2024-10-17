@@ -1,8 +1,8 @@
 <div class="optionColorContainer">
     <div *ngFor="let fontColor of optionFontColor; index as i; first as isFirst"> 
-        <div ngClass="{{i === selectedIndex ? 'optionColorContainer__colorButton--selected m-1':'m-1'}}">
+        <div ngClass="{{i === preSelectedIndexFontColor ? 'optionColorContainer__colorButton--selected m-1':'m-1'}}">
             <button [style.background-color]="fontColor.value" ngClass="{{ isFirst ? 'border optionColorContainer__colorButton': 'optionColorContainer__colorButton'}}" (click)="onSelectFontColor(fontColor.value, i)"></button>
         </div>
     </div>      
 </div>
-<app-button-one class="fontOption" label="Seleccione un color"></app-button-one>
+<app-button-one class="fontOption" label="Seleccione un color" (click)="onHideOption()"></app-button-one>

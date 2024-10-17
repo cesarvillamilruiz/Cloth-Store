@@ -67,6 +67,7 @@ export class ProductDesignerComponent
   uploadedImageUrl: string | ArrayBuffer | null = null;
   products: WritableSignal<Product[]>;
   selectedIndexProduct: WritableSignal<number>;
+  selectedIndexFontColor: WritableSignal<number>;
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('workArea') workArea: ElementRef;
@@ -109,6 +110,7 @@ export class ProductDesignerComponent
     this.selectedOutlineFontColor = signal('');
     this.products = signal<Product[]>([]);
     this.selectedIndexProduct = signal(0);
+    this.selectedIndexFontColor = signal(0);
   }
 
   private setTShirtSource(): void {

@@ -1,4 +1,4 @@
-import { Component, Input, WritableSignal } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { optionFontColor } from './../../../util/configuration/option-font-color.configuration.json';
 import { ButtonOneComponent } from '../../generic/button-one/button-one.component';
@@ -10,14 +10,30 @@ import { ButtonOneComponent } from '../../generic/button-one/button-one.componen
   templateUrl: './option-color.component.html',
   styleUrls: ['./option-color.component.scss']
 })
-export class OptionColorComponent {
+export class OptionColorComponent implements OnInit {
   @Input() selectedColor: WritableSignal<string>;
-  
+  @Input() selectedIndexFontColor: WritableSignal<number>;
+
+  @Output() hideOption = new EventEmitter<void>();  
+
   optionFontColor = optionFontColor;
-  selectedIndex: number;
+  preSelectedColor: string;
+  preSelectedIndexFontColor: number;
+
+  ngOnInit(): void{
+    this.preSelectedIndexFontColor = this.selectedIndexFontColor();
+  }
 
   onSelectFontColor(selectedColor: string, index: number): void {
-    this.selectedIndex = index;
-    this.selectedColor.set(selectedColor);
+    this.preSelectedIndexFontColor = index;
+    this.preSelectedColor = selectedColor;    
+  }
+
+  onHideOption(): void{
+    if(this.preSelectedIndexFontColor){
+      this.selectedIndexFontColor.set(this.preSelectedIndexFontColor);
+      this.selectedColor.set(this.preSelectedColor);
+      this.hideOption.emit();
+    }
   }
 }

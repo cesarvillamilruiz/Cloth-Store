@@ -6,7 +6,7 @@
                 <h2 *ngIf="!showFontOption && !showFontColorOption && !showOutlineColorOption; else selectedOption">{{invputValue() ? 'Editar' : 'Agregar'}} texto</h2>
                 <ng-template #selectedOption>
                     <div class="d-flex justify-content-between flex-nowrap col-8">                    
-                        <i class="bi bi-arrow-bar-left pointer" (click)="hideOption()"></i>
+                        <i class="bi bi-arrow-bar-left pointer" (click)="onHideOption()"></i>
                         <h6 *ngIf="showFontOption">Seleccionala fuente de letra</h6>
                         <h6 *ngIf="showFontColorOption">Seleccionala color de letra</h6>
                         <h6 *ngIf="showOutlineColorOption">Seleccionala color de borde</h6>
@@ -54,7 +54,7 @@
         <app-option-font [selectedFont]="selectedFont"></app-option-font>
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showFontColorOption">
-        <app-option-color [selectedColor]="selectedFontColor"></app-option-color>
+        <app-option-color [selectedColor]="selectedFontColor" [selectedIndexFontColor]="selectedIndexFontColor" (hideOption)="onHideOption()"></app-option-color>
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showOutlineColorOption">
         <app-option-color [selectedColor]="selectedOutlineFontColor"></app-option-color>
