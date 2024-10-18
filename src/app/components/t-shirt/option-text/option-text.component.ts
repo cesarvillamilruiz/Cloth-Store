@@ -30,6 +30,7 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   @Input() selectedFont: WritableSignal<string>;
   @Input() selectedFontColor: WritableSignal<string>;
   @Input() selectedOutlineFontColor: WritableSignal<string>;
+  @Input() selectedIndexOutlineFontColor: WritableSignal<number>;
   @Input() selectedIndexFontColor: WritableSignal<number>;
 
   @Output() closeOptionProduct = new EventEmitter<void>();

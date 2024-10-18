@@ -54,9 +54,9 @@
         <app-option-font [selectedFont]="selectedFont"></app-option-font>
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showFontColorOption">
-        <app-option-color [selectedColor]="selectedFontColor" [selectedIndexFontColor]="selectedIndexFontColor" (hideOption)="onHideOption()"></app-option-color>
+        <app-option-color [selectedColor]="selectedFontColor" [selectedIndex]="selectedIndexFontColor" (hideOption)="onHideOption()"></app-option-color>
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showOutlineColorOption">
-        <app-option-color [selectedColor]="selectedOutlineFontColor"></app-option-color>
+        <app-option-color [selectedColor]="selectedOutlineFontColor" [selectedIndex]="selectedIndexOutlineFontColor" (hideOption)="onHideOption()"></app-option-color>
     </div>
 </div>

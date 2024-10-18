@@ -14,16 +14,7 @@
         border-style: solid;
     }
     &__colorButton--selected{
-        border-color: $blue-light !important;
-        border-width: 2px;
-        border-style: solid;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
+        @include selected-color();
     }
 }
 

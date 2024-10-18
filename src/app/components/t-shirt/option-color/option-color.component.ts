@@ -12,26 +12,26 @@ import { ButtonOneComponent } from '../../generic/button-one/button-one.componen
 })
 export class OptionColorComponent implements OnInit {
   @Input() selectedColor: WritableSignal<string>;
-  @Input() selectedIndexFontColor: WritableSignal<number>;
+  @Input() selectedIndex: WritableSignal<number>;
 
   @Output() hideOption = new EventEmitter<void>();  
 
   optionFontColor = optionFontColor;
   preSelectedColor: string;
-  preSelectedIndexFontColor: number;
+  preSelectedIndex: number;
 
   ngOnInit(): void{
-    this.preSelectedIndexFontColor = this.selectedIndexFontColor();
+    this.preSelectedIndex = this.selectedIndex();
   }
 
   onSelectFontColor(selectedColor: string, index: number): void {
-    this.preSelectedIndexFontColor = index;
+    this.preSelectedIndex = index;
     this.preSelectedColor = selectedColor;    
   }
 
   onHideOption(): void{
-    if(this.preSelectedIndexFontColor){
-      this.selectedIndexFontColor.set(this.preSelectedIndexFontColor);
+    if(this.preSelectedIndex){
+      this.selectedIndex.set(this.preSelectedIndex);
       this.selectedColor.set(this.preSelectedColor);
       this.hideOption.emit();
     }

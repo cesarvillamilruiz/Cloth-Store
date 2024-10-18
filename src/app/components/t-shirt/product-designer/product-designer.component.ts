@@ -68,6 +68,7 @@ export class ProductDesignerComponent
   products: WritableSignal<Product[]>;
   selectedIndexProduct: WritableSignal<number>;
   selectedIndexFontColor: WritableSignal<number>;
+  selectedIndexOutlineFontColor: WritableSignal<number>= signal(+DefaultTypeValue.zeroNumber);
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('workArea') workArea: ElementRef;
@@ -105,12 +106,13 @@ export class ProductDesignerComponent
     this.currenElementIndex = signal(+DefaultTypeValue.zeroNumber);
     this.inputValue = signal(DefaultTypeValue.emptyString.toString());
     this.isCloseOptionAllowed = signal(true);
-    this.selectedFont = signal('');
-    this.selectedFontColor = signal('');
-    this.selectedOutlineFontColor = signal('');
+    this.selectedFont = signal(DefaultTypeValue.emptyString.toString());
+    this.selectedFontColor = signal(DefaultTypeValue.emptyString.toString());
+    this.selectedOutlineFontColor = signal(DefaultTypeValue.emptyString.toString());
     this.products = signal<Product[]>([]);
-    this.selectedIndexProduct = signal(0);
-    this.selectedIndexFontColor = signal(0);
+    this.selectedIndexProduct = signal(+DefaultTypeValue.zeroNumber);
+    this.selectedIndexFontColor = signal(+DefaultTypeValue.zeroNumber);
+    this.selectedIndexOutlineFontColor = signal(+DefaultTypeValue.zeroNumber);
   }
 
   private setTShirtSource(): void {
