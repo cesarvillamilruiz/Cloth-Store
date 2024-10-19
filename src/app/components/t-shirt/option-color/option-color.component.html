@@ -1,7 +1,15 @@
+<div class="d-flex flex-nowrap justify-content-start mb-2">
+    <div>Color:</div>
+    <button [style.background-color]="preSelectedColor" class="optionColorContainer__colorButton--selected mx-2"></button>
+</div>
 <div class="optionColorContainer">
     <div *ngFor="let fontColor of optionFontColor; index as i; first as isFirst"> 
-        <div ngClass="{{i === preSelectedIndex ? 'optionColorContainer__colorButton--selected m-1':'m-1'}}">
-            <button [style.background-color]="fontColor.value" ngClass="{{ isFirst ? 'border optionColorContainer__colorButton': 'optionColorContainer__colorButton'}}" (click)="onSelectFontColor(fontColor.value, i)"></button>
+        <div ngClass="{{i === selectedIndex() ? 'optionColorContainer__colorButton--selected m-1':'m-1'}}">
+            <button [style.background-color]="fontColor.value"
+                ngClass="{{ isFirst ? 'border': ''}}"
+                (click)="onSelectFontColor(fontColor.value, i)"
+                (mouseenter)="setPreviewColor(fontColor.value, i)"
+                (mouseleave)="setBackPreviewColor()"></button>
         </div>
     </div>      
 </div>

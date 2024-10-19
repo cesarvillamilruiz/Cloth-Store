@@ -28,6 +28,7 @@ import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.v
 import { OptionDrawComponent } from '../option-draw/option-draw.component';
 import { OptionUploadComponent } from "../option-upload/option-upload.component";
 import { Product } from 'src/app/model/t-shirt/product.model';
+import { optionFontColor } from './../../../util/configuration/option-font-color.configuration.json';
 
 @Component({
   selector: 'app-product-designer',
@@ -68,7 +69,8 @@ export class ProductDesignerComponent
   products: WritableSignal<Product[]>;
   selectedIndexProduct: WritableSignal<number>;
   selectedIndexFontColor: WritableSignal<number>;
-  selectedIndexOutlineFontColor: WritableSignal<number>= signal(+DefaultTypeValue.zeroNumber);
+  selectedIndexOutlineFontColor: WritableSignal<number>;
+  optionFontColor = optionFontColor;
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('workArea') workArea: ElementRef;
@@ -107,7 +109,7 @@ export class ProductDesignerComponent
     this.inputValue = signal(DefaultTypeValue.emptyString.toString());
     this.isCloseOptionAllowed = signal(true);
     this.selectedFont = signal(DefaultTypeValue.emptyString.toString());
-    this.selectedFontColor = signal(DefaultTypeValue.emptyString.toString());
+    this.selectedFontColor = signal(optionFontColor[DefaultTypeValue.zeroNumber].value);
     this.selectedOutlineFontColor = signal(DefaultTypeValue.emptyString.toString());
     this.products = signal<Product[]>([]);
     this.selectedIndexProduct = signal(+DefaultTypeValue.zeroNumber);

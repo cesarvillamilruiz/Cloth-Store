@@ -24,16 +24,22 @@ export class OptionColorComponent implements OnInit {
     this.preSelectedIndex = this.selectedIndex();
   }
 
-  onSelectFontColor(selectedColor: string, index: number): void {
-    this.preSelectedIndex = index;
-    this.preSelectedColor = selectedColor;    
+  onSelectFontColor(selectedColor: string, index: number): void {    
+    this.selectedIndex.set(index);
+    this.selectedColor.set(selectedColor);
+  }
+    
+  onHideOption(): void{
+      this.hideOption.emit();
   }
 
-  onHideOption(): void{
-    if(this.preSelectedIndex){
-      this.selectedIndex.set(this.preSelectedIndex);
-      this.selectedColor.set(this.preSelectedColor);
-      this.hideOption.emit();
-    }
+  setPreviewColor(selectedColor: string, index: number): void {
+    this.preSelectedIndex = index;
+    this.preSelectedColor = selectedColor; 
+  }
+
+  setBackPreviewColor(): void {
+    this.preSelectedIndex = this.selectedIndex();
+    this.preSelectedColor = this.selectedColor();
   }
 }

@@ -3,8 +3,7 @@
         <div class="productDesingContainer__optionMenu">
             <app-option-product [products]="products" [selectedIndexProduct]="selectedIndexProduct" (closeOptionProduct)="onCloseOptionProduct()"></app-option-product>
         </div>
-    </div>    
-
+    </div>
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.text">
         <div class="productDesingContainer__optionMenu">
             <app-option-text
