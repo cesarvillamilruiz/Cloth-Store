@@ -36,6 +36,8 @@ export class DesignElementComponent implements OnInit {
   @Input() selectedOutlineFontColor: WritableSignal<string>;
   @Input() showText: boolean;
   @Input() imagePath: string;
+  @Input() width: WritableSignal<number>;
+  @Input() height: WritableSignal<number>;
 
   @Output() currentElement = new EventEmitter<void>();
 
@@ -48,8 +50,6 @@ export class DesignElementComponent implements OnInit {
   y: WritableSignal<number>;
   px: WritableSignal<number>;
   py: WritableSignal<number>;
-  width: WritableSignal<number>;
-  height: WritableSignal<number>;
   isDraggingCorner: WritableSignal<boolean>;
   resizer: any | Function;
   status: DragStatus;
@@ -59,13 +59,13 @@ export class DesignElementComponent implements OnInit {
     this.setInitialValue();
   }
 
-  setInitialValue(): void {    
+  setInitialValue(): void {   
     this.x = signal(+DefaultTypeValue.zeroNumber);
     this.y = signal(+DefaultTypeValue.zeroNumber);
     this.px = signal(+DefaultTypeValue.zeroNumber);
     this.py = signal(+DefaultTypeValue.zeroNumber);
-    this.width = signal(50);
-    this.height = signal(90);
+    this.width = signal(this.width ? this.width() :50);
+    this.height = signal(this.height ? this.height() : 90);
     this.imgWidth = computed(() => { return `${isGreaterThan(+DefaultTypeValue.zeroNumber, this.width()) ? +DefaultTypeValue.zeroNumber : this.width()}px`; });
     this.imgHeight = computed(() => { return `${isGreaterThan(+DefaultTypeValue.zeroNumber, this.height()) ? +DefaultTypeValue.zeroNumber : this.height()}px`; });
     this.isDraggingCorner = signal(false);

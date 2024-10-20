@@ -37,6 +37,9 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   @Output() textValue = new EventEmitter<string>();
   @Output() switchHorizontalDirection = new EventEmitter<void>();
   @Output() switchVerticalDirection = new EventEmitter<void>();
+  @Output() moveForward = new EventEmitter<void>();
+  @Output() moveBackward = new EventEmitter<void>();
+  @Output() duplicate = new EventEmitter<void>();
 
   @ViewChild('textInput') textInput: ElementRef;
 

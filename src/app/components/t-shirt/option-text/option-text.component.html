@@ -19,9 +19,18 @@
         <div>
            <textarea class="form-control" rows="2" maxlength="30" placeholder="Escribe aqui" [value]="invputValue()" (input)="onTextInput($event)" #textInput></textarea>
         </div>
-        <div *ngIf="invputValue()" class="d-flex flex-nowrap justify-content-center mt-4">
-            <button class="optionTextContainer__action" (click)="onRotateHorizontal()"><img ngSrc="../../../../assets/icon/reflect-horizontal.png" width="25" height="25" priority></button>
-            <button class="optionTextContainer__action" (click)="onRotateVertical()"><img ngSrc="../../../../assets/icon/reflect-vertical.png" width="25" height="25" priority></button>        
+        <div *ngIf="invputValue()" class="d-flex flex-nowrap justify-content-center mt-4 col-12">
+            <div class="d-flex flex-nowrap justify-content-center col-4">
+                <button class="optionTextContainer__action" (click)="moveForward.emit()"><i class="bi bi-layers-half inverted"></i></button>
+                <button class="optionTextContainer__action" (click)="moveBackward.emit()"><i class="bi bi-layers-half"></i></button>        
+            </div>
+            <div class="d-flex flex-nowrap justify-content-center col-4">
+                <button class="optionTextContainer__action" (click)="onRotateHorizontal()"><img ngSrc="../../../../assets/icon/reflect-horizontal.png" width="25" height="25" priority></button>
+                <button class="optionTextContainer__action" (click)="onRotateVertical()"><img ngSrc="../../../../assets/icon/reflect-vertical.png" width="25" height="25" priority></button>        
+            </div>
+            <div class="d-flex flex-nowrap justify-content-center col-4">
+                <button class="optionTextContainer__action" (click)="duplicate.emit()"><img ngSrc="../../../../assets/icon/duplicate.png" width="25" height="25" priority></button>                
+            </div>
         </div>
     </div>
     <hr>

@@ -54,3 +54,7 @@
   border-radius: 50%;
   @include selected-color();
 }
+
+.inverted{
+  transform: rotate(180deg);
+}

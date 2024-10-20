@@ -305,4 +305,14 @@ export class ProductDesignerComponent
   onRotateVertical(): void {
     this.dynamicComponentsArray[this.currenElementIndex()].instance.isVerticalInverted = !this.dynamicComponentsArray[this.currenElementIndex()].instance.isVerticalInverted;
   }
+
+  onDuplicate(): void{
+    const originalDesignElementComponent = this.dynamicComponentsArray[this.currenElementIndex()];
+    this.isNewElement.set(true);
+    this.onTextValue(originalDesignElementComponent.instance.text());
+
+    const newDesignElementComponent = this.dynamicComponentsArray[this.dynamicComponentsArray.length - 1];
+    newDesignElementComponent.instance.width = originalDesignElementComponent.instance.width;
+    newDesignElementComponent.instance.height = originalDesignElementComponent.instance.height;
+  }
 }
