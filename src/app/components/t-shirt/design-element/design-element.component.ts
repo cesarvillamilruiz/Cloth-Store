@@ -38,13 +38,13 @@ export class DesignElementComponent implements OnInit {
   @Input() imagePath: string;
   @Input() width: WritableSignal<number>;
   @Input() height: WritableSignal<number>;
+  @Input() imgHeight: Signal<string>;
 
   @Output() currentElement = new EventEmitter<void>();
 
   @ViewChild('mainElement') mainElement: ElementRef;
   @ViewChild('dragElement') dragElement: ElementRef;
 
-  imgHeight: Signal<string>;
   imgWidth: Signal<string>;
   x: WritableSignal<number>;
   y: WritableSignal<number>;
@@ -64,7 +64,7 @@ export class DesignElementComponent implements OnInit {
     this.y = signal(+DefaultTypeValue.zeroNumber);
     this.px = signal(+DefaultTypeValue.zeroNumber);
     this.py = signal(+DefaultTypeValue.zeroNumber);
-    this.width = signal(this.width ? this.width() :50);
+    this.width = signal(this.width ? this.width() : 50);
     this.height = signal(this.height ? this.height() : 90);
     this.imgWidth = computed(() => { return `${isGreaterThan(+DefaultTypeValue.zeroNumber, this.width()) ? +DefaultTypeValue.zeroNumber : this.width()}px`; });
     this.imgHeight = computed(() => { return `${isGreaterThan(+DefaultTypeValue.zeroNumber, this.height()) ? +DefaultTypeValue.zeroNumber : this.height()}px`; });

@@ -17,11 +17,19 @@ import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { OptionFontComponent } from '../option-font/option-font.component';
 import { OptionColorComponent } from '../option-color/option-color.component';
 import { ButtonOneComponent } from '../../generic/button-one/button-one.component';
+import {MatSliderModule} from '@angular/material/slider';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-option-text',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, OptionFontComponent, ButtonOneComponent, OptionColorComponent],
+  imports: [CommonModule,
+    NgOptimizedImage,
+    OptionFontComponent,
+    ButtonOneComponent,
+    OptionColorComponent,
+    MatSliderModule,
+    FormsModule],
   templateUrl: './option-text.component.html',
   styleUrls: ['./option-text.component.scss'],
 })
@@ -32,6 +40,7 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   @Input() selectedOutlineFontColor: WritableSignal<string>;
   @Input() selectedIndexOutlineFontColor: WritableSignal<number>;
   @Input() selectedIndexFontColor: WritableSignal<number>;
+  @Input() selectedSize: WritableSignal<number>;
 
   @Output() closeOptionProduct = new EventEmitter<void>();
   @Output() textValue = new EventEmitter<string>();
@@ -51,6 +60,13 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   showFontColorOption: boolean;
   showOutlineColorOption: boolean;
 
+  slideDisabled: boolean;
+  slideMax: number;
+  slideMin: number;
+  slideShowTicks: boolean;
+  slideStep: number;
+  slideThumbLabel: boolean;
+
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['invputValue'] && !changes['invputValue'].isFirstChange()){
       this.setInitialValue();
@@ -69,6 +85,12 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
     this.labelFont = 'Font';
     this.labelColor = 'Color';
     this.labelOutlineColor = 'Borde'
+    this.slideDisabled = false;
+    this.slideMax = 200;
+    this.slideMin = DefaultTypeValue.zeroNumber;
+    this.slideShowTicks = false;
+    this.slideStep = 1;
+    this.slideThumbLabel = false;
   }
 
   private setTextInputFocus(): void {

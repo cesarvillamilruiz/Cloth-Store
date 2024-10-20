@@ -9,6 +9,7 @@ import {
   ViewChild,
   ViewContainerRef,
   WritableSignal,
+  effect,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -50,9 +51,9 @@ export class ProductDesignerComponent
 {
   @Input() currentOption: WritableSignal<OptionWindow>;
   @Input() isNewElement: WritableSignal<boolean>;
-
+  
   public dynamicComponentsArray: ComponentRef<DesignElementComponent>[] = [];
-
+  
   isFrontTShirt: WritableSignal<boolean>;
   tShirtColor: WritableSignal<ColorName>;
   option = OptionWindow;
@@ -71,12 +72,22 @@ export class ProductDesignerComponent
   selectedIndexFontColor: WritableSignal<number>;
   selectedIndexOutlineFontColor: WritableSignal<number>;
   optionFontColor = optionFontColor;
+  selectedSize: WritableSignal<number>;
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('workArea') workArea: ElementRef;
   @ViewChild('baseComponent', { read: ViewContainerRef }) baseComponent: ViewContainerRef;
 
-  constructor(private productDataService: ProductDataService) {}
+  constructor(private productDataService: ProductDataService) {
+    effect(() => {
+      //TODO Remove
+      console.log(this.selectedSize())
+      if(this.dynamicComponentsArray[this.currenElementIndex()]){
+        this.dynamicComponentsArray[this.currenElementIndex()].instance.height.set(this.selectedSize())
+        this.dynamicComponentsArray[this.currenElementIndex()].instance.width.set(this.selectedSize());
+      }
+    }, { allowSignalWrites: true });
+  }
 
   ngOnInit(): void {
     this.subscribeToEventTShirtColor();
@@ -115,6 +126,7 @@ export class ProductDesignerComponent
     this.selectedIndexProduct = signal(+DefaultTypeValue.zeroNumber);
     this.selectedIndexFontColor = signal(+DefaultTypeValue.zeroNumber);
     this.selectedIndexOutlineFontColor = signal(+DefaultTypeValue.zeroNumber);
+    this.selectedSize = signal(50);
   }
 
   private setTShirtSource(): void {
