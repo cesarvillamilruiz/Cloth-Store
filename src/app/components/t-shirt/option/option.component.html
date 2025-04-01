@@ -1,6 +1,7 @@
-<div class="optionContainer">
-    <app-button-one label="{{'Productos'}}" imageUrl="{{'../../../../assets/icon/tshirt.png'}}" [class]="getButtoClass(option.product)" (click)="onSetCurrentOption(option.product)"></app-button-one>
-    <app-button-one label="{{'Agregar texto'}}" imageUrl="{{'../../../../assets/icon/text.png'}}" [class]="getButtoClass(option.text)" (click)="onSetCurrentOption(option.text)"></app-button-one>
-    <app-button-one label="{{'Cargar imagen'}}" imageUrl="{{'../../../../assets/icon/cloud-computing.png'}}" [class]="getButtoClass(option.upload)" (click)="onSetCurrentOption(option.upload)"></app-button-one>
-    <app-button-one label="{{'Arte'}}" imageUrl="{{'../../../../assets/icon/star.png'}}" [class]="getButtoClass(option.draw)" (click)="onSetCurrentOption(option.draw)"></app-button-one>
+<div class="optionContainer d-flex flex-wrap flex-md-column justify-content-between justify-content-md-start">
+    <app-button-one class="col-3 col-md-12" label="{{'Productos'}}" imageUrl="{{'../../../../assets/icon/tshirt.png'}}" [class]="getButtoClass(option.product)" (click)="onSetCurrentOption(option.product)"></app-button-one>
+    <app-button-one class="col-3 col-md-12" label="{{'Agregar texto'}}" imageUrl="{{'../../../../assets/icon/text.png'}}" [class]="getButtoClass(option.text)" (click)="onSetCurrentOption(option.text)"></app-button-one>
+    <app-button-one class="col-3 col-md-12" label="{{'Cargar imagen'}}" imageUrl="{{'../../../../assets/icon/cloud-computing.png'}}" [class]="getButtoClass(option.upload)" (click)="onSetCurrentOption(option.upload)"></app-button-one>
+    <app-button-one class="col-3 col-md-12" label="{{'Diseños'}}" iconClass="bi bi-image-fill" [class]="getButtoClass(option.clipart)" (click)="onSetCurrentOption(option.clipart)"></app-button-one>
+    <app-button-one class="col-3 col-md-12" label="{{'Arte'}}" imageUrl="{{'../../../../assets/icon/star.png'}}" [class]="getButtoClass(option.draw)" (click)="onSetCurrentOption(option.draw)"></app-button-one>
 </div>

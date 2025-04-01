@@ -30,6 +30,7 @@ import { OptionDrawComponent } from '../option-draw/option-draw.component';
 import { OptionUploadComponent } from "../option-upload/option-upload.component";
 import { Product } from 'src/app/model/t-shirt/product.model';
 import { optionFontColor } from './../../../util/configuration/option-font-color.configuration.json';
+import { OptionClipartComponent } from '../option-clipart/option-clipart.component';
 
 @Component({
   selector: 'app-product-designer',
@@ -41,7 +42,8 @@ import { optionFontColor } from './../../../util/configuration/option-font-color
     OptionTextComponent,
     DesignElementComponent,
     OptionDrawComponent,
-    OptionUploadComponent
+    OptionUploadComponent,
+    OptionClipartComponent
 ],
   templateUrl: './product-designer.component.html',
   styleUrls: ['./product-designer.component.scss'],
@@ -73,6 +75,7 @@ export class ProductDesignerComponent
   selectedIndexOutlineFontColor: WritableSignal<number>;
   optionFontColor = optionFontColor;
   selectedSize: WritableSignal<number>;
+  selectedArc: WritableSignal<number>;  
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('workArea') workArea: ElementRef;
@@ -81,12 +84,13 @@ export class ProductDesignerComponent
   constructor(private productDataService: ProductDataService) {
     effect(() => {
       //TODO Remove
+      console.log(this.selectedArc())
       console.log(this.selectedSize())
       if(this.dynamicComponentsArray[this.currenElementIndex()]){
-        this.dynamicComponentsArray[this.currenElementIndex()].instance.height.set(this.selectedSize())
-        this.dynamicComponentsArray[this.currenElementIndex()].instance.width.set(this.selectedSize());
+        this.dynamicComponentsArray[this.currenElementIndex()].instance.height.set(this.selectedSize());
+        this.dynamicComponentsArray[this.currenElementIndex()].instance.arch.set(this.selectedArc());
       }
-    }, { allowSignalWrites: true });
+    }, {allowSignalWrites: true});
   }
 
   ngOnInit(): void {
@@ -127,6 +131,7 @@ export class ProductDesignerComponent
     this.selectedIndexFontColor = signal(+DefaultTypeValue.zeroNumber);
     this.selectedIndexOutlineFontColor = signal(+DefaultTypeValue.zeroNumber);
     this.selectedSize = signal(50);
+    this.selectedArc = signal(+DefaultTypeValue.zeroNumber);
   }
 
   private setTShirtSource(): void {
@@ -149,14 +154,14 @@ export class ProductDesignerComponent
     const newDesignElementComponent = this.baseComponent.createComponent(
       DesignElementComponent
     );
-    newDesignElementComponent.instance.id = signal(this.currenElementIndex());
+    newDesignElementComponent.instance.id = this.currenElementIndex();
     newDesignElementComponent.instance.zIndex = signal(this.dynamicComponentsArray.length);
     newDesignElementComponent.instance.showText = false;
     newDesignElementComponent.instance.imagePath = `../../../../assets/design/${selectedDesignName}`;
     newDesignElementComponent.instance.optionType = OptionWindow.draw;
 
     newDesignElementComponent.instance.currentElement.subscribe(() => {        
-      this.currenElementIndex.set(newDesignElementComponent.instance.id());
+      this.currenElementIndex.set(newDesignElementComponent.instance.id);
       this.isCloseOptionAllowed.set(false);
       this.isNewElement.set(false);
     });
@@ -176,18 +181,38 @@ export class ProductDesignerComponent
         const newDesignElementComponent = this.baseComponent.createComponent(
           DesignElementComponent
         );
-        newDesignElementComponent.instance.id = signal(this.currenElementIndex());
+        newDesignElementComponent.instance.id = this.currenElementIndex();
         newDesignElementComponent.instance.zIndex = signal(this.dynamicComponentsArray.length);
         newDesignElementComponent.instance.showText = false;
         newDesignElementComponent.instance.imagePath = this.uploadedImageUrl as string;
         newDesignElementComponent.instance.optionType = OptionWindow.upload;
 
         newDesignElementComponent.instance.currentElement.subscribe(() => {        
-          this.currenElementIndex.set(newDesignElementComponent.instance.id());
+          this.currenElementIndex.set(newDesignElementComponent.instance.id);
           this.isCloseOptionAllowed.set(false);
           this.isNewElement.set(false);
         });
 
+        newDesignElementComponent.instance.onDeleteElement.subscribe((id: number) => {         
+          this.deleteElement(id);
+        });
+
+        newDesignElementComponent.instance.onMoveToFront.subscribe(() => {         
+          this.moveToFront();
+        });
+  
+        newDesignElementComponent.instance.onMoveToBack.subscribe(() => {         
+          this.moveToBack();
+        });
+  
+        newDesignElementComponent.instance.onMoveForward.subscribe(() => {         
+          this.moveForward();
+        });
+  
+        newDesignElementComponent.instance.onMoveBackward.subscribe(() => {         
+          this.moveBackward();
+        });
+        
         this.dynamicComponentsArray.push(newDesignElementComponent);
         this.isNewElement.set(false);
         return;
@@ -212,21 +237,53 @@ export class ProductDesignerComponent
         DesignElementComponent
       );
       newDesignElementComponent.instance.text = signal(textValue);
-      newDesignElementComponent.instance.id = signal(this.currenElementIndex());
+      newDesignElementComponent.instance.id = this.currenElementIndex();
       newDesignElementComponent.instance.zIndex = signal(this.dynamicComponentsArray.length);
       newDesignElementComponent.instance.selectedFont = this.selectedFont;
       newDesignElementComponent.instance.selectedFontColor = this.selectedFontColor;
       newDesignElementComponent.instance.selectedOutlineFontColor = this.selectedOutlineFontColor;
       newDesignElementComponent.instance.showText = true;      
       newDesignElementComponent.instance.optionType = OptionWindow.text;
-
+      newDesignElementComponent.instance.selectedArc = this.selectedArc;
+      newDesignElementComponent.instance.arch = signal(this.selectedArc());
+      newDesignElementComponent.instance.isSelected = signal(true);
+      newDesignElementComponent.instance.height = this.selectedSize;
+      
       newDesignElementComponent.instance.currentElement.subscribe(() => {        
-        this.currenElementIndex.set(newDesignElementComponent.instance.id());
+        this.currenElementIndex.set(newDesignElementComponent.instance.id);
         this.inputValue.set(newDesignElementComponent.instance.text());
         this.isCloseOptionAllowed.set(false);
         this.isNewElement.set(false);
+        this.dynamicComponentsArray.forEach((element) => {
+          element.instance.isSelected.set(false);
+          element.instance.showLayerOptions = false;
+          if(isSameValue(element.instance.id, this.currenElementIndex()))
+            {
+              element.instance.isSelected.set(true);
+            }
+        });
+      });
+      
+      newDesignElementComponent.instance.onDeleteElement.subscribe((id: number) => {         
+        this.deleteElement(id);
       });
 
+      newDesignElementComponent.instance.onMoveToFront.subscribe(() => {         
+        this.moveToFront();
+      });
+
+      newDesignElementComponent.instance.onMoveToBack.subscribe(() => {         
+        this.moveToBack();
+      });
+
+      newDesignElementComponent.instance.onMoveForward.subscribe(() => {         
+        this.moveForward();
+      });
+
+      newDesignElementComponent.instance.onMoveBackward.subscribe(() => {         
+        this.moveBackward();
+      });
+      
       this.dynamicComponentsArray.push(newDesignElementComponent);
       this.isNewElement.set(false);
       return;
@@ -244,7 +301,7 @@ export class ProductDesignerComponent
       return;
     }
 
-    if(this.dynamicComponentsArray[this.currenElementIndex()].instance.optionType != OptionWindow.upload){
+    if(this.dynamicComponentsArray.length && this.dynamicComponentsArray[this.currenElementIndex()].instance.optionType != OptionWindow.upload){
       this.setCurrentOption(this.dynamicComponentsArray[this.currenElementIndex()].instance.optionType);
     }
     
@@ -262,7 +319,7 @@ export class ProductDesignerComponent
   moveToFront(): void {
     if(!isSameValue((this.dynamicComponentsArray[this.currenElementIndex()].instance.zIndex() + DefaultTypeValue.firstNumber), this.dynamicComponentsArray.length)){
       this.dynamicComponentsArray.forEach((element) => {
-        if(!isSameValue(element.instance.id(), this.currenElementIndex()) && isGreaterThan(element.instance.zIndex(), DefaultTypeValue.zeroNumber)) element.instance.zIndex.set(element.instance.zIndex() - DefaultTypeValue.firstNumber);
+        if(!isSameValue(element.instance.id, this.currenElementIndex()) && isGreaterThan(element.instance.zIndex(), DefaultTypeValue.zeroNumber)) element.instance.zIndex.set(element.instance.zIndex() - DefaultTypeValue.firstNumber);
       });
   
       this.dynamicComponentsArray[this.currenElementIndex()].instance.zIndex.set(this.dynamicComponentsArray.length - DefaultTypeValue.firstNumber);
@@ -272,7 +329,7 @@ export class ProductDesignerComponent
   moveToBack(): void {
     if(!isSameValue(this.dynamicComponentsArray[this.currenElementIndex()].instance.zIndex(), DefaultTypeValue.zeroNumber)){
       this.dynamicComponentsArray.forEach((element) => {
-        if(!isSameValue(element.instance.id(), this.currenElementIndex()) && !isSameValue((element.instance.zIndex() + DefaultTypeValue.firstNumber), this.dynamicComponentsArray.length)) element.instance.zIndex.set(element.instance.zIndex() + DefaultTypeValue.firstNumber);
+        if(!isSameValue(element.instance.id, this.currenElementIndex()) && !isSameValue((element.instance.zIndex() + DefaultTypeValue.firstNumber), this.dynamicComponentsArray.length)) element.instance.zIndex.set(element.instance.zIndex() + DefaultTypeValue.firstNumber);
       });
   
       this.dynamicComponentsArray[this.currenElementIndex()].instance.zIndex.set(DefaultTypeValue.zeroNumber);
@@ -297,15 +354,15 @@ export class ProductDesignerComponent
     }  
   }
 
-  deleteElement(): void {
-    this.dynamicComponentsArray[this.currenElementIndex()].destroy();
-    this.dynamicComponentsArray.splice(this.currenElementIndex(), 1);
+  deleteElement(id: number): void {
+    this.dynamicComponentsArray[id].destroy();
+    this.dynamicComponentsArray.splice(id, 1);
 
     let counter = 0;    
     
     this.dynamicComponentsArray.sort(x => x.instance.zIndex()).forEach((element) => {
       element.instance.zIndex.set(counter);
-      element.instance.id.set(counter);
+      element.instance.id = counter;
       counter++;
     });
   }

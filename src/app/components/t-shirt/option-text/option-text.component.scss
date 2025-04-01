@@ -16,9 +16,6 @@
       border-color: $blue-light;
     }
   }
-  &__header{
-    max-height: 40%;
-  }
   &__buttons{
       overflow-y: auto;
       overflow-x: hidden;
@@ -57,4 +54,11 @@
 
 .inverted{
   transform: rotate(180deg);
+}
+
+.active{
+  background-color: $blue-light;
+  i{
+    color: $white;
+  }
 }

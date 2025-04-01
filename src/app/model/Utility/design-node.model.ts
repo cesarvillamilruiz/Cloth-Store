@@ -1,9 +1,9 @@
 interface IDesignNode {
-    name: string;
     path: string;
+    category: string;
 }
 
 export class DesignNode implements IDesignNode {
-    name: string;
     path: string;
+    category: string;
 } 

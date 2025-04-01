@@ -20,7 +20,7 @@ export class OptionComponent{
   option = OptionWindow;
 
   getButtoClass(option: OptionWindow): string {
-    return this.currentOption() === option ? 'sideBar sideBar__selected my-1 col-12' : 'sideBar my-1 col-12';
+    return this.currentOption() === option ? 'sideBar sideBar__selected my-md-1 col-12 h-100' : 'sideBar my-md-1 col-12 h-100';
   }
 
   onSetCurrentOption(option: OptionWindow): void{

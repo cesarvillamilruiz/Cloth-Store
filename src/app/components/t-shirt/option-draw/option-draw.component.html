@@ -9,20 +9,7 @@
         <p class="optionDrawContainer__subtitle">Aqui puedes generar imagenes basadas en tus ideas</p>
   </header>
   <section class="optionDrawContainerBody">    
-    <mat-accordion>
-      <div class="optionDrawContainerBody__designsList mb-2">
-        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Diseños</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div>
-            <button *ngFor="let desing of designNodeList" class="optionDrawContainerBody__designOption my-2"
-              (click)="onSelectDesign(desing.name)">
-              <img  ngSrc="{{ desing.path }}" width="60" height="70"  priority/>
-            </button>
-          </div>
-        </mat-expansion-panel>
-      </div>
+    <mat-accordion>      
       <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
         <mat-expansion-panel-header>
           <mat-panel-title>Crea tu diseño con IA</mat-panel-title>

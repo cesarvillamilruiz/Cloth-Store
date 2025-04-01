@@ -10,6 +10,7 @@ import {
   ViewChild,
   WritableSignal,
   computed,
+  effect,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,6 +18,8 @@ import { DragStatus } from 'src/app/enum/drag-status.enum';
 import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.validation';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { OptionWindow } from 'src/app/enum/option.enum';
+import ArcText from 'arc-text';
+
 
 @Component({
   selector: 'app-design-element',
@@ -27,7 +30,7 @@ import { OptionWindow } from 'src/app/enum/option.enum';
 })
 export class DesignElementComponent implements OnInit {
   @Input() text: WritableSignal<string>;
-  @Input() id: WritableSignal<number>;
+  @Input() id: number;
   @Input() zIndex: WritableSignal<number>;
   @Input() isHorizontalInverted: boolean;
   @Input() isVerticalInverted: boolean;
@@ -39,12 +42,22 @@ export class DesignElementComponent implements OnInit {
   @Input() width: WritableSignal<number>;
   @Input() height: WritableSignal<number>;
   @Input() imgHeight: Signal<string>;
-
+  @Input() selectedArc: WritableSignal<number>;
+  @Input() arch: WritableSignal<number>;
+  @Input() isSelected: WritableSignal<boolean>;
+  
   @Output() currentElement = new EventEmitter<void>();
-
+  @Output() onDeleteElement = new EventEmitter<number>();
+  @Output() onMoveToFront = new EventEmitter<void>();
+  @Output() onMoveToBack = new EventEmitter<void>();
+  @Output() onMoveForward = new EventEmitter<void>();
+  @Output() onMoveBackward = new EventEmitter<void>();
+  
   @ViewChild('mainElement') mainElement: ElementRef;
   @ViewChild('dragElement') dragElement: ElementRef;
-
+  @ViewChild('textElement') textElement: ElementRef;
+  @ViewChild('textElement2') textElement2: ElementRef;
+  
   imgWidth: Signal<string>;
   x: WritableSignal<number>;
   y: WritableSignal<number>;
@@ -54,9 +67,36 @@ export class DesignElementComponent implements OnInit {
   resizer: any | Function;
   status: DragStatus;
   optionType: OptionWindow;
+  showLayerOptions: boolean;
+
+  getMainWidth(): number | any{
+    const mainElementWidth = document.getElementById(`mainElement__${this.id}`)?.offsetWidth;
+    return mainElementWidth ? mainElementWidth : 0;
+  }
+
+  getMainHeight(): number | any{
+    const mainElementHeight = document.getElementById(`mainElement__${this.id}`)?.offsetHeight;
+    return mainElementHeight ? mainElementHeight : 0;
+  }
+
+  constructor() {
+    effect(() => {
+      if(this.textElement){
+        this.textElement.nativeElement.textContent = this.text();
+        const arcText = new ArcText(this.textElement.nativeElement);
+        
+        const archValue = 1500 - (this.arch() * 20)
+        arcText.arc(archValue > 1450 ? 100000 : archValue);
+  
+        arcText.forceWidth(true);
+        arcText.forceHeight(true);
+      }
+    }, { allowSignalWrites: true });
+  }
 
   ngOnInit(): void {
     this.setInitialValue();
+    console.log(this.imagePath)
   }
 
   setInitialValue(): void {   
@@ -82,7 +122,7 @@ export class DesignElementComponent implements OnInit {
   topRightResize(offsetX: number, offsetY: number) {
     this.y.set(this.y() + offsetY);
     this.width.set(this.width() + offsetX);
-    this.height.set(this.height() - offsetY);    
+    this.height.set(this.height() - offsetY);
   }
 
   bottomLeftResize(offsetX: number, offsetY: number) {
@@ -145,7 +185,7 @@ export class DesignElementComponent implements OnInit {
       this.status = DragStatus.move;
     }
 
-    this.currentElement.emit();
+    this.onSelecElement();    
   }
 
   R2D = 180 / Math.PI
@@ -194,5 +234,13 @@ export class DesignElementComponent implements OnInit {
     let d = this.R2D * Math.atan2(y2, x2);
     this.rotateDegree = d - this.startAngle;    
     this.rotateDegree = (this.angle + this.rotateDegree);
-  }  
+  }
+
+  onToggleShowLayerOptions(): void{
+    this.showLayerOptions = !this.showLayerOptions;
+  }
+
+  onSelecElement(): void {
+    this.currentElement.emit();
+  }
 }

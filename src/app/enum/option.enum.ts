@@ -2,7 +2,8 @@ export enum OptionWindow {
   product = 'product',
   text = 'text',
   draw = 'draw',
-  upload ='upload',
+  upload = 'upload',
+  clipart = 'clipart',
   empty = '',
 }
 

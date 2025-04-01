@@ -1,0 +1,59 @@
+@import "../../../mixin/general/mixin.scss";
+@import "../../../theme/styles/variables";
+
+.optionDrawContainer{
+  height: 100%;
+  display: block;
+  padding-left: 20px;
+  &__title{
+    font-size: 0.9rem;
+    color: $blue-light;
+  }
+  &__subtitle{
+    font-size: .55em;
+    color: #8d9095;
+  }
+  &__closeButton{
+    font-size: 12px !important;
+  }
+  section{
+   max-height: 80%; 
+  }
+}
+
+.propmt{
+  position: relative !important;
+}
+
+.optionFont{
+  height: 64px;
+  border: 1px solid #cccfd6;
+  border-radius: 4px;
+  transform: scale(1);
+  transition: transform .15s linear;
+  background-color: $white;
+  width: 45%;
+  margin: 1.5%;
+  &:nth-child(even){
+      margin-right: 0px;
+  }
+  &:nth-child(odd){
+      margin-left: 0px;
+  }
+  &:hover{
+      transform: scale(1.02);
+      z-index: 10;
+      -webkit-box-shadow: -2px 2px 8px 0px rgba(0,0,0,0.35);
+      -moz-box-shadow: -2px 2px 8px 0px rgba(0,0,0,0.35);
+      box-shadow: -2px 2px 8px 0px rgba(0,0,0,0.35);
+  }
+  &__title{
+      font-size: 0.9rem;
+  }
+}
+
+.designNode{
+  overflow-y: scroll;
+  max-height: 80%;
+  scrollbar-width: none;
+}

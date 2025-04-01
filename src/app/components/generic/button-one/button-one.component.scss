@@ -4,16 +4,18 @@
 .sideBar{
     border-radius: 15% !important;
     border:none;
-    min-height: 100px !important;
     background-color: transparent;
     color: $black;
     display: flex;
     flex-direction: column;
     @include make-flex(center, center);
     flex-wrap: nowrap;
+    font-size: 11px;
     &__selected{
-      background-color: $blue-light;
-      min-width: calc(100% + 10px);
+      background-color: $blue-light;      
+    }
+    i{
+      font-size: 29px;
     }
   }
 
@@ -98,4 +100,14 @@
   box-shadow: none;
   font-size: 14px;
   margin-top: 10px;
+}
+
+@media (min-width: 768px){
+  .sideBar{
+    min-height: 100px !important;
+    font-size: 12px;
+    &__selected{
+      min-width: calc(100% + 10px);
+    }
+  }
 }

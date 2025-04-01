@@ -1,6 +1,5 @@
-import {  Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
+import {  Component, EventEmitter, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DesignNode } from 'src/app/model/Utility/design-node.model';
 import { NgOptimizedImage } from '@angular/common'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -13,12 +12,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
   templateUrl: './option-draw.component.html',
   styleUrls: ['./option-draw.component.scss']
 })
-export class OptionDrawComponent implements OnInit {
-  
+export class OptionDrawComponent {
   @Output() closeOptionProduct = new EventEmitter<void>();
-  @Output() selectedDesignName = new EventEmitter<string>();
-
-  designNodeList: DesignNode[];
+  
   prompt: string;
   generatedImageUrl: string | null = null;
 
@@ -52,85 +48,5 @@ export class OptionDrawComponent implements OnInit {
       error: err => console.log(err),
       complete: () => console.log('Complete')
     });
-  }  
-
-  ngOnInit(): void {
-    this.setDesignNodeList();
-  }
-
-  setDesignNodeList(): void {
-    let root = './../../../../assets/design/';
-    
-    this.designNodeList = [
-      {
-        name : 'bird.png',
-        path : `${root}bird.png`
-      },
-      {
-        name : 'branches.png',
-        path : `${root}branches.png`
-      },
-      {
-        name : 'decorative.png',
-        path : `${root}decorative.png`
-      },
-      {
-        name : 'flock.png',
-        path : `${root}flock.png`
-      },
-      {
-        name : 'floral.png',
-        path : `${root}floral.png`
-      },
-      {
-        name : 'mushrooms.png',
-        path : `${root}mushrooms.png`
-      },
-      {
-        name : 'sugar-skull.png',
-        path : `${root}sugar-skull.png`
-      },
-      {
-        name : 'tropical.png',
-        path : './../../../../assets/design/tropical.png'
-      },
-      //TODO Repeated
-      {
-        name : 'bird.png',
-        path : `${root}bird.png`
-      },
-      {
-        name : 'branches.png',
-        path : `${root}branches.png`
-      },
-      {
-        name : 'decorative.png',
-        path : `${root}decorative.png`
-      },
-      {
-        name : 'flock.png',
-        path : `${root}flock.png`
-      },
-      {
-        name : 'floral.png',
-        path : `${root}floral.png`
-      },
-      {
-        name : 'mushrooms.png',
-        path : `${root}mushrooms.png`
-      },
-      {
-        name : 'sugar-skull.png',
-        path : `${root}sugar-skull.png`
-      },
-      {
-        name : 'tropical.png',
-        path : './../../../../assets/design/tropical.png'
-      }
-    ]
-  }
-
-  onSelectDesign(selectedDesignName: string): void {
-    this.selectedDesignName.emit(selectedDesignName);
   }
 }

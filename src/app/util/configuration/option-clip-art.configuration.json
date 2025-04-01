@@ -1,0 +1,120 @@
+{
+    "designNodeList" : [
+        {
+            "path" : "./../../../../assets/design/military_1.svg",
+            "category" : "Militar"
+        },
+        {
+            "path" : "./../../../../assets/design/military_2.svg",
+            "category" : "Militar"
+        },
+        {
+            "path" : "./../../../../assets/design/military_3.svg",
+            "category" : "Militar"
+        },
+        {
+            "path" : "./../../../../assets/design/military_4.svg",
+            "category" : "Militar"
+        },
+        {
+            "path" : "./../../../../assets/design/military_5.svg",
+            "category" : "Militar"
+        },
+        {
+            "path" : "./../../../../assets/design/military_6.svg",
+            "category" : "Militar"
+        },
+        {
+            "path" : "./../../../../assets/design/military_7.svg",
+            "category" : "Militar"
+        },
+        {
+            "path" : "./../../../../assets/design/military_8.svg",
+            "category" : "Militar"
+        },
+        {
+            "path" : "./../../../../assets/design/military_9.svg",
+            "category" : "Militar"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_1.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_2.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_3.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_4.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_5.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_6.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_7.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_8.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_9.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/animal_10.svg",
+            "category" : "Animals"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_1.svg",
+            "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_2.svg",
+            "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_3.svg",
+            "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_4.svg",
+            "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_5.svg",
+            "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_6.svg",
+            "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_7.svg",
+            "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_8.svg",
+            "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_9.svg",
+            "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/nature_10.svg",
+            "category" : "Naturaleza"
+        }
+    ]
+}

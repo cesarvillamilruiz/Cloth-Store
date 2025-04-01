@@ -1,5 +1,5 @@
 <div class="optionTextContainer d-flex flex-column pb-5 col-11">
-    <div class="optionTextContainer__header">
+    <div>
         <header class="mt-3">
             <h6 class="optionTextContainer__title">Editor de texto</h6>
             <div class="d-flex justify-content-between flex-nowrap mt-4">
@@ -21,15 +21,35 @@
         </div>
         <div *ngIf="invputValue()" class="d-flex flex-nowrap justify-content-center mt-4 col-12">
             <div class="d-flex flex-nowrap justify-content-center col-4">
-                <button class="optionTextContainer__action" (click)="moveForward.emit()"><i class="bi bi-layers-half inverted"></i></button>
-                <button class="optionTextContainer__action" (click)="moveBackward.emit()"><i class="bi bi-layers-half"></i></button>        
+                <button class="optionTextContainer__action"
+                    [class.active]="activeButton=='moveToFront'"
+                    (click)="moveForward.emit(); activeButton='moveToFront'">
+                    <i class="bi bi-layers-half inverted"></i>
+                </button>
+                <button class="optionTextContainer__action"
+                    [class.active]="activeButton=='moveToBack'"
+                    (click)="moveBackward.emit(); activeButton='moveToBack'">
+                    <i class="bi bi-layers-half"></i>
+                </button>        
             </div>
             <div class="d-flex flex-nowrap justify-content-center col-4">
-                <button class="optionTextContainer__action" (click)="onRotateHorizontal()"><img ngSrc="../../../../assets/icon/reflect-horizontal.png" width="25" height="25" priority></button>
-                <button class="optionTextContainer__action" (click)="onRotateVertical()"><img ngSrc="../../../../assets/icon/reflect-vertical.png" width="25" height="25" priority></button>        
+                <button class="optionTextContainer__action"
+                    [class.active]="activeButton=='flipHorizontal'"
+                    (click)="onRotateHorizontal(); activeButton='flipHorizontal'">
+                    <img ngSrc="../../../../assets/icon/reflect-horizontal.png" width="25" height="25" priority>
+                </button>
+                <button class="optionTextContainer__action"
+                    [class.active]="activeButton=='flipVertical'"
+                    (click)="onRotateVertical(); activeButton='flipVertical'">
+                    <img ngSrc="../../../../assets/icon/reflect-vertical.png" width="25" height="25" priority>
+                </button>        
             </div>
             <div class="d-flex flex-nowrap justify-content-center col-4">
-                <button class="optionTextContainer__action" (click)="duplicate.emit()"><img ngSrc="../../../../assets/icon/duplicate.png" width="25" height="25" priority></button>                
+                <button class="optionTextContainer__action"
+                    [class.active]="activeButton=='duplicate'"
+                    (click)="duplicate.emit(); activeButton='duplicate'">
+                    <img ngSrc="../../../../assets/icon/duplicate.png" width="25" height="25" priority>
+                </button>                
             </div>
         </div>
     </div>
@@ -64,14 +84,30 @@
             <div class="col-6 d-flex flex-nowrap justify-content-between align-items-center mx-5">
                 <mat-slider
                     [disabled]="slideDisabled"
-                    [max]="slideMax"
-                    [min]="slideMin"
+                    [max]="slideSizeMax"
+                    [min]="slideSizeMin"
                     [step]="slideStep"
                     [discrete]="slideThumbLabel"
                     [showTickMarks]="slideShowTicks">
                     <input matSliderThumb [(ngModel)]="selectedSize" #slider>
                 </mat-slider>
                 <div>{{(selectedSize())}}</div>
+            </div>
+        </div>
+        <hr>
+        <div class="d-flex flex-nowrap justify-content-between optionTextContainer__option">
+            <div class="col-4">Arco</div>
+            <div class="col-6 d-flex flex-nowrap justify-content-between align-items-center mx-5">
+                <mat-slider
+                    [disabled]="slideDisabled"
+                    [max]="slideArcMax"
+                    [min]="slideArcMin"
+                    [step]="slideStep"
+                    [discrete]="slideThumbLabel"
+                    [showTickMarks]="slideShowTicks">
+                    <input matSliderThumb [(ngModel)]="selectedArc" #slider2>
+                </mat-slider>
+                <div>{{selectedArc()}}</div>
             </div>
         </div>
     </div>

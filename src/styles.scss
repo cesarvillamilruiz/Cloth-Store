@@ -33,3 +33,7 @@ p{
     font-family: lexend-regular;
     font-size: 15px !important;
 }
+
+mat-slider, mat-slider > input, mat-slider-visual-thumb {
+  max-height: 20px !important;
+}

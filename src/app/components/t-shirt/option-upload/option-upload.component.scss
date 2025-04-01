@@ -1,7 +1,7 @@
 @import "../../../theme/styles/variables";
 
 .optionProductUploadContainer {
-    height: 100%;
+    // height: 100%;
     display: block;
     padding-left: 20px;
     &__title{
@@ -22,6 +22,7 @@ ngx-dropzone {
     padding: 20px;
     text-align: center;
     cursor: pointer;
+    background-color: #f2f2f2;
   }
   
   ngx-dropzone-label {

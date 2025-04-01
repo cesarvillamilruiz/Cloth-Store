@@ -20,9 +20,8 @@
 }
 
 .optionProductContainer {
-  height: 100%;
   display: block;
-  padding-left: 20px;
+  padding: 0px 20px;
   &__title{
     font-size: 0.9rem;
     color: $blue-light;
@@ -46,6 +45,7 @@
   }
   &__list{
     max-height: 360px;
+    overflow-y: auto;
   }
 }
 

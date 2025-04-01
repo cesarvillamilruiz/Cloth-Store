@@ -15,6 +15,7 @@ export class ButtonOneComponent implements AfterViewInit {
   @Input() class: string;
   @Input() imageUrl: string;
   @Input() disabled?: boolean;
+  @Input() iconClass?: string;
 
   @ViewChild('buttonElement') buttonElement: ElementRef;  
 

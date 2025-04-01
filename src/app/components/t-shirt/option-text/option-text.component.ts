@@ -41,6 +41,7 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   @Input() selectedIndexOutlineFontColor: WritableSignal<number>;
   @Input() selectedIndexFontColor: WritableSignal<number>;
   @Input() selectedSize: WritableSignal<number>;
+  @Input() selectedArc: WritableSignal<number>;
 
   @Output() closeOptionProduct = new EventEmitter<void>();
   @Output() textValue = new EventEmitter<string>();
@@ -61,11 +62,14 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   showOutlineColorOption: boolean;
 
   slideDisabled: boolean;
-  slideMax: number;
-  slideMin: number;
+  slideSizeMax: number;
+  slideSizeMin: number;
   slideShowTicks: boolean;
   slideStep: number;
   slideThumbLabel: boolean;
+  slideArcMax: number;
+  slideArcMin: number;
+  activeButton: string;
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['invputValue'] && !changes['invputValue'].isFirstChange()){
@@ -78,7 +82,9 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   }
 
   ngAfterViewInit(): void {
-    this.setTextInputFocus();
+    setTimeout(() => {
+      this.setTextInputFocus();
+    }, 1000)
   }
 
   private setInitialValue(): void {    
@@ -86,11 +92,13 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
     this.labelColor = 'Color';
     this.labelOutlineColor = 'Borde'
     this.slideDisabled = false;
-    this.slideMax = 200;
-    this.slideMin = DefaultTypeValue.zeroNumber;
+    this.slideSizeMax = 200;
+    this.slideSizeMin = DefaultTypeValue.zeroNumber;
     this.slideShowTicks = false;
     this.slideStep = 1;
     this.slideThumbLabel = false;
+    this.slideArcMax = 100;
+    this.slideArcMin = 0;
   }
 
   private setTextInputFocus(): void {

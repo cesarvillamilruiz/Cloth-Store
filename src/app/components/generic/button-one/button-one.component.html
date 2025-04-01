@@ -1,6 +1,9 @@
 <button [class]="class" #buttonElement [disabled]="disabled">
-	<ng-container *ngIf="imageUrl">
+	<ng-container *ngIf="imageUrl; else iconOption">
 		<img [ngSrc]="imageUrl" width="30" height="30" priority>
 	</ng-container>
+	<ng-template #iconOption>
+		<i [class]="iconClass"></i>
+	</ng-template>
 	{{ label }}
 </button>

@@ -1,0 +1,32 @@
+<div class="optionDrawContainer d-flex flex-column pt-3 col-11">  
+    <header class="mt-3">
+      <h6 class="optionDrawContainer__title">Imagenes Prediseñadas</h6>
+          <div class="d-flex justify-content-between flex-nowrap mt-4">
+              <h2 *ngIf="!showDesigns; else selectedOption;">Agrega una Imagen Prediseñada</h2>
+              <ng-template #selectedOption>
+                <div class="d-flex justify-content-between flex-nowrap col-8">                    
+                    <i class="bi bi-arrow-bar-left pointer" (click)="onHideOption()"></i>
+                    <h6>Agregar imagen prediseñada</h6>
+                </div>
+            </ng-template>
+              <button type="button" class="btn-close mr-3 optionDrawContainer__closeButton"
+                  (click)="closeOptionProduct.emit()" aria-label="Close"></button>
+          </div>
+          <p class="optionDrawContainer__subtitle">Elije entre mas de 100 imagenes prediseñadas</p>
+    </header>
+    <section>    
+        <div *ngIf="!showDesigns" class="mb-2 d-flex justify-content-between col-12 flex-wrap">
+            <button *ngFor="let category of categoryList"
+                class="d-flex justify-content-center align-items-center optionFont"
+                (click)="setDesignNodeListName(category)">
+                {{category}}
+            </button>
+        </div> 
+        <div *ngIf="showDesigns" class="col-12 mb-2 designNode">
+            <button *ngFor="let desing of designNodeListName" class="col-6 my-2 bg-transparent border-0"
+              (click)="onSelectDesign(desing.path)">
+              <img  ngSrc="{{ desing.path }}" width="60" height="70"  priority/>
+            </button>
+        </div>
+    </section>
+  </div>
