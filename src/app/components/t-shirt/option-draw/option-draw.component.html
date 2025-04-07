@@ -17,7 +17,7 @@
         <div class="d-flex flex-column align-items-center">
           <input type="text" [(ngModel)]="prompt" class="form-control mb-2">
           <button (click)="generateImage()" [disabled]="!prompt">Generate Image</button>
-          <img *ngIf="generatedImageUrl" [ngSrc]="generatedImageUrl" width="200" height="200" priority/>
+          <img *ngIf="generatedImageUrl" [src]="generatedImageUrl" width="200" height="200" priority/>
           </div>
       </mat-expansion-panel>
     </mat-accordion>

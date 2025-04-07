@@ -96,7 +96,6 @@ export class DesignElementComponent implements OnInit {
 
   ngOnInit(): void {
     this.setInitialValue();
-    console.log(this.imagePath)
   }
 
   setInitialValue(): void {   

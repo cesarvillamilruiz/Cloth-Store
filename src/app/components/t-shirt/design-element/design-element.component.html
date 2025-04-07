@@ -1,4 +1,5 @@
-<div class="elementContainer"
+<div *ngIf="isSelected()" 
+    class="elementContainer"
     [style.zIndex]="zIndex()"
     [style.width.px]="getMainWidth()"
     [style.height.px]="getMainHeight()"
@@ -42,5 +43,5 @@
             [style.height]="imgHeight()"
             [src]="imagePath">
     </ng-template>
-    <button class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight" (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true" (drag)="onDragRotate($event)"><i class="bi bi-arrow-counterclockwise"></i></button>
+    <button *ngIf="isSelected()" class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight" (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true" (drag)="onDragRotate($event)"><i class="bi bi-arrow-counterclockwise"></i></button>
 </div>

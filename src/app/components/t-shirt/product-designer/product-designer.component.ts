@@ -159,6 +159,7 @@ export class ProductDesignerComponent
     newDesignElementComponent.instance.showText = false;
     newDesignElementComponent.instance.imagePath = `../../../../assets/design/${selectedDesignName}`;
     newDesignElementComponent.instance.optionType = OptionWindow.draw;
+    newDesignElementComponent.instance.isSelected = signal(true);
 
     newDesignElementComponent.instance.currentElement.subscribe(() => {        
       this.currenElementIndex.set(newDesignElementComponent.instance.id);
@@ -186,6 +187,7 @@ export class ProductDesignerComponent
         newDesignElementComponent.instance.showText = false;
         newDesignElementComponent.instance.imagePath = this.uploadedImageUrl as string;
         newDesignElementComponent.instance.optionType = OptionWindow.upload;
+        newDesignElementComponent.instance.isSelected = signal(true);
 
         newDesignElementComponent.instance.currentElement.subscribe(() => {        
           this.currenElementIndex.set(newDesignElementComponent.instance.id);

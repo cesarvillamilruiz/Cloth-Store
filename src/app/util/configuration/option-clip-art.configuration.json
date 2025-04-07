@@ -115,6 +115,106 @@
         {
             "path" : "./../../../../assets/design/nature_10.svg",
             "category" : "Naturaleza"
+        },
+        {
+            "path" : "./../../../../assets/design/ball_1.svg",
+            "category" : "Balones"
+        },
+        {
+            "path" : "./../../../../assets/design/ball_2.svg",
+            "category" : "Balones"
+        },
+        {
+            "path" : "./../../../../assets/design/ball_3.svg",
+            "category" : "Balones"
+        },
+        {
+            "path" : "./../../../../assets/design/ball_4.svg",
+            "category" : "Balones"
+        },
+        {
+            "path" : "./../../../../assets/design/ball_5.svg",
+            "category" : "Balones"
+        },
+        {
+            "path" : "./../../../../assets/design/ball_6.svg",
+            "category" : "Balones"
+        },
+        {
+            "path" : "./../../../../assets/design/ball_7.svg",
+            "category" : "Balones"
+        },
+        {
+            "path" : "./../../../../assets/design/ball_8.svg",
+            "category" : "Balones"
+        },
+        {
+            "path" : "./../../../../assets/design/law_1.svg",
+            "category" : "Justicia"
+        },
+        {
+            "path" : "./../../../../assets/design/law_2.svg",
+            "category" : "Justicia"
+        },
+        {
+            "path" : "./../../../../assets/design/law_3.svg",
+            "category" : "Justicia"
+        },
+        {
+            "path" : "./../../../../assets/design/law_4.svg",
+            "category" : "Justicia"
+        },
+        {
+            "path" : "./../../../../assets/design/law_5.svg",
+            "category" : "Justicia"
+        },
+        {
+            "path" : "./../../../../assets/design/law_6.svg",
+            "category" : "Justicia"
+        },
+        {
+            "path" : "./../../../../assets/design/law_7.svg",
+            "category" : "Justicia"
+        },
+        {
+            "path" : "./../../../../assets/design/law_8.svg",
+            "category" : "Justicia"
+        },
+        {
+            "path" : "./../../../../assets/design/law_9.svg",
+            "category" : "Justicia"
+        },
+        {
+            "path" : "./../../../../assets/design/house_1.svg",
+            "category" : "Casas"
+        },
+        {
+            "path" : "./../../../../assets/design/house_2.svg",
+            "category" : "Casas"
+        },
+        {
+            "path" : "./../../../../assets/design/house_3.svg",
+            "category" : "Casas"
+        },
+        {
+            "path" : "./../../../../assets/design/house_4.svg",
+            "category" : "Casas"
+        },
+        {
+            "path" : "./../../../../assets/design/house_5.svg",
+            "category" : "Casas"
+        },
+        {
+            "path" : "./../../../../assets/design/house_6.svg",
+            "category" : "Casas"
+        },
+        {
+            "path" : "./../../../../assets/design/house_7.svg",
+            "category" : "Casas"
+        },
+        {
+            "path" : "./../../../../assets/design/house_8.svg",
+            "category" : "Casas"
         }
     ]
 }
