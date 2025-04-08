@@ -1,0 +1,21 @@
+@import "../app/mixin/general/mixin.scss";
+@import "../app/theme/styles/variables";
+
+.mainContainer{
+    @include min-width-container();
+    @include min-height-container();
+    display: grid;
+    grid-template-rows: 10% 90%;
+    background-color: $white-light-pink;
+}
+
+.headerContainer {
+  box-shadow: 0 2px 8px 0 rgba(204, 207, 214, .5);
+  z-index: 10;
+  width: 100%;
+  grid-row: 1;
+}
+
+.contenContainer{
+    grid-row: 2 / 3;
+}

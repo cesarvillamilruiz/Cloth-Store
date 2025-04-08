@@ -7,16 +7,9 @@
   height: 100vh;
   display: grid;
   grid-template-columns: 10% 90%;
-  grid-template-rows: 10% 80% 10%;
-  &__header {
-    grid-column: 1 / 3;
-    grid-row: 1;
-    box-shadow: 0 2px 8px 0 rgba(204, 207, 214, .5);
-    z-index: 10;
-  }
   &__designer {
     grid-column: 1 / 3;
-    grid-row: 2 / 3;
+    grid-row: 1;
   }
   &__option {
     grid-column: 1 / 3;
@@ -26,19 +19,14 @@
 
 @media (min-width: 768px) {
   .designContainer {
-    grid-template-columns: 10% 90%;
-    grid-template-rows: 10% 90%;
-    &__header {
-      grid-column: 1 / 3;
-      grid-row: 1;
-    }
+    grid-template-columns: 10% 90%;    
     &__designer {
       grid-column: 2 / 3;
-      grid-row: 2 / 3;
+      grid-row: 1;
     }
     &__option {
       grid-column: 1 / 2;
-      grid-row: 2 / 3;
+      grid-row: 1;
     }
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../header/header.component';
 import { OptionComponent } from '../option/option.component';
 import { ProductDesignerComponent } from '../product-designer/product-designer.component';
 import { OptionWindow } from 'src/app/enum/option.enum';
@@ -10,7 +9,6 @@ import { OptionWindow } from 'src/app/enum/option.enum';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
     OptionComponent,
     ProductDesignerComponent,
   ],
