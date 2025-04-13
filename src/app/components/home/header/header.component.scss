@@ -1,11 +1,16 @@
+@import "../../../theme/styles/variables";
+
 .whatsappIcon{
   font-size: 2rem;
   color: rgb(37, 211, 102);
 }
 
 a{
+  color: $black;
+}
+
+.whatsAppButton{
   color: rgb(37, 211, 102);
-  text-decoration: none !important;
 }
 
 .logIn__Button{

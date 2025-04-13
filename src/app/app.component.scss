@@ -4,18 +4,17 @@
 .mainContainer{
     @include min-width-container();
     @include min-height-container();
-    display: grid;
-    grid-template-rows: 10% 90%;
     background-color: $white-light-pink;
+    min-height: 100vh;
 }
 
 .headerContainer {
   box-shadow: 0 2px 8px 0 rgba(204, 207, 214, .5);
   z-index: 10;
   width: 100%;
-  grid-row: 1;
+  height: 80px;
 }
 
 .contenContainer{
-    grid-row: 2 / 3;
+  min-height: calc(100vh - 80px);
 }

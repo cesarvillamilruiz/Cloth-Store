@@ -1,4 +1,20 @@
+@import "../../../theme/styles/variables";
+
 .heading{
     font-family: lexend-bold;
-    font-size: 60px !important;
-  }
+    font-size: 250% !important;
+}
+
+.startButton{
+  background-color: $main-orange;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-family: lexend-bold;
+  font-size: 20px !important;
+  color: $white;  
+}
+
+a{
+  color: $white;
+}

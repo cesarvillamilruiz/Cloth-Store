@@ -1,10 +1,79 @@
-<div class="d-flex flex-wrap justify-content-between">
-    <div class="col-5 p-5 d-flex flex-nowrap flex-column justify-content-center align-items-center">
-        <h3>DISEÑADOR DE CAMISETAS PERSONALIZADO</h3>
-        <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita nihil voluptate delectus soluta molestias est?</h5>
-        <button>Empezar</button>
+<div class="d-flex flex-wrap flex-md-row flex-column justify-content-between px-5">
+    <div class="col-md-5 col-12 py-5 d-flex flex-nowrap flex-column justify-content-center align-items-center">
+        <h5 class="m-0 heading col-12">DISEÑADOR DE CAMISETAS PERSONALIZADO</h5>
+        <h5 class="my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita nihil voluptate delectus soluta molestias est?</h5>
+        <div class="d-flex justify-content-start col-12">
+            <button class="startButton"><a routerLink="/customizer">Empezar</a></button>
+        </div>
     </div>
-    <div class="col-7">
+    <div class="col-md-7 col-12">
         <img src="../../../../assets/common/home-landing.png">
     </div>
+</div>
+<div class="w-100 px-5 mt-3" id="services">
+    <h3>Nuestros servicios</h3>
+    <div class="w-100 d-flex flex-wrap justify-content-between">
+        <div class="col-6 d-flex flex-nowrap justify-content-between">
+            <img src="../../../../assets/common/home-custom-design.png" width="80" height="80">
+            <div  class="col-10">
+                <h6>Herramientas personalizadas dediseño</h6>
+                <p>
+                    Da rienda suelta a tu creatividad con nuestro editor de arrastrar y soltar. Añade texto, imágenes y diseños a tu camiseta fácilmente.
+                </p>
+            </div>
+        </div>
+        <div class="col-6 d-flex flex-nowrap justify-content-between">
+            <img src="../../../../assets/common/home-print-delivery.png" width="80" height="80">
+            <div  class="col-10">
+                <h6>Impresion y envio</h6>
+                <p>Elija entre una amplia gama de estilos de camisetas (cuello redondo, cuello en V, tops cortos, cortes extragrandes) y tallas desde XS a 5XL.</p>
+            </div>
+        </div>
+        <div class="col-6 d-flex flex-nowrap justify-content-between">
+            <img src="../../../../assets/common/home-variety.png" width="80" height="80">
+            <div class="col-10">
+                <h6>Variedad de estilos y tallas</h6>
+                <p>
+                    Una vez que haya terminado de diseñar, lo imprimiremos con tinta de alta calidad y lo entregaremos en su puerta, de forma rápida y segura.
+                </p>
+            </div>
+        </div>
+        <div class="col-6 d-flex flex-nowrap justify-content-between">
+            <img src="../../../../assets/common/home-eco-friendly.png" width="80" height="80">
+            <div  class="col-10">
+                <h6>Impresion ecologica</h6>
+                <p>
+                    ¿Necesitas camisetas para tu equipo, evento o marca? Ofrecemos descuentos por volumen y opciones de personalización profesional.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="w-100 px-5 mt-5" id="faqs">
+    <h3>Preguntas Frecuentes</h3>
+    <div class="w-100 d-flex flex-wrap justify-content-between">
+        <div class="col-5">
+            <h5>P: ¿Qué tipos de archivos puedo cargar para mi diseño?</h5>
+            <p>R: Aceptamos archivos JPG, PNG, SVG y PDF. Para obtener la mejor calidad, utilice archivos de alta resolución.</p>
+        </div>    
+        <div class="col-5">
+            <h5>P: ¿Puedo pedir sólo una camiseta?</h5>
+            <p>R: ¡Sí! No hay pedido mínimo. Diseña uno para ti o cien para tu equipo.</p>
+        </div>    
+        <div class="col-5">
+            <h5>P: ¿Cuánto tarda en llegar mi camiseta?</h5>
+            <p>R: La mayoría de los pedidos se envían en un plazo de 3 a 5 días laborables. Disponemos de opciones de envío exprés.</p>
+        </div>    
+        <div class="col-5">
+            <h5>P: ¿Qué pasa si no estoy satisfecho con mi diseño?</h5>
+            <p>R: Ofrecemos una garantía de satisfacción. Si no estás satisfecho, lo reimprimiremos o te reembolsaremos el dinero, sin hacer preguntas.</p>
+        </div> 
+        <div class="col-5">
+            <h5>P: ¿Puedo vender mis diseños?</h5>
+            <p>R: Por supuesto. Crea y vende tus diseños en nuestra plataforma y gana dinero con cada venta.</p>
+        </div>     
+    </div>
+</div>
+<div class="p-5 pb-2">
+    <app-footer></app-footer>
 </div>
