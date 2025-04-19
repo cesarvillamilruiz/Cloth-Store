@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/home/header/header.component';
 
 @Component({
@@ -12,4 +12,11 @@ import { HeaderComponent } from './components/home/header/header.component';
 })
 export class AppComponent {
   title = 'Cloth-Store';
+  
+  get isHomePage (): boolean{
+    return this.route.url === '/' || this.route.url.includes('/#');
+  }
+
+  constructor(private route: Router){
+  }
 }

@@ -9,10 +9,13 @@
 }
 
 .headerContainer {
-  box-shadow: 0 2px 8px 0 rgba(204, 207, 214, .5);
   z-index: 10;
   width: 100%;
   height: 80px;
+}
+
+.header-shadow{
+  box-shadow: 0 2px 8px 0 rgba(204, 207, 214, .5);
 }
 
 .contenContainer{
