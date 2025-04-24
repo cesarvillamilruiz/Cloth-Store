@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/home/header/header.component';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,19 @@ export class AppComponent {
     return this.route.url === '/' || this.route.url.includes('/#');
   }
 
-  constructor(private route: Router){
+  constructor(private route: Router, private msalService: MsalService){
+    this.msalManagement();
+  }
+
+  private msalManagement(): void{
+    this.msalService.initialize();
+
+    this.msalService.handleRedirectObservable().subscribe({
+      next: (tokenResponse) => {
+        console.log(tokenResponse);
+      },
+      error: (error) => {console.log(error);},
+      complete: () => {console.log('Completed');}
+    });
   }
 }

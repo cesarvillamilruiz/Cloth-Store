@@ -1,3 +1,9 @@
 <div class="p-5">
-        <div #googleBtn></div>
+        <div *ngIf="!activeUser; else userInfo">
+                <button (click)="login()">Login with Microsoft</button>
+        </div>
+        <ng-template #userInfo>
+                <label>{{activeUser?.name}}</label>
+                <button (click)="logout()">Log Out</button>
+        </ng-template>
 </div>

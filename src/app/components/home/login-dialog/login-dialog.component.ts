@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { GoogleAuthService } from 'src/app/services/google/google-auth.service';
+import { Component, OnInit } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
+import { AccountInfo } from '@azure/msal-browser';
 
 @Component({
   selector: 'app-login-dialog',
@@ -9,43 +10,29 @@ import { GoogleAuthService } from 'src/app/services/google/google-auth.service';
   templateUrl: './login-dialog.component.html',
   styleUrl: './login-dialog.component.scss'
 })
-export class LoginDialogComponent implements AfterViewInit {
-  
-  @ViewChild('googleBtn', { static: true }) googleBtn!: ElementRef;
+export class LoginDialogComponent implements OnInit{
 
-  constructor (private googleLoginService: GoogleAuthService) {}
+  activeUser: AccountInfo | null;
 
-  ngAfterViewInit() {
-    // Wait for the script to be loaded
-    const interval = setInterval(() => {
-      if ((window as any).google && (window as any).google.accounts?.id) {
-        (window as any).google.accounts.id.initialize({
-          client_id: '229119906435-p1ngq3rogcl8rnu6okkbekqbm3829p9r.apps.googleusercontent.com',
-          callback: this.handleCredentialResponse
-        });
+  constructor(private msalService: MsalService) {}
 
-        (window as any).google.accounts.id.renderButton(this.googleBtn.nativeElement, {
-          theme: 'outline',
-          size: 'large'
-        });
+  ngOnInit(): void{    
+    const accounts = this.msalService.instance.getAllAccounts();
+    if (accounts.length > 0) {
+      this.msalService.instance.setActiveAccount(accounts[0]);
+      console.log('User is logged in:', accounts[0]);
+    } else {
+      console.log('No user is logged in');
+    }
 
-        clearInterval(interval);
-      }
-    }, 500);
+    this.activeUser = this.msalService.instance.getActiveAccount();
   }
 
-  handleCredentialResponse = (response: any) =>  {
-    this.googleLoginService.getIdToken(response.credential)
-    .subscribe({
-      next: response => {
-        console.log('Backend login result:', response);
-      },
-      error: err => {
-        console.log(err)
-      },
-      complete: () => {
-        console.log('Complete')
-      }
-    });
+  login() {
+    this.msalService.loginRedirect();
+  }
+
+  logout() {
+    this.msalService.logout();
   }
 }
