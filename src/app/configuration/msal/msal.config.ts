@@ -1,16 +1,41 @@
-// import { PublicClientApplication, type Configuration } from '@azure/msal-browser';
+import { BrowserCacheLocation, LogLevel, PublicClientApplication, type Configuration } from '@azure/msal-browser';
+import { environment } from 'src/environments/environment';
 
-// export const msalConfig: Configuration = {
-//   auth: {
-//     clientId: '40935d55-3236-4020-a352-7c5a7df60512',
-//     authority: 'https://login.microsoftonline.com/common',
-//     // authority: 'https://login.microsoftonline.com/common/c38a32dd-800e-42c0-a457-4ce5052a01ec',
-//     redirectUri: 'http://localhost:4200',
-//   },
-//   cache: {
-//     cacheLocation: 'localStorage',
-//     storeAuthStateInCookie: false,
-//   },
-// };
+const b2cPolicies = {
+    names: {
+        signUpSignIn: environment.msalConfig.namesFlows.signUpSignIn
+    },
+    authorities: {
+        signUpSignIn: {
+            authority: environment.msalConfig.authorities.signUpSignIn,
+        }
+    },
+    authorityDomain: environment.msalConfig.authorityDomain
+};
 
-// export const msalInstance = new PublicClientApplication(msalConfig);
+const msalConfig: Configuration = {
+    auth: {
+        clientId: environment.msalConfig.clientId,
+        authority: b2cPolicies.authorities.signUpSignIn.authority,
+        redirectUri: environment.baseDomain,
+        postLogoutRedirectUri: environment.baseDomain,
+        knownAuthorities: [b2cPolicies.authorityDomain],
+    },
+    cache: {
+        cacheLocation: BrowserCacheLocation.SessionStorage,
+    },
+    system: {
+        allowPlatformBroker: false, // Disables WAM Broker
+        loggerOptions: {
+            loggerCallback,
+            logLevel: LogLevel.Verbose,
+            piiLoggingEnabled: false,
+        },
+    },
+};
+
+export function loggerCallback(logLevel: LogLevel, message: string) {
+//   console.log(message);
+}
+
+export const msalInstance = new PublicClientApplication(msalConfig);

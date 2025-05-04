@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/home/header/header.component';
 import { MsalService } from '@azure/msal-angular';
+import { UserService } from './services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,9 @@ export class AppComponent {
     return this.route.url === '/' || this.route.url.includes('/#');
   }
 
-  constructor(private route: Router, private msalService: MsalService){
+  constructor(private route: Router,
+    private msalService: MsalService,
+    private userService: UserService){
     this.msalManagement();
   }
 
@@ -27,7 +30,7 @@ export class AppComponent {
 
     this.msalService.handleRedirectObservable().subscribe({
       next: (tokenResponse) => {
-        console.log(tokenResponse);
+        this.userService.reviewAndUpdateLoggedUserintoStorage();
       },
       error: (error) => {console.log(error);},
       complete: () => {console.log('Completed');}

@@ -1,0 +1,8 @@
+@import "../../../mixin/general/mixin.scss";
+
+.customerOptionsContainer{
+    @include min-width-container();
+    @include min-height-container();
+    width: 100vw;
+    height: calc(100vh - 80px);
+}

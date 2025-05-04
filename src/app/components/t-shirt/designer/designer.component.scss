@@ -3,8 +3,6 @@
 .designContainer {
   @include min-width-container();
   @include min-height-container();
-  width: 100vw;
-  height: 100vh;
   display: grid;
   grid-template-columns: 10% 90%;
   &__designer {

@@ -13,10 +13,7 @@ import {
 
 import {
   IPublicClientApplication,
-  PublicClientApplication,
-  InteractionType,
-  BrowserCacheLocation,
-  LogLevel,
+  InteractionType
 } from '@azure/msal-browser';
 import {
   MsalInterceptor,
@@ -30,34 +27,18 @@ import {
   MsalBroadcastService,
 } from '@azure/msal-angular';
 import { environment } from 'src/environments/environment';
+import { msalInstance } from './configuration/msal/msal.config';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
-  return new PublicClientApplication({
-    auth: {
-      clientId: environment.msalConfig.auth.clientId,
-      authority: environment.msalConfig.auth.authority,
-      redirectUri: environment.msalConfig.auth.redirectUri,
-      postLogoutRedirectUri: environment.msalConfig.auth.redirectUri
-    },
-    cache: {
-      cacheLocation: BrowserCacheLocation.SessionStorage,
-    },
-    system: {
-      allowPlatformBroker: false, // Disables WAM Broker
-      // loggerOptions: {
-      //   loggerCallback,
-      //   logLevel: LogLevel.Info,
-      //   piiLoggingEnabled: false,
-      // },
-    },
-  });
+  return msalInstance;
 }
-
+      
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
+
   protectedResourceMap.set(
-    environment.apiConfig.uri,
-    environment.apiConfig.scopes
+    environment.msalConfig.apiUri,
+    environment.msalConfig.scopes.apiScopes
   );
 
   return {
@@ -70,10 +51,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: [...environment.apiConfig.scopes],
+      scopes: ['openid'],
     },
-    //TODO: Implement login fail page
-    loginFailedRoute: '/login-failed',
+    loginFailedRoute: environment.loginFailedRoute,
   };
 }
 

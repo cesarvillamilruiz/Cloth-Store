@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgOptimizedImage } from '@angular/common'
 import { RouterModule } from '@angular/router';
-import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
-import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'app-header',
@@ -12,17 +12,48 @@ import { DialogService } from 'src/app/services/dialog/dialog.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements AfterViewInit {
+  
+  @ViewChild('accountMenu') accountMenu!: ElementRef<HTMLDivElement>;
+  
   whatsAppUrl: string = 'https://wa.me/573118317702';
   isMenuOpen = false;
+  showAccountMenu: boolean;
 
-  constructor(private dialogService: DialogService){}
+  get isLoggedIn(): boolean {
+    return this.userService.isLoggedIn();
+  }
+
+  constructor(private userService: UserService,
+    private msalService: MsalService){}
+
+  ngAfterViewInit(): void {
+    
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  openDialog(): void {
-    this.dialogService.openBasicDialog(LoginDialogComponent);
+  login(): void {
+    this.msalService.loginPopup();
+  }
+
+  logout() {
+    this.msalService.logout();
+  }
+
+  toggleShowAccountMenu(): void {
+    if(this.showAccountMenu){
+      setTimeout(() =>{
+        this.showAccountMenu = false;
+      },200);
+    }
+    else{
+      this.showAccountMenu = true;
+      setTimeout(() =>{
+        this.accountMenu.nativeElement.focus();
+      },200);
+    }
   }
 }
