@@ -1,8 +1,29 @@
 @import "../../../mixin/general/mixin.scss";
+@import "../../../theme/styles/variables";
 
 .customerOptionsContainer{
     @include min-width-container();
     @include min-height-container();
     width: 100vw;
     height: calc(100vh - 80px);
+}
+
+.card{
+    word-wrap: break-word;
+    width: 320px;
+    height: 134px;
+    &-icon{
+        width: 67px;
+        height: 67px;
+        border-radius: 50%;
+    }
+    button{
+        font-size: 17px;
+        color: $blue-light;
+        border: none;
+        background-color: transparent;
+    }
+    p{
+        font-size: 14px !important;
+    }
 }

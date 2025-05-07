@@ -1,3 +1,51 @@
-<div class="customerOptionsContainer">
-
+<div class="customerOptionsContainer px-5 pt-4">
+    <h5>Tu cuenta</h5>
+    <div class="col-12">
+        <div class="col-12 col-md-4 d-flex flex-column align-items-start justify-content-center py-4">
+            <div class="card d-flex flex-nowrap flex-row justify-content-center align-items-start pt-3 col-10 mb-3">
+                <div class="col-3 d-flex flex-nowrap justify-content-center align-items-center">
+                    <img src="../../../../assets/icon/order-history.png" class="card-icon">
+                </div>
+                <div class="col-9 d-flex flex-nowrap flex-column justify-content-center align-items-start">
+                    <button class="h6 p-0" (click)="selectedCustomerOption=customerOptions.contactPreferences">Datos de Contacto</button>
+                    <p>Actualiza tus datos de contacto</p>
+                </div>
+            </div>
+            <div class="card d-flex flex-nowrap flex-row justify-content-center align-items-start pt-3 col-10 mb-3">
+                <div class="col-3 d-flex flex-nowrap justify-content-center align-items-center">
+                    <img src="../../../../assets/icon/address.png" class="card-icon">
+                </div>
+                <div class="col-9 d-flex flex-nowrap flex-column justify-content-center align-items-start">
+                    <button class="h6 p-0" (click)="selectedCustomerOption=customerOptions.addresses">Direcciones de Usuario</button>
+                    <p>Editar, eliminar o establecer una dirección predeterminada</p>
+                </div>
+            </div>
+            <div class="card d-flex flex-nowrap flex-row justify-content-center align-items-start pt-3 col-10 mb-3">
+                <div class="col-3 d-flex flex-nowrap justify-content-center align-items-center">
+                    <img src="../../../../assets/icon/order-history.png" class="card-icon">
+                </div>
+                <div class="col-9 d-flex flex-nowrap flex-column justify-content-center align-items-start">
+                    <button class="h6 p-0">Historial de Ordenes</button>
+                    <p>Revisa ordenes complatadas y abiertas</p>
+                </div>
+            </div>            
+            <div class="card d-flex flex-nowrap flex-row justify-content-center align-items-start pt-3 col-10">
+                <div class="col-3 d-flex flex-nowrap justify-content-center align-items-center">
+                    <img src="../../../../assets/icon/order-history.png" class="card-icon">
+                </div>
+                <div class="col-9 d-flex flex-nowrap flex-column justify-content-center align-items-start">
+                    <button class="h6 p-0">Cambio de Contraseña</button>
+                    <p>Actualiza tu contraseña</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div *ngIf="selectedCustomerOption==customerOptions.contactPreferences">
+                <app-customer-contact-preferences></app-customer-contact-preferences>
+            </div>
+            <div *ngIf="selectedCustomerOption==customerOptions.addresses">
+                <app-customer-addresses></app-customer-addresses>
+            </div>
+        </div>
+    </div>
 </div>
