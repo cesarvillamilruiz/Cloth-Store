@@ -6,6 +6,11 @@
     @include min-height-container();
     width: 100vw;
     height: calc(100vh - 80px);
+    overflow: hidden;
+    &__menu{
+        height: calc(100vh - 135px);
+        overflow-y: scroll;
+    }
 }
 
 .card{
@@ -25,5 +30,8 @@
     }
     p{
         font-size: 14px !important;
+    }
+    &-selected{
+        border-color: $blue-light;
     }
 }
