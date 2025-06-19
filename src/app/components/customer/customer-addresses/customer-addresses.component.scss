@@ -1,0 +1,373 @@
+@import "../../../theme/styles/variables";
+
+.content-header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid $border-light;
+}
+
+.content-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: $primary-dark;
+    margin-bottom: 8px;
+}
+
+.content-subtitle {
+    color: $text-light;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Form Styles */
+.form-section {
+    margin-bottom: 48px;
+}
+
+.section-header {
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-description {
+    color: $text-secondary;
+    font-size: 14px;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    gap: 24px;
+}
+
+.form-grid.two-column {
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-weight: 500;
+    color: $text-primary;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-label.required::after {
+    content: '*';
+    color: #e74c3c;
+    margin-left: 4px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    padding: 16px 20px;
+    border: 2px solid $border-light;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    background: $white;
+    color: $text-primary;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: $primary-gold;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+.form-input::placeholder {
+    color: $text-light;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Radio Button Groups */
+.radio-group {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+}
+
+.radio-item {
+    position: relative;
+    cursor: pointer;
+}
+
+.radio-item input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    border: 2px solid $border-light;
+    border-radius: 8px;
+    background: $white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 400;
+    color: $text-secondary;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid $border-light;
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.radio-custom::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $primary-gold;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.radio-item:hover .radio-label {
+    border-color: $primary-gold;
+    background: rgba(212, 175, 55, 0.02);
+}
+
+.radio-item input[type="radio"]:checked + .radio-label {
+    border-color: $primary-gold;
+    background: rgba(212, 175, 55, 0.08);
+    color: $text-primary;
+}
+
+.radio-item input[type="radio"]:checked + .radio-label .radio-custom {
+    border-color: $primary-gold;
+}
+
+.radio-item input[type="radio"]:checked + .radio-label .radio-custom::after {
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .form-grid.two-column,
+    .form-grid.three-column {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-title {
+        font-size: 28px;
+    }
+
+    .radio-group {
+        flex-direction: column;
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-section {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.form-section:nth-child(1) { animation-delay: 0.2s; }
+.form-section:nth-child(2) { animation-delay: 0.3s; }
+.form-section:nth-child(3) { animation-delay: 0.4s; }
+.form-section:nth-child(4) { animation-delay: 0.5s; }
+
+/* Save Button */
+.form-actions {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid $border-light;
+    text-align: right;
+}
+
+.save-btn {
+    background: $primary-dark;
+    color: $white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(26, 26, 26, 0.15);
+    min-width: 140px;
+}
+
+.save-btn:hover {
+    background: $secondary-dark;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(26, 26, 26, 0.2);
+}
+
+.save-btn:active {
+    transform: translateY(0);
+}
+
+.address-list {
+    margin-bottom: 32px;
+}
+
+.address-card {
+    background: $background-light;
+    border: 2px solid $border-light;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.address-card:hover {
+    border-color: $primary-gold;
+    box-shadow: 0 4px 12px $shadow-light;
+}
+
+.address-card {
+    animation: fadeInUp 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+.address-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.address-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: 4px;
+}
+
+.address-type {
+    background: $primary-gold;
+    color: $white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.address-details {
+    color: $text-secondary;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.address-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-edit,
+.btn-delete {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-edit {
+    background: $primary-gold;
+    color: $white;
+}
+
+.btn-edit:hover {
+    background: #B8941F;
+    transform: translateY(-1px);
+}
+
+.btn-delete {
+    background: $error-red;
+    color: $white;
+}
+
+.btn-delete:hover {
+    background: #DC2626;
+    transform: translateY(-1px);
+}
+
+.btn-add-address {
+    background: $primary-gold;
+    color: $white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-add-address:hover {
+    background: #B8941F;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.empty-address{
+    border-top: none;
+}

@@ -1,0 +1,201 @@
+@import "../../../theme/styles/variables";
+
+.form-section {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.form-section:nth-child(1) { animation-delay: 0.2s; }
+.form-section:nth-child(2) { animation-delay: 0.3s; }
+.form-section:nth-child(3) { animation-delay: 0.4s; }
+
+.content-header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid $border-light;
+}
+
+.content-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: $primary-dark;
+    margin-bottom: 8px;
+}
+
+.content-subtitle {
+    color: $text-light;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 48px;
+}
+
+.section-header {
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-description {
+    color: $text-secondary;
+    font-size: 14px;
+}
+
+/* Phone Input */
+.phone-input-wrapper {
+    position: relative;
+    max-width: 400px;
+}
+
+.phone-input {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid $border-light;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    background: $white;
+    color: $text-primary;
+    transition: all 0.3s ease;
+}
+
+.phone-input:focus {
+    outline: none;
+    border-color: $primary-gold;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+.phone-input::placeholder {
+    color: $text-light;
+}
+
+/* Checkbox Groups */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.checkbox-item {
+    position: relative;
+    cursor: pointer;
+}
+
+.checkbox-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border: 2px solid $border-light;
+    border-radius: 8px;
+    background: $white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 400;
+    color: $text-secondary;
+}
+
+.checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid $border-light;
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $white;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.checkbox-item:hover .checkbox-label {
+    border-color: $primary-gold;
+    background: rgba(212, 175, 55, 0.02);
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkbox-label {
+    border-color: $primary-gold;
+    background: rgba(212, 175, 55, 0.08);
+    color: $text-primary;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkbox-label .checkbox-custom {
+    background: $primary-gold;
+    border-color: $primary-gold;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkbox-label .checkbox-custom::after {
+    opacity: 1;
+}
+
+/* Save Button */
+.form-actions {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid $border-light;
+    text-align: right;
+}
+
+.save-btn {
+    background: $primary-dark;
+    color: $white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(26, 26, 26, 0.15);
+    min-width: 140px;
+}
+
+.save-btn:hover {
+    background: $secondary-dark;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(26, 26, 26, 0.2);
+}
+
+.save-btn:active {
+    transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

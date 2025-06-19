@@ -1,18 +1,13 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgOptimizedImage } from '@angular/common'
-import { RouterModule } from '@angular/router';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
-  imports: [CommonModule, NgOptimizedImage, RouterModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent {
   
   @ViewChild('accountMenu') accountMenu!: ElementRef<HTMLDivElement>;
   
@@ -27,16 +22,18 @@ export class HeaderComponent implements AfterViewInit {
   constructor(private userService: UserService,
     private msalService: MsalService){}
 
-  ngAfterViewInit(): void {
-    
-  }
-
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
   login(): void {
-    this.msalService.loginPopup();
+    this.msalService.loginPopup().subscribe({
+      next: () => {
+        this.processSignInSIgnUp();
+      },
+      error: () => {},
+      complete: () => {}
+    });
   }
 
   logout() {
@@ -54,6 +51,22 @@ export class HeaderComponent implements AfterViewInit {
       setTimeout(() =>{
         this.accountMenu.nativeElement.focus();
       },200);
+    }
+  }
+
+  private processSignInSIgnUp(): void {
+    if(this.userService.isLoggedIn()){
+      this.userService.logIn().subscribe({
+        next: (response: any) => {
+          console.log(response);
+        },
+        error: () => {
+          console.log('error');
+        },
+        complete: () => {
+          console.log('complete');
+        }
+      });
     }
   }
 }

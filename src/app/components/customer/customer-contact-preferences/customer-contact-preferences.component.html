@@ -1,1 +1,103 @@
-<p>customer-contact-preferences works!</p>
+<div class="content-header">
+    <h1 class="content-title">Preferencias de contacto</h1>
+    <p class="content-subtitle">Configura cómo y cuándo deseas que nos comuniquemos contigo</p>
+</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+    <div class="form-section">
+        <div class="section-header">
+            <h3 class="section-title">
+                <span>📱</span>
+                Número de contacto
+            </h3>
+            <p class="section-description">Tu número principal para comunicaciones importantes</p>
+        </div>
+        <div class="phone-input-wrapper">
+            <input type="tel" class="phone-input" placeholder="Número celular" id="phone" formControlName="phone" />
+        </div>
+    </div>
+    <div class="form-section">
+        <div class="section-header">
+            <h3 class="section-title">
+                <span>💬</span>
+                Comunicaciones generales
+            </h3>
+            <p class="section-description">Selecciona los medios por los que deseas recibir comunicaciones</p>
+        </div>
+        <div class="checkbox-grid">
+            <div class="checkbox-item">
+                <input type="checkbox" id="isCommunicationByCall" formControlName="isCommunicationByCall"/>
+                <label for="isCommunicationByCall" class="checkbox-label">
+                    <span class="checkbox-custom"></span>
+                    <span>Llamada telefónica</span>
+                </label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="isCommunicationBySms" formControlName="isCommunicationBySms"/>
+                <label for="isCommunicationBySms" class="checkbox-label">
+                    <span class="checkbox-custom"></span>
+                    <span>Mensaje SMS</span>
+                </label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="isCommunicationByWhatsapp" formControlName="isCommunicationByWhatsapp"/>
+                <label for="isCommunicationByWhatsapp" class="checkbox-label">
+                    <span class="checkbox-custom"></span>
+                    <span>WhatsApp</span>
+                </label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="isCommunicationByEmail" formControlName="isCommunicationByEmail"/>
+                <label for="isCommunicationByEmail" class="checkbox-label">
+                    <span class="checkbox-custom"></span>
+                    <span>Correo electrónico</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Preferences -->
+    <div class="form-section">
+        <div class="section-header">
+            <h3 class="section-title">
+                <span>🔔</span>
+                Notificaciones y promociones
+            </h3>
+            <p class="section-description">Elige cómo recibir nuestras ofertas especiales y actualizaciones</p>
+        </div>
+        <div class="checkbox-grid">
+            <div class="checkbox-item">
+                <input type="checkbox" id="isPromotionByCall" formControlName="isPromotionByCall"/>
+                <label for="isPromotionByCall" class="checkbox-label">
+                    <span class="checkbox-custom"></span>
+                    <span>Llamada telefónica</span>
+                </label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="isPromotionBySms" formControlName="isPromotionBySms"/>
+                <label for="isPromotionBySms" class="checkbox-label">
+                    <span class="checkbox-custom"></span>
+                    <span>Mensaje SMS</span>
+                </label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="isPromotionByWhatsapp" formControlName="isPromotionByWhatsapp"/>
+                <label for="isPromotionByWhatsapp" class="checkbox-label">
+                    <span class="checkbox-custom"></span>
+                    <span>WhatsApp</span>
+                </label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="isPromotionByEmail" formControlName="isPromotionByEmail"/>
+                <label for="isPromotionByEmail" class="checkbox-label">
+                    <span class="checkbox-custom"></span>
+                    <span>Correo electrónico</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="save-btn" id="saveBtn">
+            Guardar preferencias
+        </button>
+    </div>
+</form>

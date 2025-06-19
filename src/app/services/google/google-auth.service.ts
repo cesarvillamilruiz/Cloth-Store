@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class GoogleAuthService {
 
-  private url = 'https://localhost:44340';
+  private url = 'https://localhost:7217';
     
   constructor(private http: HttpClient) {}
 

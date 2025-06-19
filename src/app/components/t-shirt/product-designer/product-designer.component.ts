@@ -12,12 +12,8 @@ import {
   effect,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgOptimizedImage } from '@angular/common';
 import { ProductDataService } from 'src/app/data-service/product-data.service';
 import { ColorName } from 'src/app/enum/color.enum';
-import { OptionProductComponent } from '../option-product/option-product.component';
-import { OptionTextComponent } from '../option-text/option-text.component';
 import { OptionEdit, OptionWindow } from 'src/app/enum/option.enum';
 import { DesignElementComponent } from '../design-element/design-element.component';
 import { HiddenOptionValidation } from 'src/app/model/Utility/hidden-option-validation.model';
@@ -26,25 +22,11 @@ import { ScreenSize } from 'src/app/enum/screen-size.enum';
 import { Position } from 'src/app/enum/position.enum';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.validation';
-import { OptionDrawComponent } from '../option-draw/option-draw.component';
-import { OptionUploadComponent } from "../option-upload/option-upload.component";
 import { Product } from 'src/app/model/t-shirt/product.model';
 import { optionFontColor } from './../../../util/configuration/option-font-color.configuration.json';
-import { OptionClipartComponent } from '../option-clipart/option-clipart.component';
 
 @Component({
   selector: 'app-product-designer',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    OptionProductComponent,
-    OptionTextComponent,
-    DesignElementComponent,
-    OptionDrawComponent,
-    OptionUploadComponent,
-    OptionClipartComponent
-],
   templateUrl: './product-designer.component.html',
   styleUrls: ['./product-designer.component.scss'],
 })

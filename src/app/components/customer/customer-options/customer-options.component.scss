@@ -4,34 +4,94 @@
 .customerOptionsContainer{
     @include min-width-container();
     @include min-height-container();
+    max-width: 1400px;
     width: 100vw;
-    height: calc(100vh - 80px);
-    overflow: hidden;
-    &__menu{
-        height: calc(100vh - 135px);
-        overflow-y: scroll;
-    }
 }
 
-.card{
-    word-wrap: break-word;
-    width: 320px;
-    height: 134px;
-    &-icon{
-        width: 67px;
-        height: 67px;
-        border-radius: 50%;
-    }
-    button{
-        font-size: 17px;
-        color: $blue-light;
-        border: none;
-        background-color: transparent;
-    }
-    p{
-        font-size: 14px !important;
-    }
-    &-selected{
-        border-color: $blue-light;
-    }
+/* Sidebar */
+.sidebar {
+    background: $white;
+    border-radius: 12px;
+    padding: 32px;
+    height: fit-content;
+    box-shadow: 0 4px 24px $shadow-light;
+    border: 1px solid $border-light;
+    top: 120px;
+}
+
+.sidebar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: $primary-dark;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $border-light;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0px;
+}
+
+.menu-item {
+    margin-bottom: 8px;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: $text-secondary;
+    font-weight: 400;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, $primary-gold), transparent;
+    transition: width 0.3s ease;
+    opacity: 0.1;
+}
+
+.menu-link:hover,
+.menu-link.active {
+    background: rgba(212, 175, 55, 0.08);
+    color: $text-primary;
+    transform: translateX(4px);
+}
+
+.menu-link:hover::before,
+.menu-link.active::before {
+    width: 4px;
+}
+
+.menu-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+.content-area {
+    background: $white;
+    border-radius: 12px;
+    padding: 48px;
+    box-shadow: 0 4px 24px $shadow-light;
+    border: 1px solid $border-light;
+    animation: fadeInUp 0.6s ease-out;
 }

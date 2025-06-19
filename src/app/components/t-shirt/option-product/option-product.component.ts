@@ -1,9 +1,6 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, WritableSignal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgOptimizedImage } from '@angular/common'
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, WritableSignal } from '@angular/core';
 import { ProductDataService } from 'src/app/data-service/product-data.service';
 import { ColorName } from 'src/app/enum/color.enum';
-import { ButtonOneComponent } from '../../generic/button-one/button-one.component';
 import { Product } from 'src/app/model/t-shirt/product.model';
 import { Position } from 'src/app/enum/position.enum';
 import { TShirtSize } from 'src/app/enum/tshirt-size.enum';
@@ -12,8 +9,6 @@ import { DefaultTypeValue } from 'src/app/enum/type.enum';
 
 @Component({
   selector: 'app-option-product',
-  standalone: true,
-  imports: [CommonModule, NgOptimizedImage, ButtonOneComponent],
   templateUrl: './option-product.component.html',
   styleUrls: ['./option-product.component.scss']
 })

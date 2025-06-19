@@ -1,55 +1,45 @@
 <div class="customerOptionsContainer px-5 pt-4">
-    <h5>Tu cuenta</h5>
-    <div class="col-12 d-flex justify-content-center">
-        <div class="col-12 col-md-4 customerOptionsContainer__menu">
-            <div class="card d-flex flex-nowrap flex-row justify-content-center align-items-start col-10 my-3 pt-3"
-                [ngClass]="{'card-selected':selectedCustomerOption==customerOptions.contactPreferences}">
-                <div class="col-3 d-flex flex-nowrap justify-content-center align-items-center">
-                    <img src="../../../../assets/icon/order-history.png" class="card-icon">
+    <div class="col-12 d-flex flex-lg-row flex-column align-item-center justify-content-lg-center flex-wrap py-5">
+        <div class="col-12 col-lg-4 d-flex justify-content-center my-4 my-lg-0">
+            <aside class="sidebar col-10">
+                <h2 class="sidebar-title">Mi cuenta</h2>
+                <ul class="menu-list">
+                    <li class="menu-item" (click)="selectedCustomerOption=customerOptions.contactPreferences">
+                        <a class="menu-link" [ngClass]="{'active':selectedCustomerOption==customerOptions.contactPreferences}">
+                            <span class="menu-icon">👤</span>
+                            <span>Datos de Contacto</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" (click)="selectedCustomerOption=customerOptions.addresses">
+                        <a class="menu-link" [ngClass]="{'active':selectedCustomerOption==customerOptions.addresses}">
+                            <span class="menu-icon">📍</span>
+                            <span>Direcciones de Usuario</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link">
+                            <span class="menu-icon">📦</span>
+                            <span>Historial de Ordenes</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link">
+                            <span class="menu-icon">🔐</span>
+                            <span>Cambio de Contraseña</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>      
+        <div class="col-12 col-lg-8 d-flex justify-content-center">
+            <main class="content-area col-10">                
+                <div *ngIf="selectedCustomerOption==customerOptions.contactPreferences">
+                    <app-customer-contact-preferences></app-customer-contact-preferences>
                 </div>
-                <div class="col-9 d-flex flex-nowrap flex-column justify-content-center align-items-start">
-                    <button class="h6 p-0" (click)="selectedCustomerOption=customerOptions.contactPreferences">Datos de Contacto</button>
-                    <p>Actualiza tus datos de contacto</p>
+                <div *ngIf="selectedCustomerOption==customerOptions.addresses">
+                    <app-customer-addresses></app-customer-addresses>
                 </div>
-            </div>
-            <div class="card d-flex flex-nowrap flex-row justify-content-center align-items-start col-10 my-3 pt-3"
-                [ngClass]="{'card-selected':selectedCustomerOption==customerOptions.addresses}">
-                <div class="col-3 d-flex flex-nowrap justify-content-center align-items-center">
-                    <img src="../../../../assets/icon/address.png" class="card-icon">
-                </div>
-                <div class="col-9 d-flex flex-nowrap flex-column justify-content-center align-items-start">
-                    <button class="h6 p-0" (click)="selectedCustomerOption=customerOptions.addresses">Direcciones de Usuario</button>
-                    <p>Editar, eliminar o establecer una dirección predeterminada</p>
-                </div>
-            </div>
-            <div class="card d-flex flex-nowrap flex-row justify-content-center align-items-start col-10 my-3 pt-3"
-                [ngClass]="{'card-selected':selectedCustomerOption==customerOptions.orderHistory}">
-                <div class="col-3 d-flex flex-nowrap justify-content-center align-items-center">
-                    <img src="../../../../assets/icon/order-history.png" class="card-icon">
-                </div>
-                <div class="col-9 d-flex flex-nowrap flex-column justify-content-center align-items-start">
-                    <button class="h6 p-0" (click)="selectedCustomerOption=customerOptions.orderHistory">Historial de Ordenes</button>
-                    <p>Revisa ordenes complatadas y abiertas</p>
-                </div>
-            </div>            
-            <div class="card d-flex flex-nowrap flex-row justify-content-center align-items-start col-10 my-3 pt-3"
-                [ngClass]="{'card-selected':selectedCustomerOption==customerOptions.changePassword}">
-                <div class="col-3 d-flex flex-nowrap justify-content-center align-items-center">
-                    <img src="../../../../assets/icon/order-history.png" class="card-icon">
-                </div>
-                <div class="col-9 d-flex flex-nowrap flex-column justify-content-center align-items-start">
-                    <button class="h6 p-0" (click)="selectedCustomerOption=customerOptions.changePassword">Cambio de Contraseña</button>
-                    <p>Actualiza tu contraseña</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-8">
-            <div *ngIf="selectedCustomerOption==customerOptions.contactPreferences">
-                <app-customer-contact-preferences></app-customer-contact-preferences>
-            </div>
-            <div *ngIf="selectedCustomerOption==customerOptions.addresses">
-                <app-customer-addresses></app-customer-addresses>
-            </div>
-        </div>
+            </main>
+        </div>        
     </div>
 </div>

@@ -8,7 +8,6 @@ export const environment = {
       authorityDomain: 'clothestore.b2clogin.com',
       knownAuthorities: ['clothestore.b2clogin.com'],
       navigateToLoginRequestUrl: true,
-      apiUri: 'https://localhost:44340/weatherforecast',
       namesFlows: {
         signUpSignIn: 'B2C_1_sign_in_up'
       },
@@ -24,4 +23,15 @@ export const environment = {
           'https://clothestore.onmicrosoft.com/tasks-api/tasks.write'],
       }
     },
+
+    endPoints: {
+      url: 'https://localhost:7217',
+      scope: '',
+      controllers: {
+        weatherforecast: '/weatherforecast',
+        login: '/api/Login',
+        contactPreference: '/api/ContactPreference',
+        address: '/api/Address',
+      }
+    }
   };

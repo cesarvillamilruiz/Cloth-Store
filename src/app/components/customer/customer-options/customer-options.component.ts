@@ -1,26 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CustomerOption } from 'src/app/enum/customer-option.enum';
-import { CustomerContactPreferencesComponent } from '../customer-contact-preferences/customer-contact-preferences.component';
-import { CommonModule } from '@angular/common';
-import { CustomerAddressesComponent } from '../customer-addresses/customer-addresses.component';
 
 @Component({
   selector: 'app-customer-options',
-  standalone: true,
-  imports: [CommonModule, CustomerContactPreferencesComponent, CustomerAddressesComponent],
   templateUrl: './customer-options.component.html',
   styleUrl: './customer-options.component.scss'
 })
 export class CustomerOptionsComponent implements OnInit {
 
+  @ViewChild('box') box: ElementRef; 
+
   customerOptions = CustomerOption;
   selectedCustomerOption: CustomerOption;
+
+  get selectedOptionTitle(): string {
+    let selectedOptionTitle = '';
+
+    if(this.selectedCustomerOption === this.customerOptions.contactPreferences){
+      selectedOptionTitle = 'Preferencias de contacto';
+    }
+    
+    return selectedOptionTitle;
+  }
 
   ngOnInit(): void {
     this.selectedCustomerOption = this.customerOptions.contactPreferences;
   }
 
-  test():void{
-    alert('ppas')
+  isMenuActive: boolean;
+  switch(): void {
+    this.isMenuActive = !this.isMenuActive;
+
+    if(this.isMenuActive){
+      this.box.nativeElement.classList.add('active');
+    }
+    else{
+      this.box.nativeElement.classList.remove('active');
+    }
   }
 }

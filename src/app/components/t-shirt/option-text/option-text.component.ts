@@ -12,24 +12,10 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
-import { OptionFontComponent } from '../option-font/option-font.component';
-import { OptionColorComponent } from '../option-color/option-color.component';
-import { ButtonOneComponent } from '../../generic/button-one/button-one.component';
-import {MatSliderModule} from '@angular/material/slider';
-import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-option-text',
-  standalone: true,
-  imports: [CommonModule,
-    NgOptimizedImage,
-    OptionFontComponent,
-    ButtonOneComponent,
-    OptionColorComponent,
-    MatSliderModule,
-    FormsModule],
   templateUrl: './option-text.component.html',
   styleUrls: ['./option-text.component.scss'],
 })

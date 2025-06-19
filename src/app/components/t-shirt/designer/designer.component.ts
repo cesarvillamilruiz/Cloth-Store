@@ -6,12 +6,6 @@ import { OptionWindow } from 'src/app/enum/option.enum';
 
 @Component({
   selector: 'app-designer',
-  standalone: true,
-  imports: [
-    CommonModule,
-    OptionComponent,
-    ProductDesignerComponent,
-  ],
   templateUrl: './designer.component.html',
   styleUrls: ['./designer.component.scss'],
 })

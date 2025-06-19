@@ -1,1 +1,197 @@
-<p>customer-addresses works!</p>
+<div *ngIf="!showAddressForm">
+    <div class="content-header">
+        <h1 class="content-title">Direcciones de Usuario</h1>
+        <p class="content-subtitle">Gestiona tus direcciones de envío y facturación</p>
+    </div>
+    <!-- Existing Addresses -->
+    <div *ngFor="let address of addresses" class="address-list" id="addressList">
+        <!-- Sample address card -->
+        <div class="address-card">
+            <div class="address-header">
+                <div>
+                    <div class="address-name">{{address?.name}}</div>
+                    <div class="address-type">{{address?.type}}</div>
+                </div>
+            </div>
+            <div class="address-details">
+                {{address?.roadType}} 15 # 93-47, Apto 801<br>
+                {{address?.city}}, {{address?.department}}<br>
+                Colombia<br>
+                Tel: +57 {{address?.phone}}
+            </div>
+            <div class="address-actions">
+                <button class="btn-edit" (click)="editAddress(address)">
+                    ✏️ Editar
+                </button>
+                <button class="btn-delete" (click)="deleteAddress(address.addressId)">
+                    🗑️ Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions" [ngClass]="{'form-actions':addresses.length > 0}">
+        <button type="button" class="btn-add-address" (click)="createAddress()">
+            ➕ Agregar Nueva Dirección
+        </button>
+    </div>
+</div>
+<div *ngIf="showAddressForm">
+    <div class="content-header">
+        <h1 class="content-title">Agregar nueva dirección</h1>
+        <p class="content-subtitle">Completa la información de tu nueva dirección de envío o facturación</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Basic Information -->
+        <div class="form-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <span>ℹ️</span>
+                    Información básica
+                </h3>
+                <p class="section-description">Datos generales de la dirección</p>
+            </div>
+            <div class="form-grid two-column">
+                <div class="form-group">
+                    <label for="name" class="form-label required">Nombre de la dirección</label>
+                    <input type="text" id="name" formControlName="name" class="form-input" placeholder="Ej: Casa, Oficina, Apartamento" required />
+                </div>
+                <div class="form-group">
+                    <label for="phone" class="form-label required">Teléfono de contacto</label>
+                    <input type="tel" id="phone" formControlName="phone" class="form-input" placeholder="Número de teléfono" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label required">Tipo de dirección</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="billing" formControlName="type" [value]="addressType.billing" [attr.disabled]="true"/>
+                        <label for="billing" class="radio-label">
+                            <span class="radio-custom"></span>
+                            <span>🧾 Facturación</span>
+                        </label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="shipping" formControlName="type" [value]="addressType.shipping" [attr.disabled]="true"/>
+                        <label for="shipping" class="radio-label">
+                            <span class="radio-custom"></span>
+                            <span>📦 Envío</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Details -->
+        <div class="form-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <span>🏠</span>
+                    Detalles de la dirección
+                </h3>
+                <p class="section-description">Información específica de ubicación</p>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="roadType" class="form-label required">Tipo de vía</label>
+                    <select id="roadType" formControlName="roadType" class="form-select" required>
+                        <option value="">Selecciona el tipo de vía</option>
+                        <option value="Calle">Calle</option>
+                        <option value="Carrera">Carrera</option>
+                        <option value="Avenida">Avenida</option>
+                        <option value="Transversal">Transversal</option>
+                        <option value="Diagonal">Diagonal</option>
+                        <option value="Circular">Circular</option>
+                        <option value="Autopista">Autopista</option>
+                        <option value="Kilometro">Kilómetro</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-grid two-column">
+                <div class="form-group">
+                    <label for="lineOne" class="form-label required">Línea 1</label>
+                    <input type="text" id="lineOne" formControlName="lineOne" class="form-input" placeholder="Ej: 123" required />
+                </div>
+                <div class="form-group">
+                    <label for="particleOne" class="form-label">Partícula 1</label>
+                    <input type="text" id="particleOne" formControlName="particleOne" class="form-input" placeholder="Ej: A, B, Bis" />
+                </div>
+                <div class="form-group">
+                    <label for="lineTwo" class="form-label">Línea 2</label>
+                    <input type="text" id="lineTwo" formControlName="lineTwo" class="form-input" placeholder="Ej: 45" />
+                </div>
+                <div class="form-group">
+                    <label for="particleTwo" class="form-label">Partícula 2</label>
+                    <input type="text" id="particleTwo" formControlName="particleTwo" class="form-input" placeholder="Ej: A, B, Bis" />
+                </div>
+                <div class="form-group">
+                    <label for="lineThree" class="form-label">Línea 3</label>
+                    <input type="text" id="lineThree" formControlName="lineThree" class="form-input" placeholder="Ej: 67" />
+                </div>
+                <div class="form-group">
+                    <label for="particleThree" class="form-label">Partícula 3</label>
+                    <input type="text" id="particleThree" formControlName="particleThree" class="form-input" placeholder="Ej: A, B, Bis" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="complement" class="form-label">Complemento</label>
+                <textarea id="complement" formControlName="complement" class="form-textarea" placeholder="Información adicional: Apartamento, Oficina, Torre, Referencias, etc."></textarea>
+            </div>
+        </div>
+
+        <!-- Location Information -->
+        <div class="form-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <span>🌍</span>
+                    Información de ubicación
+                </h3>
+                <p class="section-description">Datos geográficos de la dirección</p>
+            </div>
+            <div class="form-grid two-column">
+                <div class="form-group">
+                    <label for="city" class="form-label required">Ciudad</label>
+                    <input type="text" id="city" formControlName="city" class="form-input" placeholder="Nombre de la ciudad" required />
+                </div>
+                <div class="form-group">
+                    <label for="department" class="form-label required">Departamento</label>
+                    <select id="department" formControlName="department" class="form-select" required>
+                        <option value="">Selecciona el departamento</option>
+                        <option value="Amazonas">Amazonas</option>
+                        <option value="Antioquia">Antioquia</option>
+                        <option value="Arauca">Arauca</option>
+                        <option value="Atlántico">Atlántico</option>
+                        <option value="Bolívar">Bolívar</option>
+                        <option value="Boyacá">Boyacá</option>
+                        <option value="Caldas">Caldas</option>
+                        <option value="Caquetá">Caquetá</option>
+                        <option value="Casanare">Casanare</option>
+                        <option value="Cauca">Cauca</option>
+                        <option value="Cesar">Cesar</option>
+                        <option value="Chocó">Chocó</option>
+                        <option value="Córdoba">Córdoba</option>
+                        <option value="Cundinamarca">Cundinamarca</option>
+                        <option value="Guainía">Guainía</option>
+                        <option value="Guaviare">Guaviare</option>
+                        <option value="Huila">Huila</option>
+                        <option value="La Guajira">La Guajira</option>
+                        <option value="Magdalena">Magdalena</option>
+                        <option value="Meta">Meta</option>
+                        <option value="Nariño">Nariño</option>
+                        <option value="Norte de Santander">Norte de Santander</option>
+                        <option value="Putumayo">Putumayo</option>
+                        <option value="Quindío">Quindío</option>
+                        <option value="Risaralda">Risaralda</option>
+                        <option value="San Andrés y Providencia">San Andrés y Providencia
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="save-btn" id="saveBtn" [disabled]="form.invalid">
+                Guardar Dirección
+            </button>
+        </div>
+    </form>
+</div>

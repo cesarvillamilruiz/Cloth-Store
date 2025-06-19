@@ -1,12 +1,9 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { DesignNode } from 'src/app/model/Utility/design-node.model';
 import { designNodeList } from '../../../util/configuration/option-clip-art.configuration.json';
 
 @Component({
   selector: 'app-option-clipart',
-  standalone: true,
-  imports: [NgOptimizedImage, CommonModule],
   templateUrl: './option-clipart.component.html',
   styleUrl: './option-clipart.component.scss'
 })

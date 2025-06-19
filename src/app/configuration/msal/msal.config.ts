@@ -1,6 +1,10 @@
 import { BrowserCacheLocation, LogLevel, PublicClientApplication, type Configuration } from '@azure/msal-browser';
 import { environment } from 'src/environments/environment';
 
+
+const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
+
+
 const b2cPolicies = {
     names: {
         signUpSignIn: environment.msalConfig.namesFlows.signUpSignIn
@@ -23,6 +27,7 @@ const msalConfig: Configuration = {
     },
     cache: {
         cacheLocation: BrowserCacheLocation.SessionStorage,
+        // storeAuthStateInCookie: isIE
     },
     system: {
         allowPlatformBroker: false, // Disables WAM Broker

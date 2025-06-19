@@ -13,7 +13,6 @@ import {
   effect,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DragStatus } from 'src/app/enum/drag-status.enum';
 import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.validation';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
@@ -23,8 +22,6 @@ import ArcText from 'arc-text';
 
 @Component({
   selector: 'app-design-element',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './design-element.component.html',
   styleUrls: ['./design-element.component.scss'],
 })

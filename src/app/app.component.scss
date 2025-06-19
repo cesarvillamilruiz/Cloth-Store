@@ -19,5 +19,8 @@
 }
 
 .contenContainer{
-  max-height: calc(100vh - 80px);
+  width: 100vw;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
 }

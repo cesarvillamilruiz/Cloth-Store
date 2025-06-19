@@ -1,12 +1,22 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private msalService: MsalService) { }
+  private http = inject(HttpClient);
+  url: string;
+  controller: string;
+
+  constructor(private msalService: MsalService) {
+    this.url = environment.endPoints.url;
+    this.controller = environment.endPoints.controllers.login;
+   }
 
   reviewAndUpdateLoggedUserintoStorage() {
     const activeAccount = this.msalService.instance.getActiveAccount();
@@ -33,5 +43,11 @@ export class UserService {
 
   isLoggedIn(): boolean {
     return this.msalService.instance.getAllAccounts().length > 0;
+  }
+
+  logIn(): Observable<any> {
+    return this.http.get<any>(
+      `${this.url}${this.controller}/Login`
+    );
   }
 }

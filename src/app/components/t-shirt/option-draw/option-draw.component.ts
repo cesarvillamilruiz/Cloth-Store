@@ -1,14 +1,8 @@
 import {  Component, EventEmitter, Output, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgOptimizedImage } from '@angular/common'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-option-draw',
-  standalone: true,
-  imports: [MatExpansionModule, CommonModule, NgOptimizedImage, FormsModule ],
   templateUrl: './option-draw.component.html',
   styleUrls: ['./option-draw.component.scss']
 })

@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './components/home/header/header.component';
+import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { UserService } from './services/user/user.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -29,11 +25,15 @@ export class AppComponent {
     this.msalService.initialize();
 
     this.msalService.handleRedirectObservable().subscribe({
-      next: (tokenResponse) => {
+      next: () => {        
         this.userService.reviewAndUpdateLoggedUserintoStorage();
       },
-      error: (error) => {console.log(error);},
-      complete: () => {console.log('Completed');}
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        console.log('Completed');
+      }
     });
-  }
+  }  
 }
