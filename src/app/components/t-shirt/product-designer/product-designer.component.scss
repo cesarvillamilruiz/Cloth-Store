@@ -33,7 +33,7 @@
     background-repeat: no-repeat;
     background-size: clamp(450px, 70%, 500px) auto;
     background-position: center;
-    // background-color: blue;
+    background-size: contain;    
   }
   &__rotate{
     position: absolute;
@@ -54,8 +54,8 @@
     }
   }
   &__workArea{
-    width: 200px;
-    height: 400px;
+    width: 160px;
+    height: 250px;
     background-color: rgb(144, 204, 168);   
     // overflow: hidden;
     position: relative;

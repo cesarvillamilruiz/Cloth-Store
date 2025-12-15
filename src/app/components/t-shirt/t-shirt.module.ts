@@ -11,12 +11,12 @@ import { OptionProductComponent } from './option-product/option-product.componen
 import { OptionTextComponent } from './option-text/option-text.component';
 import { OptionUploadComponent } from './option-upload/option-upload.component';
 import { ProductDesignerComponent } from './product-designer/product-designer.component';
-import { GenericModule } from '../generic/generic.module';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSliderModule } from '@angular/material/slider';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TShirtRoutingModule } from './t-shirt-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -36,7 +36,7 @@ import { TShirtRoutingModule } from './t-shirt-routing.module';
   ],
   imports: [
     CommonModule,
-    GenericModule,
+    SharedModule,
     FormsModule,
     NgOptimizedImage,
     MatExpansionModule,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactPreference } from 'src/app/model/contact-preference/contact-preference.model';
 import { ContactPreferencesService } from 'src/app/services/contact-preferences/contact-preferences.service';
+import { LoadingService } from 'src/app/services/shared/loading/loading.service';
 
 @Component({
   selector: 'app-customer-contact-preferences',
@@ -13,7 +14,9 @@ export class CustomerContactPreferencesComponent implements OnInit {
   form: FormGroup;
   contactPreference: ContactPreference = new ContactPreference();
 
-  constructor(private fb: FormBuilder, private contactPreferencesService: ContactPreferencesService) {}
+  constructor(private fb: FormBuilder,
+    private contactPreferencesService: ContactPreferencesService,
+    private loadingService: LoadingService) {}
 
   ngOnInit(): void {
     this.getContactPreference();
@@ -32,31 +35,35 @@ export class CustomerContactPreferencesComponent implements OnInit {
   }
 
   private insertContactPreference(contactPreference: ContactPreference): void{
+    this.loadingService.show();
     this.contactPreferencesService.insertContactPreference(contactPreference).subscribe({
       next: (contactPreference: any) => {
+        this.loadingService.hide();
         this.contactPreference = contactPreference;
         this.setForm();
       },
       error: () => {
-
+        this.loadingService.hide();
       },
       complete: () => {
-
+        this.loadingService.hide();
       }
     });
   }
 
   private updateContactPreference(contactPreference: ContactPreference): void{
+    this.loadingService.show();
     this.contactPreferencesService.updateContactPreference(contactPreference).subscribe({
       next: (contactPreference: any) => {
         this.contactPreference = contactPreference;
         this.setForm();
+        this.loadingService.hide();
       },
       error: () => {
-
+        this.loadingService.hide();
       },
       complete: () => {
-
+        this.loadingService.hide();
       }
     });
   }
@@ -77,17 +84,20 @@ export class CustomerContactPreferencesComponent implements OnInit {
   }
 
   private getContactPreference(): void {
+    this.loadingService.show();
     this.contactPreferencesService.getContactPreference().subscribe(
       {
         next: (contactPreference: any) => {
           this.contactPreference = contactPreference;
           this.setForm();
+          this.loadingService.hide();
         },
         error: (error) => {
           console.log(error);
+          this.loadingService.hide();
         },
         complete: () => {
-          console.log('getContactPreference complete');
+          this.loadingService.hide();
         }
       }
     );

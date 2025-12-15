@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddressType } from 'src/app/enum/address-type.enum';
 import { Address } from 'src/app/model/Address/Address.model';
 import { AddressService } from 'src/app/services/address/address.service';
+import { LoadingService } from 'src/app/services/shared/loading/loading.service';
 
 @Component({
   selector: 'app-customer-addresses',
@@ -17,7 +18,9 @@ export class CustomerAddressesComponent implements OnInit {
   addressType = AddressType;
   showAddressForm: boolean;
     
-  constructor(private fb: FormBuilder, private addressService: AddressService) {}
+  constructor(private fb: FormBuilder,
+    private addressService: AddressService,
+    private loadingService: LoadingService) {}
 
   ngOnInit(): void {
     this.getAddresses();
@@ -34,35 +37,39 @@ export class CustomerAddressesComponent implements OnInit {
   }
 
   insert(address: Address): void{
+    this.loadingService.show();
     this.addressService.insertAddress(address).subscribe({
       next: (addresses: Address[]) => {
         this.showAddressForm = false;
         this.selectedAddress = new Address();
 
         this.addresses = addresses;
+        this.loadingService.hide();
       },
       error: () => {
-
+        this.loadingService.hide();
       },
       complete: () => {
-
+        this.loadingService.hide();
       }
     });
   }
 
   update(address: Address): void{
+    this.loadingService.show();
     this.addressService.updateAddress(address).subscribe({
       next: (addresses: Address[]) => {
         this.showAddressForm = false;
         this.selectedAddress = new Address();
 
         this.addresses = addresses;
+        this.loadingService.hide();
       },
       error: () => {
-
+        this.loadingService.hide();
       },
       complete: () => {
-
+        this.loadingService.hide();
       }
     });
   }
@@ -81,17 +88,19 @@ export class CustomerAddressesComponent implements OnInit {
   }
 
   deleteAddress(addressId: string): void{
+    this.loadingService.show();
     this.addressService.deleteAddress(addressId).subscribe(
       {
         next: (addresses: Address[]) => {
           this.addresses = addresses;
-          console.log('Deleted address');
+          this.loadingService.hide();
         },
         error: (error) => {
           console.log(error);
+          this.loadingService.hide();
         },
         complete: () => {
-          console.log('getAddress complete');
+          this.loadingService.hide();
         }
       }
     );
@@ -120,16 +129,21 @@ export class CustomerAddressesComponent implements OnInit {
   }
 
   private getAddresses(): void {
+    this.loadingService.show();
+    
     this.addressService.getAddress().subscribe(
       {
         next: (address: Address[]) => {
           this.addresses = address;
+          this.loadingService.hide();
         },
         error: (error) => {
           console.log(error);
+          this.loadingService.hide();
         },
         complete: () => {
           console.log('getAddress complete');
+          this.loadingService.hide();
         }
       }
     );

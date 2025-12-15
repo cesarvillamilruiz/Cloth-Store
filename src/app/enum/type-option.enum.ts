@@ -1,4 +1,4 @@
-export enum TypeOption {
+export enum CustomizationType {
   text = 'text',
   image = 'image',
 }

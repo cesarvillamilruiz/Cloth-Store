@@ -5,6 +5,7 @@ import { HeaderComponent } from './header/header.component';
 import { LandingComponent } from './landing/landing.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -17,7 +18,8 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     HomeRoutingModule,
-    RouterModule
+    RouterModule,
+    SharedModule
   ],
   exports: [
     HeaderComponent

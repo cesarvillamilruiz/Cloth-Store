@@ -31,11 +31,11 @@ export class DesignElementComponent implements OnInit {
   @Input() zIndex: WritableSignal<number>;
   @Input() isHorizontalInverted: boolean;
   @Input() isVerticalInverted: boolean;
-  @Input() selectedFont: WritableSignal<string>;
-  @Input() selectedFontColor: WritableSignal<string>;
-  @Input() selectedOutlineFontColor: WritableSignal<string>;
+  @Input() fontFamily: WritableSignal<string>;
+  @Input() fontColorId: WritableSignal<string>;
+  @Input() outlineFontColorId: WritableSignal<string>;
   @Input() showText: boolean;
-  @Input() imagePath: string;
+  @Input() designId: string;
   @Input() width: WritableSignal<number>;
   @Input() height: WritableSignal<number>;
   @Input() imgHeight: Signal<string>;
@@ -53,7 +53,6 @@ export class DesignElementComponent implements OnInit {
   @ViewChild('mainElement') mainElement: ElementRef;
   @ViewChild('dragElement') dragElement: ElementRef;
   @ViewChild('textElement') textElement: ElementRef;
-  @ViewChild('textElement2') textElement2: ElementRef;
   
   imgWidth: Signal<string>;
   x: WritableSignal<number>;
@@ -79,6 +78,7 @@ export class DesignElementComponent implements OnInit {
   constructor() {
     effect(() => {
       if(this.textElement){
+        console.log('ooooooooooooooo')
         this.textElement.nativeElement.textContent = this.text();
         const arcText = new ArcText(this.textElement.nativeElement);
         

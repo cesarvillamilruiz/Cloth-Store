@@ -1,4 +1,4 @@
-export enum Position {
+export enum Location {
   front = 'front',
   back = 'back',
 }

@@ -21,6 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeRoutingModule } from './components/home/home-routing.module';
 import { TShirtRoutingModule } from './components/t-shirt/t-shirt-routing.module';
 import { HomeModule } from './components/home/home.module';
+import { SharedModule } from './components/shared/shared.module';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return msalInstance;
@@ -66,7 +67,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     TShirtRoutingModule,
     HomeModule,
     RouterOutlet,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [
     {

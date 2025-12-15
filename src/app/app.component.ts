@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { UserService } from './services/user/user.service';
+import { LoadingService } from './services/shared/loading/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ export class AppComponent {
 
   constructor(private route: Router,
     private msalService: MsalService,
-    private userService: UserService){
+    private userService: UserService,
+    public loadingService: LoadingService){
     this.msalManagement();
   }
 

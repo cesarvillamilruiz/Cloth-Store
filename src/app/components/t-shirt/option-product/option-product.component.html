@@ -1,4 +1,4 @@
-<div class="optionProductContainer">
+<div class="optionProductContainer p-3">
     <header class="mt-3">
         <h6 class="optionProductContainer__title">Productos</h6>
         <div class="d-flex justify-content-between flex-nowrap mt-4">
@@ -12,8 +12,8 @@
     <div class="optionProductContainer__card optionProductContainer__list px-2 py-1">
         <div class="d-flex flex-nowrap justify-content-between">
             <p>Productos</p>
-            <app-button-one label="{{'Agregar camiseta'}}" class="addProduct" [disabled]="true"
-                (click)="onAddProduct()"></app-button-one>
+            <app-button-one label="{{'Agregar camiseta'}}" class="addProduct"
+                (click)="onAddProduct.emit()"></app-button-one>
         </div>
         <div class="d-flex flex-wrap col-12 justify-content-start">
             <div *ngFor="let product of products(); let i = index"
@@ -28,7 +28,7 @@
                         [style.backgroundImage]="getBackGroundImageUrl(product)"></div>
                 </div>
                 <div class="productsColorChange" (click)="toggleShowColorTooltip()">
-                    <div [class]="product.color"></div>Cambiar
+                    <!-- <div [class]="product.color"></div>Cambiar -->
                 </div>
                 <div *ngIf="showColorTooltip && i === selectedIndexProduct()"
                     class="optionProductContainer__card colorTooltip px-2 py-1"
@@ -62,43 +62,43 @@
                 <div class="col-2 d-flex flex-column align-items-center">
                     <label>S</label>
                     <div class="col-10">
-                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.s)"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
+                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.s.amount"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
                     </div>
                 </div>
                 <div class="col-2 d-flex flex-column align-items-center">
                     <label>M</label>
                     <div class="col-10">
-                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.m)"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
+                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.m.amount"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
                     </div>
                 </div>
                 <div class="col-2 d-flex flex-column align-items-center">
                     <label>L</label>
                     <div class="col-10">
-                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.l)"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
+                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.l.amount"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
                     </div>
                 </div>
                 <div class="col-2 d-flex flex-column align-items-center">
                     <label>XL</label>
                     <div class="col-10">
-                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.xl)"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
+                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.xl.amount"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
                     </div>
                 </div>
                 <div class="col-2 d-flex flex-column align-items-center">
                     <label>XXL</label>
                     <div class="col-10">
-                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.xxl)"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
+                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.xxl.amount"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
                     </div>
                 </div>
                 <div class="col-2 d-flex flex-column align-items-center">
                     <label>XXXL</label>
                     <div class="col-10">
-                        <input type="text" class="form-control" (change)="onAddSize($event, tShirtSize.xxxl)"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2" [disabled]="products().length < 1">
+                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.xxxl.amount"
+                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
                     </div>
                 </div>
             </div>

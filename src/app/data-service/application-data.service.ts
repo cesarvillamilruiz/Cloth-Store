@@ -5,9 +5,16 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class ApplicationDataService {
 
-  eventIsHomePage$: EventEmitter<boolean> = new EventEmitter();
+  eventSaveCurrentDesign$: EventEmitter<void> = new EventEmitter();
+  eventDeleteCurrentDesign$: EventEmitter<void> = new EventEmitter();
+  
+  hasDesigns: boolean;
 
-  setTShirtColor(isHomePage: boolean): void {
-    this.eventIsHomePage$.emit(isHomePage);
+  saveCurrentDesign(): void {
+    this.eventSaveCurrentDesign$.emit();
+  }
+
+  deleteCurrentDesign(): void {
+    this.eventDeleteCurrentDesign$.emit();
   }
 }

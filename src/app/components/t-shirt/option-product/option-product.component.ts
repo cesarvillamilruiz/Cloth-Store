@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, WritableSignal } from '@angular/core';
 import { ProductDataService } from 'src/app/data-service/product-data.service';
 import { ColorName } from 'src/app/enum/color.enum';
-import { Product } from 'src/app/model/t-shirt/product.model';
-import { Position } from 'src/app/enum/position.enum';
+import { Item } from 'src/app/model/t-shirt/item.model';
 import { TShirtSize } from 'src/app/enum/tshirt-size.enum';
-import { ProdutSize } from 'src/app/model/t-shirt/product-size.model';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
+import { ApplicationDataService } from 'src/app/data-service/application-data.service';
 
 @Component({
   selector: 'app-option-product',
@@ -14,9 +13,11 @@ import { DefaultTypeValue } from 'src/app/enum/type.enum';
 })
 export class OptionProductComponent implements OnInit, OnDestroy {
 
-  @Input() products: WritableSignal<Product[]>;
+  @Input() products: WritableSignal<Item[]>;
   @Input() selectedIndexProduct: WritableSignal<number>;
+
   @Output() closeOptionProduct = new EventEmitter<void>();
+  @Output() onAddProduct = new EventEmitter<void>();
 
   showColorTooltip: boolean;
   hoverIndex: number;
@@ -26,11 +27,18 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   tShirtSize = TShirtSize;
   colorChange: boolean;
 
+  get currentProduct(): Item {
+    // console.log(this.products()[this.selectedIndexProduct()].size.s.amount)
+    // console.log(this.selectedIndexProduct())
+    return this.products()[this.selectedIndexProduct()];
+  }
+
   private unsubscribe: () => void;
 
   constructor(
     private productDataService: ProductDataService,
-    private renderer: Renderer2) {
+    private renderer: Renderer2,
+    private applicationDataService: ApplicationDataService) {
       this.unsubscribe = this.renderer.listen('document', 'click', (event) => {
         this.showColorTooltip = this.colorChange && !this.showColorTooltip;
         this.colorChange = false;
@@ -52,12 +60,11 @@ export class OptionProductComponent implements OnInit, OnDestroy {
     this.colorChange = false;
     this.selectedColor = this.color.white;
     this.previewColor = this.color.white;
-    if(!this.products().length) this.onAddProduct();
   }
 
   setTShirtColor(TShirtColor: ColorName): void {
     if(this.products()?.length > 0){
-      this.products()[this.selectedIndexProduct()].color = TShirtColor;
+      // this.products()[this.selectedIndexProduct()].color = TShirtColor;
       this.productDataService.setTShirtColor(TShirtColor);
       this.selectedColor = TShirtColor;
     }
@@ -79,28 +86,24 @@ export class OptionProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  onAddSize(event: Event, tShirtSize: TShirtSize): void {
-    const inputElement = event.target as HTMLInputElement;
-    if(this.products()[this.selectedIndexProduct()].produtSize.some(x => x.size === tShirtSize)){
-      (this.products()[this.selectedIndexProduct()].produtSize.find(x => x.size === tShirtSize) as any).amount = +inputElement.value;
-      return;
-    }
+  // onAddSize(event: Event, tShirtSize: TShirtSize): void {
+  //   const inputElement = event.target as HTMLInputElement;
+  //   if(this.products()[this.selectedIndexProduct()].size.some(x => x.size === tShirtSize)){
+  //     (this.products()[this.selectedIndexProduct()].size.find(x => x.size === tShirtSize) as any).amount = +inputElement.value;
+  //     return;
+  //   }
 
-    this.products()[this.selectedIndexProduct()].produtSize.push(new ProdutSize(tShirtSize, +inputElement.value));
-  }
+  //   this.products()[this.selectedIndexProduct()].size.push(new ProdutSize(tShirtSize, +inputElement.value));
+  // }
 
-  onAddProduct(): void{
-    this.products().push(new Product(ColorName.white, Position.front));
-    this.selectedIndexProduct.set(this.products().length - 1);
-  }
-
-  getBackGroundImageUrl(product: Product): string{
-    return `url(../../../../assets/img/${product.color}-${product.position}.png)`;
+  getBackGroundImageUrl(product: Item): string{
+    return ''
+    // return `url(../../../../assets/img/${product.color}-${product.location}.png)`;
   }
 
   onSelectProduct(index: number): void {
     this.selectedIndexProduct.set(index);
-    this.selectedColor = this.products()[this.selectedIndexProduct()].color;
+    // this.selectedColor = this.products()[this.selectedIndexProduct()].color;
     this.productDataService.setTShirtColor(this.selectedColor);
   }
 

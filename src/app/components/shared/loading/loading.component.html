@@ -1,0 +1,22 @@
+<div class="loading-overlay" [class.show]="isVisible" [class.fullscreen]="fullscreen">
+      <div class="loading-container">
+        <div class="loading-spinner" [ngClass]="'spinner-' + type">
+          <div class="spinner-ring" *ngIf="type === 'ring'"></div>
+          <div class="spinner-dots" *ngIf="type === 'dots'">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          <div class="spinner-pulse" *ngIf="type === 'pulse'"></div>
+          <div class="spinner-bars" *ngIf="type === 'bars'">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+        </div>
+        <div class="loading-text" *ngIf="message">
+          {{ message }}
+        </div>
+    </div>
+</div>

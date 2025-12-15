@@ -5,13 +5,14 @@
     @include min-width-container();
     @include min-height-container();
     background-color: $white-light-pink;
-    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
 }
 
 .headerContainer {
   z-index: 10;
-  width: 100%;
-  height: 80px;
+  width: 100vw;
+  min-height: 97px;
 }
 
 .header-shadow{

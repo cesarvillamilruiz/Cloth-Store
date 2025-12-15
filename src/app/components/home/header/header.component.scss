@@ -46,11 +46,12 @@
 
 .nav {
     display: flex;
-    gap: 48px;
+    column-gap: 48px;
     align-items: center;
 }
 
 .nav-item {
+    cursor:pointer;
     color: $text-secondary;
     text-decoration: none;
     font-weight: 400;

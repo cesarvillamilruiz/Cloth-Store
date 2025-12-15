@@ -25,7 +25,7 @@
     (mousedown)="setStatus($event, 2)"
     [id]="'mainElement__'+id"
     #mainElement>
-    <div *ngIf="showText; else showImage"
+    <!-- <div *ngIf="showText; else showImage"
         [ngClass]="{'verticalInverted':isVerticalInverted}"
         [ngClass]="{'horizontalInverted':isHorizontalInverted}"
         [style.fontSize]="imgHeight()"
@@ -42,6 +42,6 @@
             [style.width]="imgWidth()"
             [style.height]="imgHeight()"
             [src]="imagePath">
-    </ng-template>
+    </ng-template> -->
     <button *ngIf="isSelected()" class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight" (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true" (drag)="onDragRotate($event)"><i class="bi bi-arrow-counterclockwise"></i></button>
 </div>
