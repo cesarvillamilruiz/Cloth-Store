@@ -25,6 +25,16 @@
     (mousedown)="setStatus($event, 2)"
     [id]="'mainElement__'+id"
     #mainElement>
+    <div *ngIf="showText; else showImage"
+        [ngClass]="{'verticalInverted':isVerticalInverted}"
+        [ngClass]="{'horizontalInverted':isHorizontalInverted}"
+        [style.fontSize]="imgHeight()"
+        [style.fontFamily]="fontFamily().value"
+        [style.color]="fontColor().hexadecimal"
+        [style.-webkitTextStroke]="outlineFontStyle"
+        #textElement>
+        {{ text() }}
+    </div>
     <!-- <div *ngIf="showText; else showImage"
         [ngClass]="{'verticalInverted':isVerticalInverted}"
         [ngClass]="{'horizontalInverted':isHorizontalInverted}"
@@ -34,14 +44,14 @@
         [style.-webkitTextStroke]="'2px '+selectedOutlineFontColor()"
         #textElement>
         {{ text() }}
-    </div>
+    </div> -->
     <ng-template #showImage>
-        <img
+        <!-- <img
             [ngClass]="{'verticalInverted':isVerticalInverted}"
             [ngClass]="{'horizontalInverted':isHorizontalInverted}"
             [style.width]="imgWidth()"
             [style.height]="imgHeight()"
-            [src]="imagePath">
-    </ng-template> -->
+            [src]="imagePath"> -->
+    </ng-template>
     <button *ngIf="isSelected()" class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight" (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true" (drag)="onDragRotate($event)"><i class="bi bi-arrow-counterclockwise"></i></button>
 </div>

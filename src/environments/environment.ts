@@ -31,7 +31,8 @@ export const environment = {
         weatherforecast: '/weatherforecast',
         login: '/api/Login',
         contactPreference: '/api/ContactPreference',
-        address: '/api/Address'
+        address: '/api/Address',
+        option: '/api/Option',
       }
     }
   };

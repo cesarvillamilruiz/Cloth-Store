@@ -6,9 +6,9 @@ import { ColorName } from '../enum/color.enum';
 })
 export class ProductDataService {
 
-  eventTShirtColor$: EventEmitter<string> = new EventEmitter();
+  eventTShirtColorId$: EventEmitter<string> = new EventEmitter();
 
-  setTShirtColor(TShirtColor: ColorName): void {
-    this.eventTShirtColor$.emit(TShirtColor);
+  setTShirtColor(colorId: string): void {
+    this.eventTShirtColorId$.emit(colorId);
   }
 }

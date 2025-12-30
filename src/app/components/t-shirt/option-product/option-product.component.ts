@@ -1,35 +1,40 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, WritableSignal } from '@angular/core';
 import { ProductDataService } from 'src/app/data-service/product-data.service';
 import { ColorName } from 'src/app/enum/color.enum';
-import { Item } from 'src/app/model/t-shirt/item.model';
+import { CartItem } from 'src/app/model/t-shirt/cart-item.model';
 import { TShirtSize } from 'src/app/enum/tshirt-size.enum';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
-import { ApplicationDataService } from 'src/app/data-service/application-data.service';
+import { OptionSize } from 'src/app/model/option/option-size.model';
+import { OptionColor } from 'src/app/model/option/option-color.model';
+import { OptionProduct } from 'src/app/model/option/product.model';
+import { Location } from 'src/app/enum/location.enum';
+import { InventorySet } from 'src/app/model/t-shirt/Inventory-set.model';
+import { Configuration } from 'src/app/core/core-configuration';
 
 @Component({
   selector: 'app-option-product',
   templateUrl: './option-product.component.html',
-  styleUrls: ['./option-product.component.scss']
+  styleUrls: ['./option-product.component.scss'],
 })
 export class OptionProductComponent implements OnInit, OnDestroy {
-
-  @Input() products: WritableSignal<Item[]>;
+  @Input() products: WritableSignal<CartItem[]>;
   @Input() selectedIndexProduct: WritableSignal<number>;
+  @Input() optionSize: OptionSize[];
+  @Input() tShirtColor: OptionColor[];
+  @Input() optionProduct: OptionProduct[];
+  @Input() isFrontLocation: boolean;
 
   @Output() closeOptionProduct = new EventEmitter<void>();
   @Output() onAddProduct = new EventEmitter<void>();
 
   showColorTooltip: boolean;
   hoverIndex: number;
-  color = ColorName;
-  selectedColor: ColorName;
-  previewColor: ColorName;
+  selectedColorId: string;
+  previewColorId: string;
   tShirtSize = TShirtSize;
   colorChange: boolean;
 
-  get currentProduct(): Item {
-    // console.log(this.products()[this.selectedIndexProduct()].size.s.amount)
-    // console.log(this.selectedIndexProduct())
+  get currentProduct(): CartItem {
     return this.products()[this.selectedIndexProduct()];
   }
 
@@ -38,15 +43,15 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   constructor(
     private productDataService: ProductDataService,
     private renderer: Renderer2,
-    private applicationDataService: ApplicationDataService) {
+    private readonly configuration: Configuration) {
       this.unsubscribe = this.renderer.listen('document', 'click', (event) => {
         this.showColorTooltip = this.colorChange && !this.showColorTooltip;
         this.colorChange = false;
       });
-    }
+  }
 
   ngOnInit(): void {
-      this.setInitialValues();
+    this.setInitialValues();
   }
 
   ngOnDestroy(): void{
@@ -58,25 +63,29 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   setInitialValues(): void {
     this.showColorTooltip = false;
     this.colorChange = false;
-    this.selectedColor = this.color.white;
-    this.previewColor = this.color.white;
+    this.selectedColorId = this.tShirtColor.find(x => x.name.toLowerCase() === ColorName.white)?.optionColorId ?? '';  
   }
 
-  setTShirtColor(TShirtColor: ColorName): void {
+  confirmTShirtColor(colorId: string): void {
+    this.previewColorId = this.selectedColorId;
+    this.setTShirtColor(colorId);
+  }
+
+  setTShirtColor(colorId: string): void {
     if(this.products()?.length > 0){
-      // this.products()[this.selectedIndexProduct()].color = TShirtColor;
-      this.productDataService.setTShirtColor(TShirtColor);
-      this.selectedColor = TShirtColor;
+      this.currentProduct.productId = this.optionProduct.find(x => x.colorId === colorId)?.optionProductId ?? this.configuration.emptyGuid;
+      this.productDataService.setTShirtColor(colorId);
+      this.selectedColorId = colorId;
     }
   }
 
-  setPreviewColor(TShirtColor: ColorName): void {
-    this.previewColor = this.selectedColor;
-    this.setTShirtColor(TShirtColor);
+  setPreviewColor(colorId: string): void {
+    this.previewColorId = this.selectedColorId;
+    this.setTShirtColor(colorId);
   }
 
   setBackPreviewColor(): void {
-    this.setTShirtColor(this.previewColor);
+    this.setTShirtColor(this.previewColorId);
   }
 
   onValidateSizeAmount(event: KeyboardEvent): void {
@@ -86,25 +95,48 @@ export class OptionProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  // onAddSize(event: Event, tShirtSize: TShirtSize): void {
-  //   const inputElement = event.target as HTMLInputElement;
-  //   if(this.products()[this.selectedIndexProduct()].size.some(x => x.size === tShirtSize)){
-  //     (this.products()[this.selectedIndexProduct()].size.find(x => x.size === tShirtSize) as any).amount = +inputElement.value;
-  //     return;
-  //   }
+  onAddSize(event: Event, size: OptionSize): void {
+    const inputElement = event.target as HTMLInputElement;
 
-  //   this.products()[this.selectedIndexProduct()].size.push(new ProdutSize(tShirtSize, +inputElement.value));
-  // }
+    const inventorySet = new InventorySet();
+    inventorySet.sizeId = size.optionSizeId;
+    inventorySet.amount = +inputElement.value;
 
-  getBackGroundImageUrl(product: Item): string{
-    return ''
-    // return `url(../../../../assets/img/${product.color}-${product.location}.png)`;
+    const index = this.currentProduct.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
+
+    if(!index || index === -1){
+      this.currentProduct.inventorySet.push(inventorySet);
+    }
+    else{
+      this.currentProduct.inventorySet[index].amount = +inputElement.value;
+    }
+  }
+
+  getSizeAmount(size: OptionSize): number {
+    let amount = DefaultTypeValue.zeroNumber;
+    const index = this.currentProduct.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
+    if(index || index > DefaultTypeValue.zeroNumber){
+      amount = this.currentProduct.inventorySet[index].amount;
+    }
+
+    return amount;
+  }
+
+  getBackGroundImageUrl(product: CartItem): string{
+    const colorId = this.optionProduct.find(x => x.optionProductId === product.productId)?.colorId ?? this.configuration.emptyGuid;
+    return  `url(../../../../assets/img/${this.getColorName(colorId)}-${product.isFrontLocation ? Location.front : Location.back}.png)`;
+  }
+
+  getChangeOptionBackGroundClass(product: CartItem): string{
+    const colorId = this.optionProduct.find(x => x.optionProductId === product.productId)?.colorId ?? this.configuration.emptyGuid;
+    return `color ${this.getColorName(colorId)}`;
   }
 
   onSelectProduct(index: number): void {
     this.selectedIndexProduct.set(index);
-    // this.selectedColor = this.products()[this.selectedIndexProduct()].color;
-    this.productDataService.setTShirtColor(this.selectedColor);
+    this.selectedColorId = this.optionProduct.find(x => x.optionProductId === 
+      this.currentProduct.productId)?.colorId ?? this.configuration.emptyGuid;
+    this.productDataService.setTShirtColor(this.selectedColorId);
   }
 
   onRemoveProduct(index: number): void{
@@ -126,5 +158,13 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   onShowColorTooltip(): void{
     this.colorChange = !this.colorChange;;
     this.showColorTooltip= false;
+  }
+
+  getColorName(colorId: string): string {
+    return colorId ? `${this.tShirtColor.find(x => x.optionColorId === colorId)?.name.toLowerCase() ?? ''}` : '';
+  }
+
+  getColorClass(colorId: string): string {
+    return `color ${this.getColorName(colorId)}`;
   }
 }

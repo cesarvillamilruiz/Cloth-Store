@@ -1,8 +1,7 @@
 import { Component, OnInit, WritableSignal, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { OptionComponent } from '../option/option.component';
-import { ProductDesignerComponent } from '../product-designer/product-designer.component';
 import { OptionWindow } from 'src/app/enum/option.enum';
+import { OptionColor } from 'src/app/model/option/option-color.model';
+import { OptionSize } from 'src/app/model/option/option-size.model';
 
 @Component({
   selector: 'app-designer',
@@ -13,6 +12,8 @@ export class DesignerComponent implements OnInit{
 
   currentOption: WritableSignal<OptionWindow>;
   isNewElement: WritableSignal<boolean>;
+  optionSize: OptionSize[];
+  tShirtColor: OptionColor[];
 
   ngOnInit(): void {
     this.setInitialValue();

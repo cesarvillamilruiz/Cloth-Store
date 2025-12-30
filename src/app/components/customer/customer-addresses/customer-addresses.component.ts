@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddressType } from 'src/app/enum/address-type.enum';
-import { Address } from 'src/app/model/Address/Address.model';
+import { Address } from 'src/app/model/address/address.model';
 import { AddressService } from 'src/app/services/address/address.service';
 import { LoadingService } from 'src/app/services/shared/loading/loading.service';
 

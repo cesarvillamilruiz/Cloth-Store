@@ -57,8 +57,8 @@
     <div *ngIf="!showFontOption && !showFontColorOption && !showOutlineColorOption">
         <div class="d-flex flex-nowrap justify-content-between optionTextContainer__option" (click)="onSelectFontOption('showFontOption')">
             <div>Fuente</div>
-            <div [style.fontFamily]="selectedFont()" class="d-flex flex-nowrap justify-content-end align-items-center">
-                <div  [style.fontSize]="'1.3rem'">{{selectedFont()}}</div>                
+            <div class="d-flex flex-nowrap justify-content-end align-items-center">
+                <div  [style.fontSize]="'1.3rem'" [style.fontFamily]="selectedFont().value">{{selectedFont().description}}</div>                
                 <i class="bi bi-chevron-right"></i>
             </div>
         </div>
@@ -105,19 +105,27 @@
                     [step]="slideStep"
                     [discrete]="slideThumbLabel"
                     [showTickMarks]="slideShowTicks">
-                    <input matSliderThumb [(ngModel)]="selectedArc" #slider2>
+                    <input matSliderThumb [(ngModel)]="selectedArch" #slider2>
                 </mat-slider>
-                <div>{{selectedArc()}}</div>
+                <div>{{selectedArch()}}</div>
             </div>
         </div>
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showFontOption">
-        <app-option-font [selectedFont]="selectedFont"></app-option-font>
+        <app-option-font
+        [selectedFont]="selectedFont"
+        [optionFont]="optionFont"></app-option-font>
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showFontColorOption">
-        <app-option-color [selectedColor]="selectedFontColor" [selectedIndex]="selectedIndexFontColor" (hideOption)="onHideOption()"></app-option-color>
+        <app-option-color
+            [selectedColor]="selectedFontColor"
+            [optionColor]="fontColor"
+            (hideOption)="onHideOption()"></app-option-color>
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showOutlineColorOption">
-        <app-option-color [selectedColor]="selectedOutlineFontColor" [selectedIndex]="selectedIndexOutlineFontColor" (hideOption)="onHideOption()"></app-option-color>
+        <app-option-color
+            [selectedColor]="selectedOutlineFontColor"
+            [optionColor]="outLineFontColor"
+            (hideOption)="onHideOption()"></app-option-color>
     </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { DesignNode } from 'src/app/model/Utility/design-node.model';
+import { DesignNode } from 'src/app/model/utility/design-node.model';
 import { designNodeList } from '../../../util/configuration/option-clip-art.configuration.json';
 
 @Component({

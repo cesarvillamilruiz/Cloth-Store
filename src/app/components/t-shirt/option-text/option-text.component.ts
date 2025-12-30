@@ -13,6 +13,8 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
+import { OptionColor } from 'src/app/model/option/option-color.model';
+import { OptionFont } from 'src/app/model/option/option-font.model';
 
 @Component({
   selector: 'app-option-text',
@@ -21,13 +23,16 @@ import { DefaultTypeValue } from 'src/app/enum/type.enum';
 })
 export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   @Input() invputValue: WritableSignal<string>;
-  @Input() selectedFont: WritableSignal<string>;
-  @Input() selectedFontColor: WritableSignal<string>;
-  @Input() selectedOutlineFontColor: WritableSignal<string>;
+  @Input() selectedFont: WritableSignal<OptionFont>;
+  @Input() selectedFontColor: WritableSignal<OptionColor>;
+  @Input() selectedOutlineFontColor: WritableSignal<OptionColor>;
   @Input() selectedIndexOutlineFontColor: WritableSignal<number>;
   @Input() selectedIndexFontColor: WritableSignal<number>;
   @Input() selectedSize: WritableSignal<number>;
-  @Input() selectedArc: WritableSignal<number>;
+  @Input() selectedArch: WritableSignal<number>;
+  @Input() fontColor: OptionColor[];
+  @Input() outLineFontColor: OptionColor[];
+  @Input() optionFont: OptionFont[];
 
   @Output() closeOptionProduct = new EventEmitter<void>();
   @Output() textValue = new EventEmitter<string>();

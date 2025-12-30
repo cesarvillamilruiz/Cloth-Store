@@ -1,18 +1,20 @@
 import { Customization } from "./customization.model";
-import { InventorySet } from "./InventorySet.model";
+import { InventorySet } from "./Inventory-set.model";
 
-interface IItem {
+interface ICartItem {
     cartItemId: string;
     productId: string;
     name: string;
     inventorySet: InventorySet[];
     customization: Customization[];
+    isFrontLocation: boolean;
 }
 
-export class Item implements IItem {
+export class CartItem implements ICartItem {
     cartItemId: string;
     productId: string;
     name: string;
     inventorySet: InventorySet[];
     customization: Customization[];
+    isFrontLocation: boolean;
 }

@@ -1,8 +1,12 @@
 <div class="productDesingContainer">
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.product">
         <div class="productDesingContainer__optionMenu">
-            <app-option-product [products]="products"
+            <app-option-product
+                [products]="products"
                 [selectedIndexProduct]="selectedIndexProduct"
+                [optionSize]="optionSize"
+                [tShirtColor]="tShirtColor"
+                [optionProduct]="optionProduct"                
                 (closeOptionProduct)="onCloseOptionProduct()"
                 (onAddProduct)="onAddProduct()"></app-option-product>
         </div>
@@ -17,7 +21,10 @@
                 [selectedIndexFontColor]="selectedIndexFontColor"
                 [selectedIndexOutlineFontColor]="selectedIndexOutlineFontColor"
                 [selectedSize]="selectedSize"
-                [selectedArc]="selectedArc"
+                [selectedArch]="selectedArch"
+                [fontColor]="fontColor"
+                [outLineFontColor]="outLineFontColor"
+                [optionFont]="optionFont"
                 (duplicate)="onDuplicate()"
                 (moveForward)="moveForward()"
                 (moveBackward)="moveBackward()"

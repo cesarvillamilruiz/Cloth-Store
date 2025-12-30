@@ -10,3 +10,9 @@ export enum OptionWindow {
 export enum OptionEdit {
   layer = 'Layer'
 }
+
+export enum ElementComponent {
+  tShirt = 'TShirt',
+  fontColor = 'FontColor',
+  outlineFontColor = 'OutlineFontColor'
+}

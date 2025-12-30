@@ -1,9 +1,9 @@
 interface IInventorySet{
     sizeId: string; 
-    Amount: number;
+    amount: number;
 }
 
 export class InventorySet implements IInventorySet {
     sizeId: string; 
-    Amount: number;
+    amount: number;
 }

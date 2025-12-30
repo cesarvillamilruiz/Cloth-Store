@@ -17,6 +17,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TShirtRoutingModule } from './t-shirt-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -42,7 +44,9 @@ import { SharedModule } from '../shared/shared.module';
     MatExpansionModule,
     MatSliderModule,
     NgxDropzoneModule,
-    TShirtRoutingModule
+    TShirtRoutingModule,
+    MatMenuModule,
+    MatButtonModule
   ]
 })
 export class TShirtModule { }

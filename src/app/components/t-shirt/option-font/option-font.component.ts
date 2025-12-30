@@ -1,5 +1,5 @@
 import { Component, Input, WritableSignal } from '@angular/core';
-import { optionFont } from './../../../util/configuration/option-font.configuration.json';
+import { OptionFont } from 'src/app/model/option/option-font.model';
 
 @Component({
   selector: 'app-option-font',
@@ -7,11 +7,22 @@ import { optionFont } from './../../../util/configuration/option-font.configurat
   styleUrls: ['./option-font.component.scss']
 })
 export class OptionFontComponent {
-  @Input() selectedFont: WritableSignal<string>;
+  @Input() selectedFont: WritableSignal<OptionFont>;
+  @Input() optionFont: OptionFont[];
 
-  optionFont = optionFont;
+  previewFont: OptionFont;
 
-  onSelectFont(value: string): void{
-    this.selectedFont.set(value);
+  onSelectFont(optionFont: OptionFont): void{
+    this.previewFont = this.selectedFont();
+    this.selectedFont.set(optionFont);
+  }
+
+  setPreviewFont(optionFont: OptionFont): void {
+    this.previewFont = this.selectedFont();
+    this.selectedFont.set(optionFont);
+  }
+
+  setBackPreviewFont(): void {
+    this.selectedFont.set(this.previewFont);
   }
 }

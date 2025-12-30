@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center col-12 flex-wrap">
     <button *ngFor="let font of optionFont" class="d-flex justify-content-center align-items-center optionFont"
-        [style.fontFamily]="font.value" (click)="onSelectFont(font.value)">
+        [style.fontFamily]="font.value" (click)="onSelectFont(font)" (mouseenter)="setPreviewFont(font)" (mouseleave)="setBackPreviewFont()">
         {{font.name}}
     </button>
 </div>

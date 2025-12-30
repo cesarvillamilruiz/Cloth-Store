@@ -2,9 +2,6 @@
 @import "../../../theme/styles/variables";
 
 .colorTooltip{
-  position: absolute;
-  bottom: 5px;
-  left: 75px;
   z-index: 9999990;
   width: 230px;
   &__arrow{
@@ -34,6 +31,7 @@
     border: 1px solid #e3e7eb;
     border-radius: 8px;
     background-color: #f5f8f8;
+    overflow-x: hidden;
   }
   &__colorSelector {    
     display: flex;
@@ -43,7 +41,7 @@
     font-size: 12px !important;
   }
   &__list{
-    max-height: 360px;
+    max-height: 360px !important;
     overflow-y: auto;
   }
 }
@@ -173,4 +171,16 @@
 
 .blue-light{
   color: $blue-light;
+}
+
+.black {
+  background-color: #000000;
+}
+
+.orange {
+  background-color: #F56701;
+}
+
+.brown {
+  background-color: #643B21;
 }

@@ -18,6 +18,8 @@ import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.v
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { OptionWindow } from 'src/app/enum/option.enum';
 import ArcText from 'arc-text';
+import { OptionColor } from 'src/app/model/option/option-color.model';
+import { OptionFont } from 'src/app/model/option/option-font.model';
 
 
 @Component({
@@ -31,17 +33,16 @@ export class DesignElementComponent implements OnInit {
   @Input() zIndex: WritableSignal<number>;
   @Input() isHorizontalInverted: boolean;
   @Input() isVerticalInverted: boolean;
-  @Input() fontFamily: WritableSignal<string>;
-  @Input() fontColorId: WritableSignal<string>;
-  @Input() outlineFontColorId: WritableSignal<string>;
+  @Input() fontFamily: WritableSignal<OptionFont>;
   @Input() showText: boolean;
   @Input() designId: string;
-  @Input() width: WritableSignal<number>;
-  @Input() height: WritableSignal<number>;
+  @Input() width: WritableSignal<number> = signal(0);
+  @Input() height: WritableSignal<number> = signal(0);
   @Input() imgHeight: Signal<string>;
-  @Input() selectedArc: WritableSignal<number>;
   @Input() arch: WritableSignal<number>;
   @Input() isSelected: WritableSignal<boolean>;
+  @Input() fontColor: WritableSignal<OptionColor>;
+  @Input() outlineFontColor: WritableSignal<OptionColor>;
   
   @Output() currentElement = new EventEmitter<void>();
   @Output() onDeleteElement = new EventEmitter<number>();
@@ -65,6 +66,10 @@ export class DesignElementComponent implements OnInit {
   optionType: OptionWindow;
   showLayerOptions: boolean;
 
+  get outlineFontStyle(): string {
+    return `${this.height()/50}px ${this.outlineFontColor().hexadecimal}`
+  }
+
   getMainWidth(): number | any{
     const mainElementWidth = document.getElementById(`mainElement__${this.id}`)?.offsetWidth;
     return mainElementWidth ? mainElementWidth : 0;
@@ -78,7 +83,6 @@ export class DesignElementComponent implements OnInit {
   constructor() {
     effect(() => {
       if(this.textElement){
-        console.log('ooooooooooooooo')
         this.textElement.nativeElement.textContent = this.text();
         const arcText = new ArcText(this.textElement.nativeElement);
         
@@ -87,6 +91,7 @@ export class DesignElementComponent implements OnInit {
   
         arcText.forceWidth(true);
         arcText.forceHeight(true);
+
       }
     }, { allowSignalWrites: true });
   }
@@ -100,8 +105,6 @@ export class DesignElementComponent implements OnInit {
     this.y = signal(+DefaultTypeValue.zeroNumber);
     this.px = signal(+DefaultTypeValue.zeroNumber);
     this.py = signal(+DefaultTypeValue.zeroNumber);
-    this.width = signal(this.width ? this.width() : 50);
-    this.height = signal(this.height ? this.height() : 90);
     this.imgWidth = computed(() => { return `${isGreaterThan(+DefaultTypeValue.zeroNumber, this.width()) ? +DefaultTypeValue.zeroNumber : this.width()}px`; });
     this.imgHeight = computed(() => { return `${isGreaterThan(+DefaultTypeValue.zeroNumber, this.height()) ? +DefaultTypeValue.zeroNumber : this.height()}px`; });
     this.isDraggingCorner = signal(false);

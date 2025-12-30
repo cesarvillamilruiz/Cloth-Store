@@ -27,30 +27,23 @@
                     <div Class="element col-12 mr-4"
                         [style.backgroundImage]="getBackGroundImageUrl(product)"></div>
                 </div>
-                <div class="productsColorChange" (click)="toggleShowColorTooltip()">
-                    <!-- <div [class]="product.color"></div>Cambiar -->
-                </div>
-                <div *ngIf="showColorTooltip && i === selectedIndexProduct()"
-                    class="optionProductContainer__card colorTooltip px-2 py-1"
-                    (click)="onShowColorTooltip()">
-                    <div class="d-flex flex-nowrap justify-content-between">
-                        <p  class="blue-light">Cambia el color</p>
-                        <button type="button" class="btn-close mr-3 optionProductContainer__closeButton"
-                        (click)="toggleShowColorTooltip()" aria-label="Close"></button>
+                <button matButton [matMenuTriggerFor]="menu" class="productsColorChange">
+                    <div [class]="getChangeOptionBackGroundClass(product)"></div>Cambiar
+                </button>
+                <mat-menu #menu="matMenu" [hidden]="!showColorTooltip">
+                    <div class="py-1 px-2">
+                        <div class="d-flex flex-nowrap justify-content-between">
+                            <p  class="blue-light">Cambia el color</p>
+                            <button type="button" class="btn-close mr-3 optionProductContainer__closeButton"
+                            (click)="toggleShowColorTooltip()" aria-label="Close"></button>
+                        </div>
+                        <div class="optionProductContainer__colorSelector">
+                            <button *ngFor="let color of tShirtColor" [class]="getColorClass(color.optionColorId)+' mx-1'"
+                                (mouseenter)="setPreviewColor(color.optionColorId)" (mouseleave)="setBackPreviewColor()"
+                                (click)="confirmTShirtColor(color.optionColorId)"></button>                        
+                        </div>
                     </div>
-
-                    <div class="optionProductContainer__colorSelector">
-                        <button class="color white" (mouseenter)="setPreviewColor(color.white)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.white)"></button>
-                        <button class="color red" (mouseenter)="setPreviewColor(color.red)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.red)"></button>
-                        <button class="color yellow" (mouseenter)="setPreviewColor(color.yellow)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.yellow)"></button>
-                        <button class="color green" (mouseenter)="setPreviewColor(color.green)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.green)"></button>
-                        <button class="color blue" (mouseenter)="setPreviewColor(color.blue)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.blue)"></button>
-                        <button class="color purple" (mouseenter)="setPreviewColor(color.purple)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.purple)"></button>
-                        <button class="color pink" (mouseenter)="setPreviewColor(color.pink)" (mouseleave)="setBackPreviewColor()" (click)="setTShirtColor(color.pink)"></button>
-                    </div>
-                </div>
-                <div *ngIf="showColorTooltip && i === selectedIndexProduct()" class="colorTooltip__arrow">
-                </div>
+                </mat-menu>
             </div>
         </div>
     </div>
@@ -58,49 +51,16 @@
         <hr>
         <div class="optionProductContainer__card px-2 py-1">
             <p>Selecciona tu talla</p>
-            <div class="col-12 d-flex justify-content-between flex-nowrap">
-                <div class="col-2 d-flex flex-column align-items-center">
-                    <label>S</label>
+            <div class="col-12 d-flex flex-wrap justify-content-between">
+                <div class="col-2 d-flex flex-column align-items-center" *ngFor="let size of optionSize">
+                    <label>{{size.name}}</label>
                     <div class="col-10">
+                        <input type="text" class="form-control"
+                            (keypress)="onValidateSizeAmount($event)" (blur)="onAddSize($event, size)" maxlength="2" [value]="getSizeAmount(size)">
                         <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.s.amount"
                             (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
                     </div>
-                </div>
-                <div class="col-2 d-flex flex-column align-items-center">
-                    <label>M</label>
-                    <div class="col-10">
-                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.m.amount"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
-                    </div>
-                </div>
-                <div class="col-2 d-flex flex-column align-items-center">
-                    <label>L</label>
-                    <div class="col-10">
-                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.l.amount"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
-                    </div>
-                </div>
-                <div class="col-2 d-flex flex-column align-items-center">
-                    <label>XL</label>
-                    <div class="col-10">
-                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.xl.amount"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
-                    </div>
-                </div>
-                <div class="col-2 d-flex flex-column align-items-center">
-                    <label>XXL</label>
-                    <div class="col-10">
-                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.xxl.amount"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
-                    </div>
-                </div>
-                <div class="col-2 d-flex flex-column align-items-center">
-                    <label>XXXL</label>
-                    <div class="col-10">
-                        <!-- <input type="text" class="form-control" [(ngModel)]="currentProduct.size.xxxl.amount"
-                            (keypress)="onValidateSizeAmount($event)" maxlength="2"> -->
-                    </div>
-                </div>
+                </div>                
             </div>
         </div>
     </div>

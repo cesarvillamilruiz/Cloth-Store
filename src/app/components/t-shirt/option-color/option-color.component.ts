@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, WritableSignal } from '@angular/core';
-import { optionFontColor } from './../../../util/configuration/option-font-color.configuration.json';
+import { OptionColor } from 'src/app/model/option/option-color.model';
 
 @Component({
   selector: 'app-option-color',
@@ -7,35 +7,32 @@ import { optionFontColor } from './../../../util/configuration/option-font-color
   styleUrls: ['./option-color.component.scss']
 })
 export class OptionColorComponent implements OnInit {
-  @Input() selectedColor: WritableSignal<string>;
-  @Input() selectedIndex: WritableSignal<number>;
+  @Input() selectedColor: WritableSignal<OptionColor>;
+  @Input() optionColor: OptionColor[];
 
   @Output() hideOption = new EventEmitter<void>();  
 
-  optionFontColor = optionFontColor;
-  preSelectedColor: string;
-  preSelectedIndex: number;
+  preSelectedColor: OptionColor;
 
   ngOnInit(): void{
-    this.preSelectedIndex = this.selectedIndex();
+    this.preSelectedColor = this.selectedColor();
   }
 
-  onSelectFontColor(selectedColor: string, index: number): void {    
-    this.selectedIndex.set(index);
+  onSelectFontColor(selectedColor: OptionColor): void {
     this.selectedColor.set(selectedColor);
+    this.preSelectedColor = this.selectedColor();
   }
     
   onHideOption(): void{
       this.hideOption.emit();
   }
 
-  setPreviewColor(selectedColor: string, index: number): void {
-    this.preSelectedIndex = index;
-    this.preSelectedColor = selectedColor; 
+  setPreviewColor(selectedColor: OptionColor): void {
+    this.preSelectedColor = this.selectedColor();
+    this.selectedColor.set(selectedColor);
   }
 
   setBackPreviewColor(): void {
-    this.preSelectedIndex = this.selectedIndex();
-    this.preSelectedColor = this.selectedColor();
+    this.selectedColor.set(this.preSelectedColor);
   }
 }

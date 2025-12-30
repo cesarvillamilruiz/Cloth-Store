@@ -22,6 +22,7 @@ import { HomeRoutingModule } from './components/home/home-routing.module';
 import { TShirtRoutingModule } from './components/t-shirt/t-shirt-routing.module';
 import { HomeModule } from './components/home/home.module';
 import { SharedModule } from './components/shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return msalInstance;
@@ -68,7 +69,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     HomeModule,
     RouterOutlet,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {

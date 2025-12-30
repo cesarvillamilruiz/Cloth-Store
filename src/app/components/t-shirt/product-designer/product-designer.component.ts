@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ComponentRef,
   ElementRef,
@@ -14,34 +13,46 @@ import {
 } from '@angular/core';
 import { ProductDataService } from 'src/app/data-service/product-data.service';
 import { ColorName } from 'src/app/enum/color.enum';
-import { OptionEdit, OptionWindow } from 'src/app/enum/option.enum';
+import { ElementComponent, OptionEdit, OptionWindow } from 'src/app/enum/option.enum';
 import { DesignElementComponent } from '../design-element/design-element.component';
-import { HiddenOptionValidation } from 'src/app/model/Utility/hidden-option-validation.model';
+import { HiddenOptionValidation } from 'src/app/model/utility/hidden-option-validation.model';
 import { isHiddenOption } from 'src/app/validation/design/design.validationb';
 import { ScreenSize } from 'src/app/enum/screen-size.enum';
 import { Location } from 'src/app/enum/location.enum';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.validation';
-import { Item } from 'src/app/model/t-shirt/item.model';
-import { optionFontColor } from './../../../util/configuration/option-font-color.configuration.json';
+import { CartItem } from 'src/app/model/t-shirt/cart-item.model';
 import { ApplicationDataService } from 'src/app/data-service/application-data.service';
 import { Customization } from 'src/app/model/t-shirt/customization.model';
 import { ImageToBase64Service } from 'src/app/services/shared/image/image-to-base-64.service';
+import { OptionSize } from 'src/app/model/option/option-size.model';
+import { OptionColor } from 'src/app/model/option/option-color.model';
+import { forkJoin } from 'rxjs';
+import { OptionService } from 'src/app/services/option/option.service';
+import { LoadingService } from 'src/app/services/shared/loading/loading.service';
+import { OptionProduct } from 'src/app/model/option/product.model';
+import { Configuration } from 'src/app/core/core-configuration';
+import { InventorySet } from 'src/app/model/t-shirt/Inventory-set.model';
+import { OptionFont } from 'src/app/model/option/option-font.model';
 
 @Component({
   selector: 'app-product-designer',
   templateUrl: './product-designer.component.html',
   styleUrls: ['./product-designer.component.scss'],
 })
-export class ProductDesignerComponent
-  implements OnInit, AfterViewInit
-{
+export class ProductDesignerComponent implements OnInit {
   @Input() currentOption: WritableSignal<OptionWindow>;
   @Input() isNewElement: WritableSignal<boolean>;
   
   public dynamicComponentsArray: ComponentRef<DesignElementComponent>[] = [];
   
-  tShirtColor: WritableSignal<ColorName>;
+  optionProduct: OptionProduct[];
+  tShirtColor: OptionColor[];
+  fontColor: OptionColor[];
+  outLineFontColor: OptionColor[];
+  optionSize: OptionSize[];
+  optionFont: OptionFont[];
+  tShirtColorSelected: string;
   option = OptionWindow;
   currenElementIndex: WritableSignal<number>;
   inputValue: WritableSignal<string>;
@@ -49,18 +60,16 @@ export class ProductDesignerComponent
   currentEditOption: string;
   optionEditEnum = OptionEdit;
   defaultTypeValueEnum = DefaultTypeValue;
-  selectedFont: WritableSignal<string>;
-  selectedFontColor: WritableSignal<string>;
-  selectedOutlineFontColor: WritableSignal<string>;
+  selectedFont: WritableSignal<OptionFont>;
+  selectedFontColor: WritableSignal<OptionColor>;
+  selectedOutlineFontColor: WritableSignal<OptionColor>;
   uploadedImageUrl: string | ArrayBuffer | null = null;
-  products: WritableSignal<Item[]>;
+  products: WritableSignal<CartItem[]>;
   selectedIndexProduct: WritableSignal<number>;
   selectedIndexFontColor: WritableSignal<number>;
   selectedIndexOutlineFontColor: WritableSignal<number>;
-  optionFontColor = optionFontColor;
   selectedSize: WritableSignal<number>;
-  selectedArc: WritableSignal<number>;
-  isFrontLocation: boolean;
+  selectedArch: WritableSignal<number>;
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('workArea') workArea: ElementRef;
@@ -68,24 +77,22 @@ export class ProductDesignerComponent
 
   constructor(private productDataService: ProductDataService,
     private applicationDataService: ApplicationDataService,
-    private imageToBase64Service: ImageToBase64Service) {
+    private imageToBase64Service: ImageToBase64Service,
+    private readonly optionService: OptionService,
+    private readonly loadingService: LoadingService,
+    private readonly configuration: Configuration) {
     effect(() => {
       //TODO Remove
-      console.log(this.selectedArc());
       if(this.dynamicComponentsArray[this.currenElementIndex()]){
-        this.dynamicComponentsArray[this.currenElementIndex()].instance.height.set(this.selectedSize());
-        this.dynamicComponentsArray[this.currenElementIndex()].instance.arch.set(this.selectedArc());
+        // this.dynamicComponentsArray[this.currenElementIndex()].instance.height.set(this.selectedSize());
+        // this.dynamicComponentsArray[this.currenElementIndex()].instance.arch.set(this.selectedArc());
       }
     }, {allowSignalWrites: true});
   }
 
   ngOnInit(): void {
     this.subscribeToEvents();    
-  }
-
-  ngAfterViewInit(): void {
-    this.setInitialValue();
-    this.validateExistingProduct();
+    this.setOptions();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -103,29 +110,30 @@ export class ProductDesignerComponent
   }
 
   private setInitialValue(): void {
-    this.tShirtColor = signal(ColorName.white);
-    this.products = signal<Item[]>([]);
+    this.selectedIndexProduct = signal(+DefaultTypeValue.zeroNumber);
+    const initialColor = this.tShirtColor.find(x => x.name.toLowerCase() === ColorName.white);
+    this.tShirtColorSelected = initialColor?.name ?? '';
+    this.products = signal<CartItem[]>([]);
+    this.onAddProduct();    
     this.setTShirtSource();
     this.setIsHiddenOptionProduct();
     this.currenElementIndex = signal(+DefaultTypeValue.zeroNumber);
     this.inputValue = signal(DefaultTypeValue.emptyString.toString());
     this.isCloseOptionAllowed = signal(true);
-    this.selectedFont = signal(DefaultTypeValue.emptyString.toString());
-    this.selectedFontColor = signal(optionFontColor[DefaultTypeValue.zeroNumber].value);
-    this.selectedOutlineFontColor = signal(DefaultTypeValue.emptyString.toString());
-    this.selectedIndexProduct = signal(+DefaultTypeValue.zeroNumber);
+    this.selectedFont = signal(this.optionFont[0]);
+    this.selectedFontColor = signal(this.fontColor[0]);
+    this.selectedOutlineFontColor = signal(this.outLineFontColor[0]);
     this.selectedIndexFontColor = signal(+DefaultTypeValue.zeroNumber);
     this.selectedIndexOutlineFontColor = signal(+DefaultTypeValue.zeroNumber);
     this.selectedSize = signal(50);
-    this.selectedArc = signal(+DefaultTypeValue.zeroNumber);
+    this.selectedArch = signal(+DefaultTypeValue.zeroNumber);
   }
 
   private setTShirtSource(): void {
-    this.isFrontLocation = true;
-    if(this.products().length){
+    if(this.products().length && this.products()[this.selectedIndexProduct()]?.customization?.length){
       this.products()[this.selectedIndexProduct()].customization[this.currenElementIndex()].isFrontLocation = true;
     }
-    this.canvas.nativeElement.style.backgroundImage = `url(../../../../assets/img/${this.tShirtColor()}-${this.isFrontLocation ? Location.front : Location.back}.png)`;    
+    this.canvas.nativeElement.style.backgroundImage = `url(../../../../assets/img/${this.tShirtColorSelected.toLowerCase()}-${this.products()[this.selectedIndexProduct()]?.isFrontLocation ? Location.front : Location.back}.png)`;    
   }
 
   private subscribeToEvents(): void{
@@ -134,9 +142,9 @@ export class ProductDesignerComponent
   }
 
   private subscribeToEventTShirtColor(): void {
-    this.productDataService.eventTShirtColor$.subscribe(
-      (tShirtColor: ColorName) => {
-        this.tShirtColor.set(tShirtColor);
+    this.productDataService.eventTShirtColorId$.subscribe(
+      (colorId: string) => {
+        this.tShirtColorSelected = this.tShirtColor.find(x => x.optionColorId === colorId)?.name ?? '';
         this.setTShirtSource();
       }
     );
@@ -168,11 +176,11 @@ export class ProductDesignerComponent
             selectedCustomization.isHorizontalInverted = customization.instance.isHorizontalInverted;
             selectedCustomization.isVerticalInverted = customization.instance.isVerticalInverted;
             selectedCustomization.text = customization.instance?.text();
-            selectedCustomization.arch = customization.instance.selectedArc();
             selectedCustomization.arch = customization.instance.arch();
-            selectedCustomization.fontFamily = customization.instance.fontFamily();
-            selectedCustomization.fontColorId = customization.instance.fontColorId();
-            selectedCustomization.outlineFontColorId = customization.instance.outlineFontColorId();            
+            selectedCustomization.arch = customization.instance.arch();
+            // selectedCustomization.fontFamily = customization.instance.fontFamily();
+            // selectedCustomization.fontColorId = customization.instance.fontColorId();
+            // selectedCustomization.outlineFontColorId = customization.instance.outlineFontColorId();            
           }
           
           // this.products()[this.selectedIndexProduct()].design.push(selectedCustomization);
@@ -186,16 +194,47 @@ export class ProductDesignerComponent
   private validateExistingDesign(): void {
     if(!this.dynamicComponentsArray?.length){
       this.applicationDataService.hasDesigns = false;
-      this.products.set([]);      
-    }    
+      this.products.set([]);
+      this.setInitialValue();
+    }
   }
 
   private validateSize(): void {
-    if(this.products()[this.currenElementIndex()]?.inventorySet.length < 1 &&
+    if(this.products()[this.currenElementIndex()]?.inventorySet?.length < 1 &&
       this.applicationDataService.hasDesigns
     ){
-      // this.products()[this.currenElementIndex()].size.s.amount = 1;
+      const inventorySet = new InventorySet();
+      inventorySet.sizeId = this.optionSize[0].optionSizeId;
+      inventorySet.amount = DefaultTypeValue.firstNumber;
+      this.products()[this.selectedIndexProduct()].inventorySet.push(inventorySet);
     }
+  }
+
+  private setOptions(): void {
+    this.loadingService.show();
+
+    forkJoin({
+      optionSize: this.optionService.getAllSizes(),
+      optionColor: this.optionService.getAllColors(),
+      optionFont: this.optionService.getFonts(),
+      optioProduct: this.optionService.getProductsByCategoryName(ElementComponent.tShirt)
+    }).subscribe({
+      next: ({optionSize, optionColor, optioProduct, optionFont}) => {
+        this.optionSize = optionSize;
+        this.tShirtColor = optionColor.filter(x => x.componentName === ElementComponent.tShirt);
+        this.fontColor = optionColor.filter(x => x.componentName === ElementComponent.fontColor);
+        this.outLineFontColor = optionColor.filter(x => x.componentName === ElementComponent.outlineFontColor);
+        this.optionProduct = optioProduct;
+        this.optionFont = optionFont;
+        this.setInitialValue();
+        this.validateExistingProduct();
+        this.loadingService.hide();
+      },
+      error: (error) => {
+        console.log(error);
+        this.loadingService.hide();
+      } 
+    });
   }
 
   validateExistingProduct(): void {
@@ -205,11 +244,18 @@ export class ProductDesignerComponent
   }
 
   onAddProduct(): void{
-    this.products().push(new Item());
-    this.selectedIndexProduct.set(this.products().length - 1);
+    const initialColor = this.tShirtColor.find(x => x.name.toLowerCase() === ColorName.white);
+    const newProduct = new CartItem();
+    newProduct.productId = this.optionProduct.find(x => x?.colorId === initialColor?.optionColorId)?.optionProductId ?? this.configuration.emptyGuid;
+    newProduct.isFrontLocation = true;
+    this.products().push(newProduct);
+    this.selectedIndexProduct.set(this.products().length - DefaultTypeValue.firstNumber);
 
     if(this.dynamicComponentsArray?.length > 0){
-      // this.products()[this.selectedIndexProduct()].size.s.amount = 1;
+      const inventorySet = new InventorySet();
+      inventorySet.sizeId = this.optionSize[0].optionSizeId;
+      inventorySet.amount = DefaultTypeValue.firstNumber;
+      this.products()[this.selectedIndexProduct()].inventorySet.push(inventorySet);
     }    
   }
 
@@ -316,14 +362,14 @@ export class ProductDesignerComponent
       newDesignElementComponent.instance.id = this.currenElementIndex();
       newDesignElementComponent.instance.zIndex = signal(this.dynamicComponentsArray.length);
       newDesignElementComponent.instance.fontFamily = this.selectedFont;
-      newDesignElementComponent.instance.fontColorId = this.selectedFontColor;
-      newDesignElementComponent.instance.outlineFontColorId = this.selectedOutlineFontColor;
+      newDesignElementComponent.instance.fontColor = this.selectedFontColor;
+      newDesignElementComponent.instance.outlineFontColor = this.selectedOutlineFontColor;
       newDesignElementComponent.instance.showText = true;      
       newDesignElementComponent.instance.optionType = OptionWindow.text;
-      newDesignElementComponent.instance.selectedArc = this.selectedArc;
-      newDesignElementComponent.instance.arch = signal(this.selectedArc());
+      newDesignElementComponent.instance.arch = this.selectedArch;
       newDesignElementComponent.instance.isSelected = signal(true);
       newDesignElementComponent.instance.height = this.selectedSize;
+      newDesignElementComponent.instance.width = this.selectedSize;
       
       newDesignElementComponent.instance.currentElement.subscribe(() => {        
         this.currenElementIndex.set(newDesignElementComponent.instance.id);
@@ -373,7 +419,7 @@ export class ProductDesignerComponent
   }
 
   onRotate(): void {
-    this.isFrontLocation = !this.isFrontLocation;    
+    this.products()[this.selectedIndexProduct()].isFrontLocation = !this.products()[this.selectedIndexProduct()].isFrontLocation;    
     this.setTShirtSource();
   }
 

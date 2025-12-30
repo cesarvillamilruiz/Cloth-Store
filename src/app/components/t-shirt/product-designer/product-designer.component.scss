@@ -8,7 +8,6 @@
   flex-direction: column-reverse;
   &__optionProduct{
     background-color: $white;
-    overflow-y: auto;
     display: flex;
     align-items: end;
     width: 100%;
@@ -85,7 +84,6 @@
       height: 100%;
       position: relative;
       animation: slideRight 1s ease-out forwards;
-      // overflow-y: hidden;
     }
     // &__canvas{
     //   width: calc(100% - 400px);
@@ -99,10 +97,6 @@
       width: 400px;      
     }   
   }
-}
-
-svg{
-  // overflow: auto !important;
 }
 
 @keyframes slideUp {
