@@ -8,7 +8,6 @@ import {
   ViewChild,
   ViewContainerRef,
   WritableSignal,
-  effect,
   signal,
 } from '@angular/core';
 import { ProductDataService } from 'src/app/data-service/product-data.service';
@@ -80,15 +79,7 @@ export class ProductDesignerComponent implements OnInit {
     private imageToBase64Service: ImageToBase64Service,
     private readonly optionService: OptionService,
     private readonly loadingService: LoadingService,
-    private readonly configuration: Configuration) {
-    effect(() => {
-      //TODO Remove
-      if(this.dynamicComponentsArray[this.currenElementIndex()]){
-        // this.dynamicComponentsArray[this.currenElementIndex()].instance.height.set(this.selectedSize());
-        // this.dynamicComponentsArray[this.currenElementIndex()].instance.arch.set(this.selectedArc());
-      }
-    }, {allowSignalWrites: true});
-  }
+    private readonly configuration: Configuration) {}
 
   ngOnInit(): void {
     this.subscribeToEvents();    
@@ -231,7 +222,6 @@ export class ProductDesignerComponent implements OnInit {
         this.loadingService.hide();
       },
       error: (error) => {
-        console.log(error);
         this.loadingService.hide();
       } 
     });

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -27,7 +28,7 @@ import { OptionFont } from 'src/app/model/option/option-font.model';
   templateUrl: './design-element.component.html',
   styleUrls: ['./design-element.component.scss'],
 })
-export class DesignElementComponent implements OnInit {
+export class DesignElementComponent implements OnInit, AfterViewInit {
   @Input() text: WritableSignal<string>;
   @Input() id: number;
   @Input() zIndex: WritableSignal<number>;
@@ -36,8 +37,8 @@ export class DesignElementComponent implements OnInit {
   @Input() fontFamily: WritableSignal<OptionFont>;
   @Input() showText: boolean;
   @Input() designId: string;
-  @Input() width: WritableSignal<number> = signal(0);
-  @Input() height: WritableSignal<number> = signal(0);
+  @Input() width: WritableSignal<number>;
+  @Input() height: WritableSignal<number>;
   @Input() imgHeight: Signal<string>;
   @Input() arch: WritableSignal<number>;
   @Input() isSelected: WritableSignal<boolean>;
@@ -65,19 +66,11 @@ export class DesignElementComponent implements OnInit {
   status: DragStatus;
   optionType: OptionWindow;
   showLayerOptions: boolean;
+  mainWidth = signal(0);
+  mainHeight = signal(0);
 
   get outlineFontStyle(): string {
     return `${this.height()/50}px ${this.outlineFontColor().hexadecimal}`
-  }
-
-  getMainWidth(): number | any{
-    const mainElementWidth = document.getElementById(`mainElement__${this.id}`)?.offsetWidth;
-    return mainElementWidth ? mainElementWidth : 0;
-  }
-
-  getMainHeight(): number | any{
-    const mainElementHeight = document.getElementById(`mainElement__${this.id}`)?.offsetHeight;
-    return mainElementHeight ? mainElementHeight : 0;
   }
 
   constructor() {
@@ -85,21 +78,29 @@ export class DesignElementComponent implements OnInit {
       if(this.textElement){
         this.textElement.nativeElement.textContent = this.text();
         const arcText = new ArcText(this.textElement.nativeElement);
-        
         const archValue = 1500 - (this.arch() * 20)
-        arcText.arc(archValue > 1450 ? 100000 : archValue);
-  
+        arcText.arc(archValue > 1450 ? 100000 : archValue);  
         arcText.forceWidth(true);
         arcText.forceHeight(true);
 
       }
-    }, { allowSignalWrites: true });
+    });
   }
 
   ngOnInit(): void {
     this.setInitialValue();
   }
 
+  ngAfterViewInit(): void {
+    const observer = new ResizeObserver(entries => {
+      const rect = entries[0].contentRect;
+      this.mainWidth.set(rect.width);
+      this.mainHeight.set(rect.height);
+    });
+
+    observer.observe(this.mainElement.nativeElement);
+  }
+  
   setInitialValue(): void {   
     this.x = signal(+DefaultTypeValue.zeroNumber);
     this.y = signal(+DefaultTypeValue.zeroNumber);

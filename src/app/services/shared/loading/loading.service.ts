@@ -14,7 +14,9 @@ export class LoadingService {
   
   show(message: string = 'Cargando...') {
     this.messageSubject.next(message);
-    this.loadingSubject.next(true);
+    setTimeout(() => {
+      this.loadingSubject.next(true);
+    });
   }
   
   hide() {

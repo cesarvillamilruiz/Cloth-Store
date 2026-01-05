@@ -1,12 +1,12 @@
 <div *ngIf="isSelected()" 
     class="elementContainer"
     [style.zIndex]="zIndex()"
-    [style.width.px]="getMainWidth()"
-    [style.height.px]="getMainHeight()"
+    [style.width.px]="mainWidth()"
+    [style.height.px]="mainHeight()"
     [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px)'">
     <div *ngIf="showLayerOptions" class="elementContainer__optionMovement"
         (click)="onSelecElement()"
-        [style.top.px]="getMainHeight()+22">
+        [style.top.px]="mainHeight()+22">
         <ul>
             <li (click)="onMoveToFront.emit()"><i class="bi bi-front"></i>Mover al frente</li>
             <li (click)="onMoveToBack.emit()"><i class="bi bi-back"></i>Mover atras</li>
@@ -35,16 +35,7 @@
         #textElement>
         {{ text() }}
     </div>
-    <!-- <div *ngIf="showText; else showImage"
-        [ngClass]="{'verticalInverted':isVerticalInverted}"
-        [ngClass]="{'horizontalInverted':isHorizontalInverted}"
-        [style.fontSize]="imgHeight()"
-        [style.fontFamily]="selectedFont()"
-        [style.color]="selectedFontColor()"
-        [style.-webkitTextStroke]="'2px '+selectedOutlineFontColor()"
-        #textElement>
-        {{ text() }}
-    </div> -->
+
     <ng-template #showImage>
         <!-- <img
             [ngClass]="{'verticalInverted':isVerticalInverted}"
