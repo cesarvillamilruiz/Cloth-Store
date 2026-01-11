@@ -238,15 +238,14 @@ export class ProductDesignerComponent implements OnInit {
     const newProduct = new CartItem();
     newProduct.productId = this.optionProduct.find(x => x?.colorId === initialColor?.optionColorId)?.optionProductId ?? this.configuration.emptyGuid;
     newProduct.isFrontLocation = true;
+    const inventorySet = new InventorySet();
+    inventorySet.sizeId = this.optionSize[0].optionSizeId;
+    inventorySet.amount = DefaultTypeValue.firstNumber;
+
+    newProduct.inventorySet = [];
+    newProduct.inventorySet.push(inventorySet);
     this.products().push(newProduct);
     this.selectedIndexProduct.set(this.products().length - DefaultTypeValue.firstNumber);
-
-    if(this.dynamicComponentsArray?.length > 0){
-      const inventorySet = new InventorySet();
-      inventorySet.sizeId = this.optionSize[0].optionSizeId;
-      inventorySet.amount = DefaultTypeValue.firstNumber;
-      this.products()[this.selectedIndexProduct()].inventorySet.push(inventorySet);
-    }    
   }
 
   onSelectDesign(selectedDesignName: string): void {

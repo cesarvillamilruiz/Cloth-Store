@@ -4,7 +4,6 @@
 .optionTextContainer {
   height: 100%;
   max-height: 100%;
-  display: block;
   &__action{
     width: 46px;
     height: 30px;
@@ -18,7 +17,6 @@
   &__buttons{
       overflow-y: auto;
       overflow-x: hidden;
-      max-height: 100%;
   }
   &__title{
     font-size: 0.9rem;

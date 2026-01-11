@@ -104,7 +104,7 @@ export class OptionProductComponent implements OnInit, OnDestroy {
 
     const index = this.currentProduct.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
 
-    if(!index || index === -1){
+    if(!index || index === DefaultTypeValue.firstNegativeNumber){
       this.currentProduct.inventorySet.push(inventorySet);
     }
     else{
@@ -115,8 +115,8 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   getSizeAmount(size: OptionSize): number {
     let amount = DefaultTypeValue.zeroNumber;
     const index = this.currentProduct.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
-    if(index || index > DefaultTypeValue.zeroNumber){
-      amount = this.currentProduct.inventorySet[index].amount;
+    if(index > DefaultTypeValue.firstNegativeNumber){
+      amount = this.currentProduct.inventorySet[index]?.amount;
     }
 
     return amount;

@@ -6,6 +6,7 @@
   height: 100%;
   display: flex;
   flex-direction: column-reverse;
+  max-height: calc(100vh - 97px);
   &__optionProduct{
     background-color: $white;
     display: flex;
@@ -17,6 +18,7 @@
     position: absolute;
     z-index: 2;
     animation: slideUp 1s ease-out forwards;
+    overflow-y: auto;
   }
   &__optionMenu{
     width: 100%;
@@ -96,6 +98,12 @@
     &__optionProduct{
       width: 400px;      
     }   
+  }
+}
+
+@media(max-width: 992px){
+  .productDesingContainer{
+    max-height: calc(100vh - 132px);
   }
 }
 
