@@ -23,9 +23,10 @@
             </button>
         </div> 
         <div *ngIf="showDesigns" class="col-12 mb-2 designNode">
-            <button *ngFor="let desing of designNodeListName" class="col-6 my-2 bg-transparent border-0"
-              (click)="onSelectDesign(desing.path)">
-              <img  ngSrc="{{ desing.path }}" width="60" height="70"  priority/>
+            <button *ngFor="let desing of optionPreDesignSelected" class="col-6 my-2 bg-transparent border-0"
+              (click)="onSelectDesign(desing.blobUrl)">
+              <!-- <img  ngSrc="{{ desing.path }}" width="60" height="70"  priority/> -->
+              <img  [src]="desing.blobUrl" width="60" height="70"  priority/>
             </button>
         </div>
     </section>

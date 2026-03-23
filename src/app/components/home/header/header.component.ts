@@ -71,7 +71,7 @@ export class HeaderComponent {
 
   onCloseDialog(result: boolean): void {
     if(result){
-      this.applicationDataService.saveCurrentDesign();
+      this.applicationDataService.saveCartItem();
       this.navigateToFragment(this.fragment);
     }
     else{

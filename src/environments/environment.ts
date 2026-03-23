@@ -33,6 +33,7 @@ export const environment = {
         contactPreference: '/api/ContactPreference',
         address: '/api/Address',
         option: '/api/Option',
+        blob: '/api/Blob',
       }
     }
   };

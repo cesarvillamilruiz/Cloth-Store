@@ -33,6 +33,9 @@ import { OptionProduct } from 'src/app/model/option/product.model';
 import { Configuration } from 'src/app/core/core-configuration';
 import { InventorySet } from 'src/app/model/t-shirt/Inventory-set.model';
 import { OptionFont } from 'src/app/model/option/option-font.model';
+import { OptionPreDesign } from 'src/app/model/option/option-pre-design.model';
+import { BlobService } from 'src/app/services/blob/blob.service';
+import { BlobUrlRequest } from 'src/app/model/blob/blob-url-request.model';
 
 @Component({
   selector: 'app-product-designer',
@@ -51,6 +54,7 @@ export class ProductDesignerComponent implements OnInit {
   outLineFontColor: OptionColor[];
   optionSize: OptionSize[];
   optionFont: OptionFont[];
+  optionPreDesign: OptionPreDesign[];
   tShirtColorSelected: string;
   option = OptionWindow;
   currenElementIndex: WritableSignal<number>;
@@ -62,7 +66,6 @@ export class ProductDesignerComponent implements OnInit {
   selectedFont: WritableSignal<OptionFont>;
   selectedFontColor: WritableSignal<OptionColor>;
   selectedOutlineFontColor: WritableSignal<OptionColor>;
-  uploadedImageUrl: string | ArrayBuffer | null = null;
   products: WritableSignal<CartItem[]>;
   selectedIndexProduct: WritableSignal<number>;
   selectedIndexFontColor: WritableSignal<number>;
@@ -79,7 +82,8 @@ export class ProductDesignerComponent implements OnInit {
     private imageToBase64Service: ImageToBase64Service,
     private readonly optionService: OptionService,
     private readonly loadingService: LoadingService,
-    private readonly configuration: Configuration) {}
+    private readonly configuration: Configuration,
+    private readonly blobService: BlobService) {}
 
   ngOnInit(): void {
     this.subscribeToEvents();    
@@ -148,19 +152,17 @@ export class ProductDesignerComponent implements OnInit {
       }
     );
 
-    this.applicationDataService.eventSaveCurrentDesign$.subscribe(
-      () => {
-        
+    this.applicationDataService.eventSaveCartItem$.subscribe(
+      () => {        
         this.products()[this.selectedIndexProduct()].customization = [];
         this.dynamicComponentsArray.forEach(customization => {
           
           const selectedCustomization = new Customization();
           selectedCustomization.id = customization.instance.id;
           selectedCustomization.zIndex = customization.instance.zIndex();          
-          selectedCustomization.designId = customization.instance.designId;
+          selectedCustomization.designId = customization.instance.designUrl;
           selectedCustomization.width = customization.instance.width();
           selectedCustomization.height = customization.instance.height();
-          // selectedCustomization.imgHeight = customization.instance.imgHeight();
           // selectedCustomization.type = customization.instance.optionType;
           
           if(customization.instance.optionType === OptionWindow.text){
@@ -208,15 +210,17 @@ export class ProductDesignerComponent implements OnInit {
       optionSize: this.optionService.getAllSizes(),
       optionColor: this.optionService.getAllColors(),
       optionFont: this.optionService.getFonts(),
-      optioProduct: this.optionService.getProductsByCategoryName(ElementComponent.tShirt)
+      optioProduct: this.optionService.getProductsByCategoryName(ElementComponent.tShirt),
+      optioPreDesign: this.optionService.getPreDesigns(),
     }).subscribe({
-      next: ({optionSize, optionColor, optioProduct, optionFont}) => {
+      next: ({optionSize, optionColor, optioProduct, optionFont, optioPreDesign}) => {
         this.optionSize = optionSize;
         this.tShirtColor = optionColor.filter(x => x.componentName === ElementComponent.tShirt);
         this.fontColor = optionColor.filter(x => x.componentName === ElementComponent.fontColor);
         this.outLineFontColor = optionColor.filter(x => x.componentName === ElementComponent.outlineFontColor);
         this.optionProduct = optioProduct;
         this.optionFont = optionFont;
+        this.optionPreDesign = optioPreDesign;
         this.setInitialValue();
         this.validateExistingProduct();
         this.loadingService.hide();
@@ -248,7 +252,7 @@ export class ProductDesignerComponent implements OnInit {
     this.selectedIndexProduct.set(this.products().length - DefaultTypeValue.firstNumber);
   }
 
-  onSelectDesign(selectedDesignName: string): void {
+  onSelectDesign(designUrl: string): void {
     this.validateExistingProduct();
     
     this.currenElementIndex.set(this.dynamicComponentsArray.length);
@@ -260,13 +264,9 @@ export class ProductDesignerComponent implements OnInit {
     newDesignElementComponent.instance.showText = false;
     newDesignElementComponent.instance.optionType = OptionWindow.draw;
     newDesignElementComponent.instance.isSelected = signal(true);
-
-    //TODO review (designId = base64;)
-    this.imageToBase64Service.getBase64Image(`../../../../assets/design/${selectedDesignName}`)
-                              .then(base64 => {
-                                newDesignElementComponent.instance.designId = base64;
-                              })
-                              .catch(error => console.error('Error converting image:', error));
+    newDesignElementComponent.instance.designUrl = designUrl;
+    newDesignElementComponent.instance.height = this.selectedSize;
+    newDesignElementComponent.instance.width = this.selectedSize;
 
     newDesignElementComponent.instance.currentElement.subscribe(() => {        
       this.currenElementIndex.set(newDesignElementComponent.instance.id);
@@ -288,10 +288,23 @@ export class ProductDesignerComponent implements OnInit {
   onFileUpload(file: File): void {
     if (file) {
       this.validateExistingProduct();
-      
-      const reader = new FileReader();
-      reader.onload = e => {
-        this.uploadedImageUrl = reader.result;
+
+      this.setUploadUrl(file);
+    }
+  }
+
+  private setUploadUrl(file: File): void{
+    const blobUrlRequest: BlobUrlRequest = {
+      fileName: file.name,
+      contentType: file.type,
+      fileSize: file.size
+    };
+
+    const formData = new FormData();
+    formData.append('Image', file);
+
+    this.blobService.getUploadUrl(formData).subscribe({
+      next: (result: any) => {
         this.currenElementIndex.set(this.dynamicComponentsArray.length);
         const newDesignElementComponent = this.baseComponent.createComponent(
           DesignElementComponent
@@ -299,9 +312,11 @@ export class ProductDesignerComponent implements OnInit {
         newDesignElementComponent.instance.id = this.currenElementIndex();
         newDesignElementComponent.instance.zIndex = signal(this.dynamicComponentsArray.length);
         newDesignElementComponent.instance.showText = false;
-        newDesignElementComponent.instance.designId = this.uploadedImageUrl as string;
+        newDesignElementComponent.instance.designUrl = result;
         newDesignElementComponent.instance.optionType = OptionWindow.upload;
         newDesignElementComponent.instance.isSelected = signal(true);
+        newDesignElementComponent.instance.height = this.selectedSize;
+        newDesignElementComponent.instance.width = this.selectedSize;
 
         newDesignElementComponent.instance.currentElement.subscribe(() => {        
           this.currenElementIndex.set(newDesignElementComponent.instance.id);
@@ -332,15 +347,18 @@ export class ProductDesignerComponent implements OnInit {
         this.dynamicComponentsArray.push(newDesignElementComponent);
         this.applicationDataService.hasDesigns = true;
         this.validateSize();
-        this.isNewElement.set(false);
-        return;
-      } 
-      reader.readAsDataURL(file);      
-    }
+        this.isNewElement.set(false);   
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
   }
 
   onTextValue(textValue: string): void {
     this.validateExistingProduct();    
+
+    this.selectedSize.set(50);
 
     if (this.isNewElement()) {
       this.currenElementIndex.set(this.dynamicComponentsArray.length);

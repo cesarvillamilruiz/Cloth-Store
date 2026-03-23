@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { DesignNode } from 'src/app/model/utility/design-node.model';
-import { designNodeList } from '../../../util/configuration/option-clip-art.configuration.json';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { OptionPreDesign } from 'src/app/model/option/option-pre-design.model';
 
 @Component({
   selector: 'app-option-clipart',
@@ -8,38 +7,31 @@ import { designNodeList } from '../../../util/configuration/option-clip-art.conf
   styleUrl: './option-clipart.component.scss'
 })
 export class OptionClipartComponent {
+  @Input() optionPreDesign: OptionPreDesign[];
 
   @Output() closeOptionProduct = new EventEmitter<void>();
   @Output() selectedDesignName = new EventEmitter<string>();
   
-  designNodeList: DesignNode[];
   categoryList: string[];
-  designNodeListName: DesignNode[];
+  optionPreDesignSelected: OptionPreDesign[];
   showDesigns: boolean;
 
   ngOnInit(): void {
-    this.setDesignNodeList();
     this.setCategoryList();
   }
 
   setDesignNodeListName(categoryName: string): void{
-    this.designNodeListName = this.designNodeList.filter(x => x.category === categoryName);
+    this.optionPreDesignSelected = this.optionPreDesign.filter(x => x.category === categoryName);
     this.showDesigns = true;
   }
 
   setCategoryList(): void{
-    this.categoryList = this.designNodeList.filter((item, index, self) =>
+    this.categoryList = this.optionPreDesign.filter((item, index, self) =>
       index === self.findIndex((t) => t.category === item.category)).map(item => item.category);
   }
 
-  setDesignNodeList(): void {
-    let root = './../../../../assets/design/';
-    
-    this.designNodeList = designNodeList;
-  }
-
-  onSelectDesign(selectedDesignName: string): void {
-    this.selectedDesignName.emit(selectedDesignName);
+  onSelectDesign(designUrl: string): void {
+    this.selectedDesignName.emit(designUrl);
   }
 
   onHideOption(): void {

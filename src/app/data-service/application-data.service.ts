@@ -5,13 +5,13 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class ApplicationDataService {
 
-  eventSaveCurrentDesign$: EventEmitter<void> = new EventEmitter();
+  eventSaveCartItem$: EventEmitter<void> = new EventEmitter();
   eventDeleteCurrentDesign$: EventEmitter<void> = new EventEmitter();
   
   hasDesigns: boolean;
 
-  saveCurrentDesign(): void {
-    this.eventSaveCurrentDesign$.emit();
+  saveCartItem(): void {
+    this.eventSaveCartItem$.emit();
   }
 
   deleteCurrentDesign(): void {

@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OptionColor } from 'src/app/model/option/option-color.model';
 import { OptionFont } from 'src/app/model/option/option-font.model';
+import { OptionPreDesign } from 'src/app/model/option/option-pre-design.model';
 import { OptionSize } from 'src/app/model/option/option-size.model';
 import { OptionProduct } from 'src/app/model/option/product.model';
 import { environment } from 'src/environments/environment';
@@ -42,6 +43,12 @@ export class OptionService {
   getFonts(): Observable<OptionFont[]> {
       return this.http.get<OptionFont[]>(
         `${this.url}${this.controller}/GetFonts`
+      );
+  }
+
+  getPreDesigns(): Observable<OptionPreDesign[]> {
+      return this.http.get<OptionPreDesign[]>(
+        `${this.url}${this.controller}/GetPreDesigns`
       );
   }
 }

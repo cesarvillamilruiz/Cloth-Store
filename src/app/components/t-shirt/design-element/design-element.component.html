@@ -1,12 +1,12 @@
 <div *ngIf="isSelected()" 
     class="elementContainer"
     [style.zIndex]="zIndex()"
-    [style.width.px]="mainWidth()"
-    [style.height.px]="mainHeight()"
+    [style.width.px]="frameWidth()"
+    [style.height.px]="frameHeight()"
     [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px)'">
     <div *ngIf="showLayerOptions" class="elementContainer__optionMovement"
         (click)="onSelecElement()"
-        [style.top.px]="mainHeight()+22">
+        [style.top.px]="frameHeight()+22">
         <ul>
             <li (click)="onMoveToFront.emit()"><i class="bi bi-front"></i>Mover al frente</li>
             <li (click)="onMoveToBack.emit()"><i class="bi bi-back"></i>Mover atras</li>
@@ -28,7 +28,7 @@
     <div *ngIf="showText; else showImage"
         [ngClass]="{'verticalInverted':isVerticalInverted}"
         [ngClass]="{'horizontalInverted':isHorizontalInverted}"
-        [style.fontSize]="imgHeight()"
+        [style.fontSize.px]="width()"
         [style.fontFamily]="fontFamily().value"
         [style.color]="fontColor().hexadecimal"
         [style.-webkitTextStroke]="outlineFontStyle"
@@ -37,12 +37,19 @@
     </div>
 
     <ng-template #showImage>
-        <!-- <img
+        <img
             [ngClass]="{'verticalInverted':isVerticalInverted}"
             [ngClass]="{'horizontalInverted':isHorizontalInverted}"
-            [style.width]="imgWidth()"
-            [style.height]="imgHeight()"
-            [src]="imagePath"> -->
+            [style.width.px]="width()"
+            [style.height.px]="height()"
+            [src]="designUrl">
     </ng-template>
-    <button *ngIf="isSelected()" class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight" (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true" (drag)="onDragRotate($event)"><i class="bi bi-arrow-counterclockwise"></i></button>
+    <button *ngIf="isSelected()"
+        class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight"
+        (dragstart)="setRotate($event, true)"
+        (dragend)="setRotate($event, false)"
+        draggable="true"
+        (drag)="onDragRotate($event)">
+        <i class="bi bi-arrow-counterclockwise"></i>
+    </button>
 </div>

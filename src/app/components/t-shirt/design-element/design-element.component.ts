@@ -7,15 +7,13 @@ import {
   Input,
   OnInit,
   Output,
-  Signal,
   ViewChild,
   WritableSignal,
-  computed,
   effect,
   signal,
 } from '@angular/core';
 import { DragStatus } from 'src/app/enum/drag-status.enum';
-import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.validation';
+import { isSameValue } from 'src/app/validation/generic/generic.validation';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { OptionWindow } from 'src/app/enum/option.enum';
 import ArcText from 'arc-text';
@@ -36,10 +34,9 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
   @Input() isVerticalInverted: boolean;
   @Input() fontFamily: WritableSignal<OptionFont>;
   @Input() showText: boolean;
-  @Input() designId: string;
+  @Input() designUrl: string;
   @Input() width: WritableSignal<number>;
   @Input() height: WritableSignal<number>;
-  @Input() imgHeight: Signal<string>;
   @Input() arch: WritableSignal<number>;
   @Input() isSelected: WritableSignal<boolean>;
   @Input() fontColor: WritableSignal<OptionColor>;
@@ -56,7 +53,6 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
   @ViewChild('dragElement') dragElement: ElementRef;
   @ViewChild('textElement') textElement: ElementRef;
   
-  imgWidth: Signal<string>;
   x: WritableSignal<number>;
   y: WritableSignal<number>;
   px: WritableSignal<number>;
@@ -66,8 +62,8 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
   status: DragStatus;
   optionType: OptionWindow;
   showLayerOptions: boolean;
-  mainWidth = signal(0);
-  mainHeight = signal(0);
+  frameWidth = signal(0);
+  frameHeight = signal(0);
 
   get outlineFontStyle(): string {
     return `${this.height()/50}px ${this.outlineFontColor().hexadecimal}`
@@ -82,7 +78,6 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
         arcText.arc(archValue > 1450 ? 100000 : archValue);  
         arcText.forceWidth(true);
         arcText.forceHeight(true);
-
       }
     });
   }
@@ -94,8 +89,8 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const observer = new ResizeObserver(entries => {
       const rect = entries[0].contentRect;
-      this.mainWidth.set(rect.width);
-      this.mainHeight.set(rect.height);
+      this.frameWidth.set(rect.width);
+      this.frameHeight.set(rect.height);
     });
 
     observer.observe(this.mainElement.nativeElement);
@@ -106,8 +101,6 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
     this.y = signal(+DefaultTypeValue.zeroNumber);
     this.px = signal(+DefaultTypeValue.zeroNumber);
     this.py = signal(+DefaultTypeValue.zeroNumber);
-    this.imgWidth = computed(() => { return `${isGreaterThan(+DefaultTypeValue.zeroNumber, this.width()) ? +DefaultTypeValue.zeroNumber : this.width()}px`; });
-    this.imgHeight = computed(() => { return `${isGreaterThan(+DefaultTypeValue.zeroNumber, this.height()) ? +DefaultTypeValue.zeroNumber : this.height()}px`; });
     this.isDraggingCorner = signal(false);
     this.mainElement?.nativeElement?.classList.add("elementContainer");
   }
@@ -170,6 +163,7 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
   }
 
   setStatus(event: MouseEvent, status: number, func?: any) {
+    this.onSelecElement();
     if (isSameValue(status, 1)) {
       this.isDraggingCorner.set(true);
       this.px.set(event.clientX);
@@ -185,7 +179,7 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
       this.status = DragStatus.move;
     }
 
-    this.onSelecElement();    
+    
   }
 
   R2D = 180 / Math.PI

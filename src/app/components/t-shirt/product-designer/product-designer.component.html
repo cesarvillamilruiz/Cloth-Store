@@ -37,7 +37,8 @@
 
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.clipart">
         <div class="productDesingContainer__optionMenu">
-            <app-option-clipart 
+            <app-option-clipart
+                [optionPreDesign]="optionPreDesign"
                 (closeOptionProduct)="onCloseOptionProduct()"
                 (selectedDesignName)="onSelectDesign($event)"></app-option-clipart>
         </div>
