@@ -25,7 +25,7 @@ export const environment = {
     },
 
     endPoints: {
-      url: 'https://localhost:7217',
+      url: 'http://localhost:5012',
       scope: '',
       controllers: {
         weatherforecast: '/weatherforecast',

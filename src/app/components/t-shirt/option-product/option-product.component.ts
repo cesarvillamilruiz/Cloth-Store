@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, WritableSignal } from '@angular/core';
 import { ProductDataService } from 'src/app/data-service/product-data.service';
 import { ColorName } from 'src/app/enum/color.enum';
-import { CartItem } from 'src/app/model/t-shirt/cart-item.model';
+import { Design } from 'src/app/model/t-shirt/design.model';
 import { TShirtSize } from 'src/app/enum/tshirt-size.enum';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { OptionSize } from 'src/app/model/option/option-size.model';
@@ -17,12 +17,12 @@ import { Configuration } from 'src/app/core/core-configuration';
   styleUrls: ['./option-product.component.scss'],
 })
 export class OptionProductComponent implements OnInit, OnDestroy {
-  @Input() products: WritableSignal<CartItem[]>;
+  @Input() design: Design;
   @Input() selectedIndexProduct: WritableSignal<number>;
   @Input() optionSize: OptionSize[];
   @Input() tShirtColor: OptionColor[];
   @Input() optionProduct: OptionProduct[];
-  @Input() isFrontLocation: boolean;
+  @Input() location: Location.front | Location.back;
 
   @Output() closeOptionProduct = new EventEmitter<void>();
   @Output() onAddProduct = new EventEmitter<void>();
@@ -34,9 +34,9 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   tShirtSize = TShirtSize;
   colorChange: boolean;
 
-  get currentProduct(): CartItem {
-    return this.products()[this.selectedIndexProduct()];
-  }
+  // get design(): Design {
+  //   return this.products()[this.selectedIndexProduct()];
+  // }
 
   private unsubscribe: () => void;
 
@@ -72,8 +72,9 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   }
 
   setTShirtColor(colorId: string): void {
-    if(this.products()?.length > 0){
-      this.currentProduct.productId = this.optionProduct.find(x => x.colorId === colorId)?.optionProductId ?? this.configuration.emptyGuid;
+    if(this.design.productId?.length > 0){
+      this.design.productId[this.selectedIndexProduct()] = this.optionProduct.find(x => x.colorId === colorId)?.optionProductId ??
+        this.configuration.emptyGuid;
       this.productDataService.setTShirtColor(colorId);
       this.selectedColorId = colorId;
     }
@@ -102,46 +103,46 @@ export class OptionProductComponent implements OnInit, OnDestroy {
     inventorySet.sizeId = size.optionSizeId;
     inventorySet.amount = +inputElement.value;
 
-    const index = this.currentProduct.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
+    // const index = this.design.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
 
-    if(!index || index === DefaultTypeValue.firstNegativeNumber){
-      this.currentProduct.inventorySet.push(inventorySet);
-    }
-    else{
-      this.currentProduct.inventorySet[index].amount = +inputElement.value;
-    }
+    // if(!index || index === DefaultTypeValue.firstNegativeNumber){
+    //   this.design.inventorySet.push(inventorySet);
+    // }
+    // else{
+    //   this.design.inventorySet[index].amount = +inputElement.value;
+    // }
   }
 
   getSizeAmount(size: OptionSize): number {
     let amount = DefaultTypeValue.zeroNumber;
-    const index = this.currentProduct.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
-    if(index > DefaultTypeValue.firstNegativeNumber){
-      amount = this.currentProduct.inventorySet[index]?.amount;
-    }
+    // const index = this.design.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
+    // if(index > DefaultTypeValue.firstNegativeNumber){
+    //   amount = this.design.inventorySet[index]?.amount;
+    // }
 
     return amount;
   }
 
-  getBackGroundImageUrl(product: CartItem): string{
-    const colorId = this.optionProduct.find(x => x.optionProductId === product.productId)?.colorId ?? this.configuration.emptyGuid;
-    return  `url(../../../../assets/img/${this.getColorName(colorId)}-${product.isFrontLocation ? Location.front : Location.back}.png)`;
+  getBackGroundImageUrl(productId: string): string{
+    const colorId = this.optionProduct.find(x => x.optionProductId === productId)?.colorId ?? this.configuration.emptyGuid;
+    return  `url(../../../../assets/img/${this.getColorName(colorId)}-${this.design.location}.png)`;
   }
 
-  getChangeOptionBackGroundClass(product: CartItem): string{
-    const colorId = this.optionProduct.find(x => x.optionProductId === product.productId)?.colorId ?? this.configuration.emptyGuid;
+  getChangeOptionBackGroundClass(productId: string): string{
+    const colorId = this.optionProduct.find(x => x.optionProductId === productId)?.colorId ?? this.configuration.emptyGuid;
     return `color ${this.getColorName(colorId)}`;
   }
 
   onSelectProduct(index: number): void {
     this.selectedIndexProduct.set(index);
     this.selectedColorId = this.optionProduct.find(x => x.optionProductId === 
-      this.currentProduct.productId)?.colorId ?? this.configuration.emptyGuid;
+      this.design?.productId[index])?.colorId ?? this.configuration.emptyGuid;
     this.productDataService.setTShirtColor(this.selectedColorId);
   }
 
   onRemoveProduct(index: number): void{
-    if(this.products().length > 1){
-      this.products().splice(index, 1);
+    if(this.design.productId.length > 1){
+      this.design.productId.splice(index, 1);
       if((this.selectedIndexProduct() > DefaultTypeValue.zeroNumber && this.selectedIndexProduct() === index)|| index < this.selectedIndexProduct()){
         this.onSelectProduct(this.selectedIndexProduct() -1);
       }
@@ -166,5 +167,9 @@ export class OptionProductComponent implements OnInit, OnDestroy {
 
   getColorClass(colorId: string): string {
     return `color ${this.getColorName(colorId)}`;
+  }
+
+  trackByIndex(index: number): number {
+    return index;
   }
 }

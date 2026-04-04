@@ -2,7 +2,7 @@
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.product">
         <div class="productDesingContainer__optionMenu">
             <app-option-product
-                [products]="products"
+                [design]="design()"
                 [selectedIndexProduct]="selectedIndexProduct"
                 [optionSize]="optionSize"
                 [tShirtColor]="tShirtColor"

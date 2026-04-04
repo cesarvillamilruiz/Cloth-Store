@@ -1,49 +1,52 @@
 import { CustomizationType } from "src/app/enum/type-option.enum";
+import { Location } from "src/app/enum/location.enum";
 
 interface ICustomization {
     id: number;
     customizationId: string;
-    cartItemId: string;
-    text: string;
-    zIndex: number;
+    designId: string;
     isHorizontalInverted: boolean;
     isVerticalInverted: boolean;
-    fontFamily: string;
-    fontColorId: string;
-    fontSize: number;
-    outlineFontColorId: string;
-    designId: string;
-    imageUrl: string;
-    width: number;
-    height: number;
+    location: Location.front | Location.back;
+    zIndex: number;
     topDistance: number;
     leftDistance: number;
-    arch: number;
-    imageType: string;
     type: CustomizationType;
-    isFrontLocation: boolean;
+    width: number;
+    height: number;
+
+    imageUrl: string;
+    imageType: string;
+
+    fontFamily: string;
+    text: string;
+    fontSize: number;
+    fontColorId: string;
+    outlineFontColorId: string;
+    arch: number;
 }
 
 export class Customization implements ICustomization {
     id: number;
     customizationId: string;
-    cartItemId: string;
-    text: string;
-    zIndex: number;
+    designId: string;
     isHorizontalInverted: boolean;
     isVerticalInverted: boolean;
-    fontFamily: string;
-    fontColorId: string;
-    fontSize: number;
-    outlineFontColorId: string;
-    designId: string;
-    imageUrl: string;
-    width: number;
-    height: number;
+    location: Location.front | Location.back;
+    zIndex: number;
     topDistance: number;
     leftDistance: number;
-    arch: number;
-    imageType: string;
     type: CustomizationType;
-    isFrontLocation: boolean;
+    width: number;
+    height: number;
+    
+    imageUrl: string;
+    imageType: string;
+
+    fontFamily: string;
+    text: string;
+    fontSize: number;
+    fontColorId: string;
+    outlineFontColorId: string;
+    arch: number;
 }

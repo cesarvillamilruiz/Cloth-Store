@@ -19,6 +19,7 @@ import { OptionWindow } from 'src/app/enum/option.enum';
 import ArcText from 'arc-text';
 import { OptionColor } from 'src/app/model/option/option-color.model';
 import { OptionFont } from 'src/app/model/option/option-font.model';
+import { Location } from 'src/app/enum/location.enum';
 
 
 @Component({
@@ -41,6 +42,8 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
   @Input() isSelected: WritableSignal<boolean>;
   @Input() fontColor: WritableSignal<OptionColor>;
   @Input() outlineFontColor: WritableSignal<OptionColor>;
+  @Input() location: Location.front | Location.back;
+  @Input() isVisible: boolean;
   
   @Output() currentElement = new EventEmitter<void>();
   @Output() onDeleteElement = new EventEmitter<number>();
@@ -64,7 +67,7 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
   showLayerOptions: boolean;
   frameWidth = signal(0);
   frameHeight = signal(0);
-
+  
   get outlineFontStyle(): string {
     return `${this.height()/50}px ${this.outlineFontColor().hexadecimal}`
   }
@@ -178,8 +181,6 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
       this.py.set(event.clientY);
       this.status = DragStatus.move;
     }
-
-    
   }
 
   R2D = 180 / Math.PI

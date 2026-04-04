@@ -20,7 +20,7 @@ import { ScreenSize } from 'src/app/enum/screen-size.enum';
 import { Location } from 'src/app/enum/location.enum';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { isGreaterThan, isSameValue } from 'src/app/validation/generic/generic.validation';
-import { CartItem } from 'src/app/model/t-shirt/cart-item.model';
+import { Design } from 'src/app/model/t-shirt/design.model';
 import { ApplicationDataService } from 'src/app/data-service/application-data.service';
 import { Customization } from 'src/app/model/t-shirt/customization.model';
 import { ImageToBase64Service } from 'src/app/services/shared/image/image-to-base-64.service';
@@ -31,7 +31,6 @@ import { OptionService } from 'src/app/services/option/option.service';
 import { LoadingService } from 'src/app/services/shared/loading/loading.service';
 import { OptionProduct } from 'src/app/model/option/product.model';
 import { Configuration } from 'src/app/core/core-configuration';
-import { InventorySet } from 'src/app/model/t-shirt/Inventory-set.model';
 import { OptionFont } from 'src/app/model/option/option-font.model';
 import { OptionPreDesign } from 'src/app/model/option/option-pre-design.model';
 import { BlobService } from 'src/app/services/blob/blob.service';
@@ -66,12 +65,15 @@ export class ProductDesignerComponent implements OnInit {
   selectedFont: WritableSignal<OptionFont>;
   selectedFontColor: WritableSignal<OptionColor>;
   selectedOutlineFontColor: WritableSignal<OptionColor>;
-  products: WritableSignal<CartItem[]>;
+  design: WritableSignal<Design>;
   selectedIndexProduct: WritableSignal<number>;
   selectedIndexFontColor: WritableSignal<number>;
   selectedIndexOutlineFontColor: WritableSignal<number>;
-  selectedSize: WritableSignal<number>;
   selectedArch: WritableSignal<number>;
+
+  get selectedSize(): WritableSignal<number> {
+    return this.dynamicComponentsArray[this.currenElementIndex()]?.instance.width;
+  }
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('workArea') workArea: ElementRef;
@@ -79,7 +81,6 @@ export class ProductDesignerComponent implements OnInit {
 
   constructor(private productDataService: ProductDataService,
     private applicationDataService: ApplicationDataService,
-    private imageToBase64Service: ImageToBase64Service,
     private readonly optionService: OptionService,
     private readonly loadingService: LoadingService,
     private readonly configuration: Configuration,
@@ -108,7 +109,8 @@ export class ProductDesignerComponent implements OnInit {
     this.selectedIndexProduct = signal(+DefaultTypeValue.zeroNumber);
     const initialColor = this.tShirtColor.find(x => x.name.toLowerCase() === ColorName.white);
     this.tShirtColorSelected = initialColor?.name ?? '';
-    this.products = signal<CartItem[]>([]);
+    this.design = signal(new Design());
+    this.design().location = Location.front;
     this.onAddProduct();    
     this.setTShirtSource();
     this.setIsHiddenOptionProduct();
@@ -120,15 +122,14 @@ export class ProductDesignerComponent implements OnInit {
     this.selectedOutlineFontColor = signal(this.outLineFontColor[0]);
     this.selectedIndexFontColor = signal(+DefaultTypeValue.zeroNumber);
     this.selectedIndexOutlineFontColor = signal(+DefaultTypeValue.zeroNumber);
-    this.selectedSize = signal(50);
     this.selectedArch = signal(+DefaultTypeValue.zeroNumber);
   }
 
   private setTShirtSource(): void {
-    if(this.products().length && this.products()[this.selectedIndexProduct()]?.customization?.length){
-      this.products()[this.selectedIndexProduct()].customization[this.currenElementIndex()].isFrontLocation = true;
-    }
-    this.canvas.nativeElement.style.backgroundImage = `url(../../../../assets/img/${this.tShirtColorSelected.toLowerCase()}-${this.products()[this.selectedIndexProduct()]?.isFrontLocation ? Location.front : Location.back}.png)`;    
+    // if(this.design()?.productId.length && this.design()?.customization?.length){
+    //   this.design().customization[this.currenElementIndex()].isFrontLocation = true;
+    // }
+    this.canvas.nativeElement.style.backgroundImage = `url(../../../../assets/img/${this.tShirtColorSelected.toLowerCase()}-${this.design()?.location}.png)`;    
   }
 
   private subscribeToEvents(): void{
@@ -152,9 +153,9 @@ export class ProductDesignerComponent implements OnInit {
       }
     );
 
-    this.applicationDataService.eventSaveCartItem$.subscribe(
+    this.applicationDataService.eventSaveDesign$.subscribe(
       () => {        
-        this.products()[this.selectedIndexProduct()].customization = [];
+        // this.design().product[this.selectedIndexProduct()].customization = [];
         this.dynamicComponentsArray.forEach(customization => {
           
           const selectedCustomization = new Customization();
@@ -179,7 +180,7 @@ export class ProductDesignerComponent implements OnInit {
           // this.products()[this.selectedIndexProduct()].design.push(selectedCustomization);
         });
 
-        console.log(JSON.stringify(this.products(), null, 2));
+        console.log(JSON.stringify(this.design(), null, 2));
       }
     );
   }
@@ -187,20 +188,20 @@ export class ProductDesignerComponent implements OnInit {
   private validateExistingDesign(): void {
     if(!this.dynamicComponentsArray?.length){
       this.applicationDataService.hasDesigns = false;
-      this.products.set([]);
+      this.design.set(new Design);
       this.setInitialValue();
     }
   }
 
   private validateSize(): void {
-    if(this.products()[this.currenElementIndex()]?.inventorySet?.length < 1 &&
-      this.applicationDataService.hasDesigns
-    ){
-      const inventorySet = new InventorySet();
-      inventorySet.sizeId = this.optionSize[0].optionSizeId;
-      inventorySet.amount = DefaultTypeValue.firstNumber;
-      this.products()[this.selectedIndexProduct()].inventorySet.push(inventorySet);
-    }
+    // if(this.products()[this.currenElementIndex()]?.inventorySet?.length < 1 &&
+    //   this.applicationDataService.hasDesigns
+    // ){
+    //   const inventorySet = new InventorySet();
+    //   inventorySet.sizeId = this.optionSize[0].optionSizeId;
+    //   inventorySet.amount = DefaultTypeValue.firstNumber;
+    //   // this.products()[this.selectedIndexProduct()].inventorySet.push(inventorySet);
+    // }
   }
 
   private setOptions(): void {
@@ -232,24 +233,21 @@ export class ProductDesignerComponent implements OnInit {
   }
 
   validateExistingProduct(): void {
-    if(!this.products()?.length){
+    if(!this.design()?.productId.length){
       this.onAddProduct();      
     }
   }
 
   onAddProduct(): void{
     const initialColor = this.tShirtColor.find(x => x.name.toLowerCase() === ColorName.white);
-    const newProduct = new CartItem();
-    newProduct.productId = this.optionProduct.find(x => x?.colorId === initialColor?.optionColorId)?.optionProductId ?? this.configuration.emptyGuid;
-    newProduct.isFrontLocation = true;
-    const inventorySet = new InventorySet();
-    inventorySet.sizeId = this.optionSize[0].optionSizeId;
-    inventorySet.amount = DefaultTypeValue.firstNumber;
+    // const inventorySet = new InventorySet();
+    // inventorySet.sizeId = this.optionSize[0].optionSizeId;
+    // inventorySet.amount = DefaultTypeValue.firstNumber;
 
-    newProduct.inventorySet = [];
-    newProduct.inventorySet.push(inventorySet);
-    this.products().push(newProduct);
-    this.selectedIndexProduct.set(this.products().length - DefaultTypeValue.firstNumber);
+    // newProduct.inventorySet = [];
+    // newProduct.inventorySet.push(inventorySet);
+    this.design().productId.push(this.optionProduct.find(x => x?.colorId === initialColor?.optionColorId)?.optionProductId ?? this.configuration.emptyGuid);
+    this.selectedIndexProduct.set(this.design()?.productId.length - DefaultTypeValue.firstNumber);
   }
 
   onSelectDesign(designUrl: string): void {
@@ -265,8 +263,10 @@ export class ProductDesignerComponent implements OnInit {
     newDesignElementComponent.instance.optionType = OptionWindow.draw;
     newDesignElementComponent.instance.isSelected = signal(true);
     newDesignElementComponent.instance.designUrl = designUrl;
-    newDesignElementComponent.instance.height = this.selectedSize;
-    newDesignElementComponent.instance.width = this.selectedSize;
+    newDesignElementComponent.instance.height = signal(50);
+    newDesignElementComponent.instance.width = signal(50);
+    newDesignElementComponent.instance.location = this.design().location;
+    newDesignElementComponent.instance.isVisible = true;
 
     newDesignElementComponent.instance.currentElement.subscribe(() => {        
       this.currenElementIndex.set(newDesignElementComponent.instance.id);
@@ -315,8 +315,10 @@ export class ProductDesignerComponent implements OnInit {
         newDesignElementComponent.instance.designUrl = result;
         newDesignElementComponent.instance.optionType = OptionWindow.upload;
         newDesignElementComponent.instance.isSelected = signal(true);
-        newDesignElementComponent.instance.height = this.selectedSize;
-        newDesignElementComponent.instance.width = this.selectedSize;
+        newDesignElementComponent.instance.height = signal(50);
+        newDesignElementComponent.instance.width = signal(50);
+        newDesignElementComponent.instance.location = this.design().location;
+        newDesignElementComponent.instance.isVisible = true;
 
         newDesignElementComponent.instance.currentElement.subscribe(() => {        
           this.currenElementIndex.set(newDesignElementComponent.instance.id);
@@ -356,9 +358,7 @@ export class ProductDesignerComponent implements OnInit {
   }
 
   onTextValue(textValue: string): void {
-    this.validateExistingProduct();    
-
-    this.selectedSize.set(50);
+    this.validateExistingProduct();
 
     if (this.isNewElement()) {
       this.currenElementIndex.set(this.dynamicComponentsArray.length);
@@ -375,8 +375,10 @@ export class ProductDesignerComponent implements OnInit {
       newDesignElementComponent.instance.optionType = OptionWindow.text;
       newDesignElementComponent.instance.arch = this.selectedArch;
       newDesignElementComponent.instance.isSelected = signal(true);
-      newDesignElementComponent.instance.height = this.selectedSize;
-      newDesignElementComponent.instance.width = this.selectedSize;
+      newDesignElementComponent.instance.height = signal(50);
+      newDesignElementComponent.instance.width = signal(50);
+      newDesignElementComponent.instance.location = this.design().location;
+      newDesignElementComponent.instance.isVisible = true;
       
       newDesignElementComponent.instance.currentElement.subscribe(() => {        
         this.currenElementIndex.set(newDesignElementComponent.instance.id);
@@ -426,7 +428,13 @@ export class ProductDesignerComponent implements OnInit {
   }
 
   onRotate(): void {
-    this.products()[this.selectedIndexProduct()].isFrontLocation = !this.products()[this.selectedIndexProduct()].isFrontLocation;    
+    this.design().location = this.design().location === Location.front ? Location.back : Location.front;
+
+    const newLocation = this.design().location;
+    this.dynamicComponentsArray.forEach(ref => {
+      ref.instance.isVisible = ref.instance.location === newLocation;
+    });
+
     this.setTShirtSource();
   }
 
