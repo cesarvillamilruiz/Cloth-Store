@@ -28,21 +28,26 @@ import { Location } from 'src/app/enum/location.enum';
   styleUrls: ['./design-element.component.scss'],
 })
 export class DesignElementComponent implements OnInit, AfterViewInit {
-  @Input() text: WritableSignal<string>;
   @Input() id: number;
-  @Input() zIndex: WritableSignal<number>;
+
   @Input() isHorizontalInverted: boolean;
   @Input() isVerticalInverted: boolean;
-  @Input() fontFamily: WritableSignal<OptionFont>;
-  @Input() showText: boolean;
-  @Input() designUrl: string;
+  @Input() location: Location.front | Location.back;
+  @Input() zIndex: WritableSignal<number>;
+
   @Input() width: WritableSignal<number>;
   @Input() height: WritableSignal<number>;
-  @Input() arch: WritableSignal<number>;
-  @Input() isSelected: WritableSignal<boolean>;
+  @Input() designUrl: string;
+
+  @Input() fontFamily: WritableSignal<OptionFont>;
+  @Input() text: WritableSignal<string>;
+
   @Input() fontColor: WritableSignal<OptionColor>;
   @Input() outlineFontColor: WritableSignal<OptionColor>;
-  @Input() location: Location.front | Location.back;
+  @Input() arch: WritableSignal<number>;
+  
+  @Input() showText: boolean;
+  @Input() isSelected: WritableSignal<boolean>;
   @Input() isVisible: boolean;
   
   @Output() currentElement = new EventEmitter<void>();

@@ -28,25 +28,25 @@ interface ICustomization {
 
 export class Customization implements ICustomization {
     id: number;
-    customizationId: string;
-    designId: string;
+    customizationId: string;//
+    designId: string;//
     isHorizontalInverted: boolean;
     isVerticalInverted: boolean;
     location: Location.front | Location.back;
     zIndex: number;
-    topDistance: number;
-    leftDistance: number;
-    type: CustomizationType;
+    topDistance: number; //
+    leftDistance: number;//
+    type: CustomizationType;//
     width: number;
     height: number;
     
     imageUrl: string;
-    imageType: string;
+    imageType: string;//
 
     fontFamily: string;
     text: string;
-    fontSize: number;
-    fontColorId: string;
+    fontSize: number;//
+    fontColorId: string;//
     outlineFontColorId: string;
     arch: number;
 }
