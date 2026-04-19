@@ -5,8 +5,8 @@
     <div class="contenContainer">
         <router-outlet></router-outlet>
     </div>
-    <app-loading 
-        [isVisible]="(loadingService.loading$ | async) ? true : false" 
+    <app-loading
+        [isVisible]="loadingService.loading()"
         message="Cargando datos..."
         type="bars"
         size="medium"></app-loading>

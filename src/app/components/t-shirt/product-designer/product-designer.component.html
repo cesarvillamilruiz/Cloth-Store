@@ -2,11 +2,12 @@
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.product">
         <div class="productDesingContainer__optionMenu">
             <app-option-product
-                [design]="design()"
+                [design]="design"
                 [selectedIndexProduct]="selectedIndexProduct"
+                (selectedIndexProductChange)="selectedIndexProduct = $event"
                 [optionSize]="optionSize"
                 [tShirtColor]="tShirtColor"
-                [optionProduct]="optionProduct"                
+                [optionProduct]="optionProduct"
                 (closeOptionProduct)="onCloseOptionProduct()"
                 (onAddProduct)="onAddProduct()"></app-option-product>
         </div>
@@ -15,13 +16,21 @@
         <div class="productDesingContainer__optionMenu">
             <app-option-text
                 [invputValue]="inputValue"
+                (invputValueChange)="inputValue = $event"
                 [selectedFont]="selectedFont"
+                (selectedFontChange)="onSelectedFontChange($event)"
                 [selectedFontColor]="selectedFontColor"
+                (selectedFontColorChange)="onSelectedFontColorChange($event)"
                 [selectedOutlineFontColor]="selectedOutlineFontColor"
+                (selectedOutlineFontColorChange)="onSelectedOutlineFontColorChange($event)"
                 [selectedIndexFontColor]="selectedIndexFontColor"
+                (selectedIndexFontColorChange)="selectedIndexFontColor = $event"
                 [selectedIndexOutlineFontColor]="selectedIndexOutlineFontColor"
-                [selectedSize]="selectedSize"
+                (selectedIndexOutlineFontColorChange)="selectedIndexOutlineFontColor = $event"
+                [selectedSize]="selectedSizeValue"
+                (selectedSizeChange)="onSelectedSizeChange($event)"
                 [selectedArch]="selectedArch"
+                (selectedArchChange)="onSelectedArchChange($event)"
                 [fontColor]="fontColor"
                 [outLineFontColor]="outLineFontColor"
                 [optionFont]="optionFont"
@@ -46,7 +55,7 @@
 
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.draw">
         <div class="productDesingContainer__optionMenu">
-            <app-option-draw 
+            <app-option-draw
                 (closeOptionProduct)="onCloseOptionProduct()"></app-option-draw>
         </div>
     </div>
@@ -54,17 +63,17 @@
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.upload">
         <div class="productDesingContainer__optionMenu">
             <app-option-upload
-            (fileUpload)="onFileUpload($event)"
-            (closeOptionProduct)="onCloseOptionProduct()"></app-option-upload>
+                (fileUpload)="onFileUpload($event)"
+                (closeOptionProduct)="onCloseOptionProduct()"></app-option-upload>
         </div>
-    </div> 
-    
-    <div class="productDesingContainer__canvas" #canvas (click)="onSelectWorkArea()">      
-        <div class="productDesingContainer__workArea"  #workArea>             
+    </div>
+
+    <div class="productDesingContainer__canvas" #canvas (click)="onSelectWorkArea()">
+        <div class="productDesingContainer__workArea" #workArea>
             <div #baseComponent></div>
         </div>
-    </div>    
-    
+    </div>
+
     <button class="productDesingContainer__rotate p-0" (click)="onRotate()"><img ngSrc="../../../../assets/icon/tshirt-rotate-icons.svg"
             width="30" height="30" priority></button>
 </div>

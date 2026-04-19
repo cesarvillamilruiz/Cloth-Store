@@ -44,7 +44,7 @@
     " [style.zIndex]="zIndex()" (mousedown)="setStatus($event, 2)" [id]="'mainElement__' + id" #mainElement>
         <div *ngIf="showText; else showImage" [ngClass]="{ verticalInverted: isVerticalInverted }"
             [ngClass]="{ horizontalInverted: isHorizontalInverted }" [style.fontSize.px]="width()"
-            [style.fontFamily]="fontFamily().value" [style.color]="fontColor().hexadecimal"
+            [style.fontFamily]="fontFamily()?.value" [style.color]="fontColor()?.hexadecimal"
             [style.-webkitTextStroke]="outlineFontStyle" #textElement>
             {{ text() }}
         </div>

@@ -1,11 +1,11 @@
-import { HiddenOptionValidation } from 'src/app/model/utility/hidden-option-validation.model';
+import { HiddenOptionValidation } from 'src/app/model/Utility/hidden-option-validation.model';
 import { isGreaterThan } from '../generic/generic.validation';
-import { WritableSignal } from '@angular/core';
+import { Signal } from '@angular/core';
 import { OptionWindow } from 'src/app/enum/option.enum';
 
 export const isHiddenOption = (
   hddenOptionValidationModel: HiddenOptionValidation,
-  currentOption: WritableSignal<OptionWindow>
+  currentOption: Signal<OptionWindow>
 ) => {
   return (
     isGreaterThan(

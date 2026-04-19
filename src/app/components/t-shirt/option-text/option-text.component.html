@@ -5,14 +5,14 @@
             <div class="d-flex justify-content-between flex-nowrap mt-4">
                 <h2 *ngIf="!showFontOption && !showFontColorOption && !showOutlineColorOption; else selectedOption">{{invputValue() ? 'Editar' : 'Agregar'}} texto</h2>
                 <ng-template #selectedOption>
-                    <div class="d-flex justify-content-between flex-nowrap col-8">                    
+                    <div class="d-flex justify-content-between flex-nowrap col-8">
                         <i class="bi bi-arrow-bar-left pointer" (click)="onHideOption()"></i>
                         <h6 *ngIf="showFontOption">Seleccionala fuente de letra</h6>
                         <h6 *ngIf="showFontColorOption">Seleccionala color de letra</h6>
                         <h6 *ngIf="showOutlineColorOption">Seleccionala color de borde</h6>
                     </div>
                 </ng-template>
-                <button type="button" class="btn-close mr-3 optionTextContainer__closeButton" (click)="closeOptionProduct.emit()" aria-label="Close"></button>                
+                <button type="button" class="btn-close mr-3 optionTextContainer__closeButton" (click)="closeOptionProduct.emit()" aria-label="Close"></button>
             </div>
         </header>
         <hr>
@@ -30,7 +30,7 @@
                     [class.active]="activeButton=='moveToBack'"
                     (click)="moveBackward.emit(); activeButton='moveToBack'">
                     <i class="bi bi-layers-half"></i>
-                </button>        
+                </button>
             </div>
             <div class="d-flex flex-nowrap justify-content-center col-4">
                 <button class="optionTextContainer__action"
@@ -42,14 +42,14 @@
                     [class.active]="activeButton=='flipVertical'"
                     (click)="onRotateVertical(); activeButton='flipVertical'">
                     <img ngSrc="../../../../assets/icon/reflect-vertical.png" width="25" height="25" priority>
-                </button>        
+                </button>
             </div>
             <div class="d-flex flex-nowrap justify-content-center col-4">
                 <button class="optionTextContainer__action"
                     [class.active]="activeButton=='duplicate'"
                     (click)="duplicate.emit(); activeButton='duplicate'">
                     <img ngSrc="../../../../assets/icon/duplicate.png" width="25" height="25" priority>
-                </button>                
+                </button>
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
         <div class="d-flex flex-nowrap justify-content-between optionTextContainer__option" (click)="onSelectFontOption('showFontOption')">
             <div>Fuente</div>
             <div class="d-flex flex-nowrap justify-content-end align-items-center">
-                <div  [style.fontSize]="'1.3rem'" [style.fontFamily]="selectedFont().value">{{selectedFont().description}}</div>                
+                <div [style.fontSize]="'1.3rem'" [style.fontFamily]="selectedFont()?.value">{{selectedFont()?.description}}</div>
                 <i class="bi bi-chevron-right"></i>
             </div>
         </div>
@@ -89,9 +89,9 @@
                     [step]="slideStep"
                     [discrete]="slideThumbLabel"
                     [showTickMarks]="slideShowTicks">
-                    <input matSliderThumb [(ngModel)]="selectedSize" #slider>
+                    <input matSliderThumb [ngModel]="selectedSize()" (ngModelChange)="selectedSize.set($event)" #slider>
                 </mat-slider>
-                <div>{{(selectedSize())}}</div>
+                <div>{{selectedSize()}}</div>
             </div>
         </div>
         <hr>
@@ -105,7 +105,7 @@
                     [step]="slideStep"
                     [discrete]="slideThumbLabel"
                     [showTickMarks]="slideShowTicks">
-                    <input matSliderThumb [(ngModel)]="selectedArch" #slider2>
+                    <input matSliderThumb [ngModel]="selectedArch()" (ngModelChange)="selectedArch.set($event)" #slider2>
                 </mat-slider>
                 <div>{{selectedArch()}}</div>
             </div>
@@ -113,18 +113,21 @@
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showFontOption">
         <app-option-font
-        [selectedFont]="selectedFont"
-        [optionFont]="optionFont"></app-option-font>
+            [selectedFont]="selectedFont()"
+            (selectedFontChange)="selectedFont.set($event)"
+            [optionFont]="optionFont"></app-option-font>
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showFontColorOption">
         <app-option-color
-            [selectedColor]="selectedFontColor"
+            [selectedColor]="selectedFontColor()"
+            (selectedColorChange)="selectedFontColor.set($event)"
             [optionColor]="fontColor"
             (hideOption)="onHideOption()"></app-option-color>
     </div>
     <div class="optionTextContainer__buttons" *ngIf="showOutlineColorOption">
         <app-option-color
-            [selectedColor]="selectedOutlineFontColor"
+            [selectedColor]="selectedOutlineFontColor()"
+            (selectedColorChange)="selectedOutlineFontColor.set($event)"
             [optionColor]="outLineFontColor"
             (hideOption)="onHideOption()"></app-option-color>
     </div>

@@ -8,7 +8,7 @@ import { OptionSize } from 'src/app/model/option/option-size.model';
   templateUrl: './designer.component.html',
   styleUrls: ['./designer.component.scss'],
 })
-export class DesignerComponent implements OnInit{
+export class DesignerComponent implements OnInit {
 
   currentOption: WritableSignal<OptionWindow>;
   isNewElement: WritableSignal<boolean>;

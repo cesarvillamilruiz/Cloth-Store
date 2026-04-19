@@ -1,20 +1,21 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationDataService {
 
-  eventSaveDesign$: EventEmitter<void> = new EventEmitter();
-  eventDeleteCurrentDesign$: EventEmitter<void> = new EventEmitter();
-  
+  readonly eventSaveDesign$ = new Subject<void>();
+  readonly eventDeleteCurrentDesign$ = new Subject<void>();
+
   hasDesigns: boolean;
 
   saveDesign(): void {
-    this.eventSaveDesign$.emit();
+    this.eventSaveDesign$.next();
   }
 
   deleteCurrentDesign(): void {
-    this.eventDeleteCurrentDesign$.emit();
+    this.eventDeleteCurrentDesign$.next();
   }
 }

@@ -1,14 +1,14 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { ColorName } from '../enum/color.enum';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductDataService {
 
-  eventTShirtColorId$: EventEmitter<string> = new EventEmitter();
+  readonly eventTShirtColorId$ = new Subject<string>();
 
   setTShirtColor(colorId: string): void {
-    this.eventTShirtColorId$.emit(colorId);
+    this.eventTShirtColorId$.next(colorId);
   }
 }

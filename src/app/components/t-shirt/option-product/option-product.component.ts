@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, WritableSignal } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, model } from '@angular/core';
 import { ProductDataService } from 'src/app/data-service/product-data.service';
 import { ColorName } from 'src/app/enum/color.enum';
 import { Design } from 'src/app/model/t-shirt/design.model';
@@ -18,7 +18,7 @@ import { Configuration } from 'src/app/core/core-configuration';
 })
 export class OptionProductComponent implements OnInit, OnDestroy {
   @Input() design: Design;
-  @Input() selectedIndexProduct: WritableSignal<number>;
+  selectedIndexProduct = model<number>(0);
   @Input() optionSize: OptionSize[];
   @Input() tShirtColor: OptionColor[];
   @Input() optionProduct: OptionProduct[];
@@ -33,10 +33,6 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   previewColorId: string;
   tShirtSize = TShirtSize;
   colorChange: boolean;
-
-  // get design(): Design {
-  //   return this.products()[this.selectedIndexProduct()];
-  // }
 
   private unsubscribe: () => void;
 
@@ -54,7 +50,7 @@ export class OptionProductComponent implements OnInit, OnDestroy {
     this.setInitialValues();
   }
 
-  ngOnDestroy(): void{
+  ngOnDestroy(): void {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
@@ -63,7 +59,7 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   setInitialValues(): void {
     this.showColorTooltip = false;
     this.colorChange = false;
-    this.selectedColorId = this.tShirtColor.find(x => x.name.toLowerCase() === ColorName.white)?.optionColorId ?? '';  
+    this.selectedColorId = this.tShirtColor.find(x => x.name.toLowerCase() === ColorName.white)?.optionColorId ?? '';
   }
 
   confirmTShirtColor(colorId: string): void {
@@ -72,7 +68,7 @@ export class OptionProductComponent implements OnInit, OnDestroy {
   }
 
   setTShirtColor(colorId: string): void {
-    if(this.design.productId?.length > 0){
+    if (this.design.productId?.length > 0) {
       this.design.productId[this.selectedIndexProduct()] = this.optionProduct.find(x => x.colorId === colorId)?.optionProductId ??
         this.configuration.emptyGuid;
       this.productDataService.setTShirtColor(colorId);
@@ -102,63 +98,47 @@ export class OptionProductComponent implements OnInit, OnDestroy {
     const inventorySet = new InventorySet();
     inventorySet.sizeId = size.optionSizeId;
     inventorySet.amount = +inputElement.value;
-
-    // const index = this.design.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
-
-    // if(!index || index === DefaultTypeValue.firstNegativeNumber){
-    //   this.design.inventorySet.push(inventorySet);
-    // }
-    // else{
-    //   this.design.inventorySet[index].amount = +inputElement.value;
-    // }
   }
 
   getSizeAmount(size: OptionSize): number {
-    let amount = DefaultTypeValue.zeroNumber;
-    // const index = this.design.inventorySet?.findIndex(x => x.sizeId === size.optionSizeId);
-    // if(index > DefaultTypeValue.firstNegativeNumber){
-    //   amount = this.design.inventorySet[index]?.amount;
-    // }
-
-    return amount;
+    return DefaultTypeValue.zeroNumber;
   }
 
-  getBackGroundImageUrl(productId: string): string{
+  getBackGroundImageUrl(productId: string): string {
     const colorId = this.optionProduct.find(x => x.optionProductId === productId)?.colorId ?? this.configuration.emptyGuid;
-    return  `url(../../../../assets/img/${this.getColorName(colorId)}-${this.design.location}.png)`;
+    return `url(../../../../assets/img/${this.getColorName(colorId)}-${this.design.location}.png)`;
   }
 
-  getChangeOptionBackGroundClass(productId: string): string{
+  getChangeOptionBackGroundClass(productId: string): string {
     const colorId = this.optionProduct.find(x => x.optionProductId === productId)?.colorId ?? this.configuration.emptyGuid;
     return `color ${this.getColorName(colorId)}`;
   }
 
   onSelectProduct(index: number): void {
     this.selectedIndexProduct.set(index);
-    this.selectedColorId = this.optionProduct.find(x => x.optionProductId === 
+    this.selectedColorId = this.optionProduct.find(x => x.optionProductId ===
       this.design?.productId[index])?.colorId ?? this.configuration.emptyGuid;
     this.productDataService.setTShirtColor(this.selectedColorId);
   }
 
-  onRemoveProduct(index: number): void{
-    if(this.design.productId.length > 1){
+  onRemoveProduct(index: number): void {
+    if (this.design.productId.length > 1) {
       this.design.productId.splice(index, 1);
-      if((this.selectedIndexProduct() > DefaultTypeValue.zeroNumber && this.selectedIndexProduct() === index)|| index < this.selectedIndexProduct()){
-        this.onSelectProduct(this.selectedIndexProduct() -1);
-      }
-      else if(this.selectedIndexProduct() === DefaultTypeValue.zeroNumber && this.selectedIndexProduct() === index){
+      if ((this.selectedIndexProduct() > DefaultTypeValue.zeroNumber && this.selectedIndexProduct() === index) || index < this.selectedIndexProduct()) {
+        this.onSelectProduct(this.selectedIndexProduct() - 1);
+      } else if (this.selectedIndexProduct() === DefaultTypeValue.zeroNumber && this.selectedIndexProduct() === index) {
         this.onSelectProduct(DefaultTypeValue.zeroNumber);
       }
-    }    
+    }
   }
 
-  toggleShowColorTooltip(): void{
+  toggleShowColorTooltip(): void {
     this.colorChange = !this.colorChange;
   }
 
-  onShowColorTooltip(): void{
-    this.colorChange = !this.colorChange;;
-    this.showColorTooltip= false;
+  onShowColorTooltip(): void {
+    this.colorChange = !this.colorChange;
+    this.showColorTooltip = false;
   }
 
   getColorName(colorId: string): string {

@@ -4,13 +4,12 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
-  WritableSignal,
+  effect,
+  model,
 } from '@angular/core';
 import { DefaultTypeValue } from 'src/app/enum/type.enum';
 import { OptionColor } from 'src/app/model/option/option-color.model';
@@ -21,15 +20,16 @@ import { OptionFont } from 'src/app/model/option/option-font.model';
   templateUrl: './option-text.component.html',
   styleUrls: ['./option-text.component.scss'],
 })
-export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
-  @Input() invputValue: WritableSignal<string>;
-  @Input() selectedFont: WritableSignal<OptionFont>;
-  @Input() selectedFontColor: WritableSignal<OptionColor>;
-  @Input() selectedOutlineFontColor: WritableSignal<OptionColor>;
-  @Input() selectedIndexOutlineFontColor: WritableSignal<number>;
-  @Input() selectedIndexFontColor: WritableSignal<number>;
-  @Input() selectedSize: WritableSignal<number>;
-  @Input() selectedArch: WritableSignal<number>;
+export class OptionTextComponent implements OnInit, AfterViewInit, OnDestroy {
+  invputValue = model<string>('');
+  selectedFont = model<OptionFont>();
+  selectedFontColor = model<OptionColor>();
+  selectedOutlineFontColor = model<OptionColor>();
+  selectedIndexOutlineFontColor = model<number>(0);
+  selectedIndexFontColor = model<number>(0);
+  selectedSize = model<number>(0);
+  selectedArch = model<number>(0);
+
   @Input() fontColor: OptionColor[];
   @Input() outLineFontColor: OptionColor[];
   @Input() optionFont: OptionFont[];
@@ -51,7 +51,6 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   showFontOption: boolean;
   showFontColorOption: boolean;
   showOutlineColorOption: boolean;
-
   slideDisabled: boolean;
   slideSizeMax: number;
   slideSizeMin: number;
@@ -62,10 +61,17 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   slideArcMin: number;
   activeButton: string;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes['invputValue'] && !changes['invputValue'].isFirstChange()){
+  private skipFirstEffect = true;
+
+  constructor() {
+    effect(() => {
+      this.invputValue();
+      if (this.skipFirstEffect) {
+        this.skipFirstEffect = false;
+        return;
+      }
       this.setInitialValue();
-    }
+    });
   }
 
   ngOnInit(): void {
@@ -75,13 +81,13 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.setTextInputFocus();
-    }, 1000)
+    }, 1000);
   }
 
-  private setInitialValue(): void {    
+  private setInitialValue(): void {
     this.labelFont = 'Font';
     this.labelColor = 'Color';
-    this.labelOutlineColor = 'Borde'
+    this.labelOutlineColor = 'Borde';
     this.slideDisabled = false;
     this.slideSizeMax = 200;
     this.slideSizeMin = DefaultTypeValue.zeroNumber;
@@ -115,8 +121,7 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
 
   onSelectFontOption(showOption: string): void {
     this.onHideOption();
-
-    switch(showOption) {
+    switch (showOption) {
       case 'showFontColorOption':
         this.showFontColorOption = true;
         break;
@@ -125,7 +130,7 @@ export class OptionTextComponent implements OnChanges, OnInit, AfterViewInit, On
         break;
       case 'showOutlineColorOption':
         this.showOutlineColorOption = true;
-      }
+    }
   }
 
   onHideOption(): void {

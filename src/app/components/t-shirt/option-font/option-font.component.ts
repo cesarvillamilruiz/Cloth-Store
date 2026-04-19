@@ -1,4 +1,4 @@
-import { Component, Input, WritableSignal } from '@angular/core';
+import { Component, Input, model } from '@angular/core';
 import { OptionFont } from 'src/app/model/option/option-font.model';
 
 @Component({
@@ -7,12 +7,13 @@ import { OptionFont } from 'src/app/model/option/option-font.model';
   styleUrls: ['./option-font.component.scss']
 })
 export class OptionFontComponent {
-  @Input() selectedFont: WritableSignal<OptionFont>;
+  selectedFont = model<OptionFont>();
+
   @Input() optionFont: OptionFont[];
 
-  previewFont: OptionFont;
+  previewFont: OptionFont | undefined;
 
-  onSelectFont(optionFont: OptionFont): void{
+  onSelectFont(optionFont: OptionFont): void {
     this.previewFont = this.selectedFont();
     this.selectedFont.set(optionFont);
   }
