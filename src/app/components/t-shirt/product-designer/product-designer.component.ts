@@ -244,11 +244,24 @@ export class ProductDesignerComponent implements OnInit {
       this.currenElementIndex = newDesignElementComponent.instance.id;
       this.isCloseOptionAllowed = false;
       this.isNewElement.set(false);
+
+      this.dynamicComponentsArray.forEach((element) => {
+        element.instance.isSelected.set(false);
+        element.instance.showLayerOptions = false;
+        if (isSameValue(element.instance.id, this.currenElementIndex)) {
+          element.instance.isSelected.set(true);
+        }
+      });
     });
 
     newDesignElementComponent.instance.onDeleteElement.subscribe((id: number) => {
       this.deleteElement(id);
     });
+
+    newDesignElementComponent.instance.onMoveToFront.subscribe(() => { this.moveToFront(); });
+    newDesignElementComponent.instance.onMoveToBack.subscribe(() => { this.moveToBack(); });
+    newDesignElementComponent.instance.onMoveForward.subscribe(() => { this.moveForward(); });
+    newDesignElementComponent.instance.onMoveBackward.subscribe(() => { this.moveBackward(); });
 
     this.dynamicComponentsArray.push(newDesignElementComponent);
     this.applicationDataService.hasDesigns = true;
