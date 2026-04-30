@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -27,7 +26,7 @@ import { Location } from 'src/app/enum/location.enum';
   templateUrl: './design-element.component.html',
   styleUrls: ['./design-element.component.scss'],
 })
-export class DesignElementComponent implements OnInit, AfterViewInit {
+export class DesignElementComponent implements OnInit {
   @Input() id: number;
   @Input() isHorizontalInverted: boolean;
   @Input() isVerticalInverted: boolean;
@@ -66,8 +65,14 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
   status: DragStatus;
   optionType: OptionWindow;
   showLayerOptions: boolean;
-  frameWidth = signal(0);
-  frameHeight = signal(0);
+
+  get frameWidth(): number {    
+    return this.mainElement?.nativeElement?.offsetWidth;
+  }
+
+  get frameHeight(): number {
+    return this.mainElement?.nativeElement?.offsetHeight;
+  }
 
   get outlineFontStyle(): string {
     const color = this.outlineFontColor();
@@ -89,16 +94,6 @@ export class DesignElementComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.mainElement?.nativeElement?.classList.add('elementContainer');
-  }
-
-  ngAfterViewInit(): void {
-    const observer = new ResizeObserver(entries => {
-      const rect = entries[0].contentRect;
-      this.frameWidth.set(rect.width);
-      this.frameHeight.set(rect.height);
-    });
-
-    observer.observe(this.mainElement.nativeElement);
   }
 
   topLeftResize(offsetX: number, offsetY: number) {

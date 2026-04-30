@@ -2,7 +2,7 @@
 
 .elementContainer {
   position: absolute;
-  border: 1px dashed darkcyan;
+  border: 1px dashed red;
   background-color: lawngreen;
   &__resizeHandle{
     position: absolute;
@@ -15,26 +15,26 @@
     align-items: center;
     border-radius: 50%;   
     border: 1px solid #cccfd6;
-    &--topLeft{      
-      z-index: 10000000;
-      top: -23px;
-      left: -23px;
+    z-index: 2147483647;
+    &--topLeft{
+      top: 0;
+      left: 0;
       &:hover{
         background-color: $red;
         color: $white;
       }
     }
     &--topRight{
-      top: -23px;
-      right: -23px; 
+      top: 0;
+      left: 20px;
       &:hover{
         background-color: $blue-light;
         color: $white;
       }     
     }
     &--bottomLeft{
-      bottom: -23px;
-      left: -23px;
+      top: 20px;
+      left: 0;
       font-size: 10px;
       &:hover{
         background-color: $blue-light;
@@ -42,8 +42,8 @@
       }  
     }
     &--bottomRight{
-      bottom: -23px;
-      right: -23px; 
+      top: 20px;
+      left: 20px;
       transform: rotate(90deg);
       cursor: crosshair;
       &:hover{
@@ -54,8 +54,6 @@
   }
   &__optionMovement{
     background: $white;
-    position: absolute;
-    left: -22px;
     width: 200px;
     ul {
       width: 205px;

@@ -1,47 +1,59 @@
 <ng-container *ngIf="isVisible">
-    <div *ngIf="isSelected()" class="elementContainer" [style.zIndex]="zIndex()" [style.width.px]="frameWidth()"
-        [style.height.px]="frameHeight()" [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px)'">
-        <div *ngIf="showLayerOptions" class="elementContainer__optionMovement" (click)="onSelecElement()"
-            [style.top.px]="frameHeight() + 22">
-            <ul>
-                <li (click)="onMoveToFront.emit()">
-                    <i class="bi bi-front"></i>Mover al frente
-                </li>
-                <li (click)="onMoveToBack.emit()">
-                    <i class="bi bi-back"></i>Mover atras
-                </li>
-                <li (click)="onMoveForward.emit()">
-                    <i class="bi bi-front"></i>Mover un paso al frente
-                </li>
-                <li (click)="onMoveBackward.emit()">
-                    <i class="bi bi-back"></i>Mover un paso al atras
-                </li>
-            </ul>
-        </div>
-        <button class="elementContainer__resizeHandle elementContainer__resizeHandle--topLeft"
-            (click)="onDeleteElement.emit(id)">
-            <i class="bi bi-trash3"></i>
-        </button>
-        <button class="elementContainer__resizeHandle elementContainer__resizeHandle--bottomRight"
-            (mousedown)="setStatus($event, 1, bottomRightResize)">
-            <i class="bi bi-arrows-angle-expand"></i>
-        </button>
-        <button class="elementContainer__resizeHandle elementContainer__resizeHandle--bottomLeft"
-            (click)="onToggleShowLayerOptions()">
-            <i class="bi bi-stack"></i>
-        </button>
+    <button *ngIf="isSelected()"
+        class="elementContainer__resizeHandle elementContainer__resizeHandle--topLeft"        
+        [style.transform]="'translate3d(' + (x() - 23) + 'px,' + (y() - 23) + 'px,' + '0px)'"
+        (click)="onDeleteElement.emit(id)">
+        <i class="bi bi-trash3"></i>
+    </button>
+    <button *ngIf="isSelected()"
+        class="elementContainer__resizeHandle elementContainer__resizeHandle--bottomRight"
+        [style.transform]="'translate3d(' + (x() + frameWidth - 23) + 'px,' + (y() + frameHeight - 23) + 'px,' + '0px)'"
+        (mousedown)="setStatus($event, 1, bottomRightResize)">
+        <i class="bi bi-arrows-angle-expand"></i>
+    </button>
+    <button *ngIf="isSelected()"
+        class="elementContainer__resizeHandle elementContainer__resizeHandle--bottomLeft"
+        [style.transform]="'translate3d(' + (x() - 23) + 'px,' + (y() + frameHeight - 23) + 'px,' + '0px)'"
+        (click)="onToggleShowLayerOptions()">
+        <i class="bi bi-stack"></i>
+    </button>
+
+    <div *ngIf="isSelected()" class="elementContainer"
+        [ngStyle]="{ 'z-index': 2147483647, 'background-color': 'transparent', 'pointer-events': 'none', 'border': '1px dashed black'}"
+        [style.width.px]="frameWidth"
+        [style.height.px]="frameHeight" [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px)'">
     </div>
 
-    <div class="elementContainer" [style.transform]="
-      'translate3d(' +
-      x() +
-      'px,' +
-      y() +
-      'px,' +
-      '0px) rotate(' +
-      rotateDegree +
-      'deg)'
-    " [style.zIndex]="zIndex()" (mousedown)="setStatus($event, 2)" [id]="'mainElement__' + id" #mainElement>
+    <div *ngIf="showLayerOptions && isSelected()" class="elementContainer__optionMovement"
+        style="position: absolute; z-index: 2147483647; top: 0; left: 0;"
+        [style.transform]="'translate3d(' + (x() - 22) + 'px,' + (y() + frameHeight + 22) + 'px,' + '0px)'"
+        (click)="onSelecElement()">
+        <ul>
+            <li (click)="onMoveToFront.emit()">
+                <i class="bi bi-front"></i>Mover al frente
+            </li>
+            <li (click)="onMoveToBack.emit()">
+                <i class="bi bi-back"></i>Mover atras
+            </li>
+            <li (click)="onMoveForward.emit()">
+                <i class="bi bi-front"></i>Mover un paso al frente
+            </li>
+            <li (click)="onMoveBackward.emit()">
+                <i class="bi bi-back"></i>Mover un paso al atras
+            </li>
+        </ul>
+    </div>
+
+    <button *ngIf="isSelected()"
+        class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight"
+        [style.transform]="'translate3d(' + (x() + frameWidth - 23) + 'px,' + (y() - 23) + 'px,' + '0px)'"
+        (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true"
+        (drag)="onDragRotate($event)">
+        <i class="bi bi-arrow-counterclockwise"></i>
+    </button>
+
+    <div class="elementContainer"
+        [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px) rotate(' + rotateDegree + 'deg)'" (mousedown)="setStatus($event, 2)" [id]="'mainElement__' + id" #mainElement>
         <div *ngIf="showText; else showImage" [ngClass]="{ verticalInverted: isVerticalInverted }"
             [ngClass]="{ horizontalInverted: isHorizontalInverted }" [style.fontSize.px]="width()"
             [style.fontFamily]="fontFamily()?.value" [style.color]="fontColor()?.hexadecimal"
@@ -54,10 +66,5 @@
                 [ngClass]="{ horizontalInverted: isHorizontalInverted }" [style.width.px]="width()"
                 [style.height.px]="height()" [src]="designUrl" />
         </ng-template>
-        <button *ngIf="isSelected()" class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight"
-            (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true"
-            (drag)="onDragRotate($event)">
-            <i class="bi bi-arrow-counterclockwise"></i>
-        </button>
     </div>
 </ng-container>
