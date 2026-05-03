@@ -42,18 +42,11 @@
                 <i class="bi bi-back"></i>Mover un paso al atras
             </li>
         </ul>
-    </div>
-
-    <button *ngIf="isSelected()"
-        class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight"
-        [style.transform]="'translate3d(' + (x() + frameWidth - 23) + 'px,' + (y() - 23) + 'px,' + '0px)'"
-        (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true"
-        (drag)="onDragRotate($event)">
-        <i class="bi bi-arrow-counterclockwise"></i>
-    </button>
+    </div>    
 
     <div class="elementContainer"
-        [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px) rotate(' + rotateDegree + 'deg)'" (mousedown)="setStatus($event, 2)" [id]="'mainElement__' + id" #mainElement>
+        [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px) rotate(' + rotateDegree + 'deg)'"
+        (mousedown)="setStatus($event, 2)" [id]="'mainElement__' + id" #mainElement>
         <div *ngIf="showText; else showImage" [ngClass]="{ verticalInverted: isVerticalInverted }"
             [ngClass]="{ horizontalInverted: isHorizontalInverted }" [style.fontSize.px]="width()"
             [style.fontFamily]="fontFamily()?.value" [style.color]="fontColor()?.hexadecimal"
@@ -66,5 +59,21 @@
                 [ngClass]="{ horizontalInverted: isHorizontalInverted }" [style.width.px]="width()"
                 [style.height.px]="height()" [src]="designUrl" />
         </ng-template>
+    </div>
+
+    <!-- Ghost overlay: same transform as #mainElement, only holds the rotate button above all layers -->
+    <div *ngIf="isSelected()" class="elementContainer"
+        [style.transform]="'translate3d(' + x() + 'px,' + y() + 'px,' + '0px) rotate(' + rotateDegree + 'deg)'"
+        [style.width.px]="frameWidth"
+        [style.height.px]="frameHeight"
+        style="z-index: 2147483647; background: transparent; border: none; pointer-events: none;">
+        <button
+            class="elementContainer__resizeHandle elementContainer__resizeHandle--topRight"
+            [ngStyle]="{'left': (frameWidth - 5) + 'px'}"
+            style="pointer-events: auto;"
+            (dragstart)="setRotate($event, true)" (dragend)="setRotate($event, false)" draggable="true"
+            (drag)="onDragRotate($event)">
+            <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
     </div>
 </ng-container>
