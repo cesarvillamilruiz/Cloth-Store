@@ -1,27 +1,55 @@
-# ClothStore
+# Cloth-Store
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.4.
+A custom t-shirt ecommerce SPA where users design and order personalised t-shirts.
 
-## Development server
+## What this is
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Cloth-Store lets authenticated users build a t-shirt design using a canvas-based designer — adding text, uploading images, choosing clipart, or free-drawing — then purchase it through a shopping cart. Authentication is handled by Azure Active Directory. The project is in active development; the designer is complete and the cart system is being built.
 
-## Code scaffolding
+## Tech stack
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+| Technology | Notes |
+|---|---|
+| Angular 18 | Standalone components, no NgModules |
+| Angular Material | UI components |
+| Bootstrap 5 | Grid and utilities |
+| Azure MSAL | Azure AD auth |
+| RxJS | Shared state via Subjects |
+| SCSS | Component-scoped + global theme |
+| TypeScript 5.4 | Strict mode |
 
-## Build
+## Setup
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Install Node.js 20+
+2. `npm install`
+3. Copy `src/environments/environment.ts` to `src/environments/environment.local.ts` and fill in local API URLs and Azure AD client IDs
+4. `npm start`
 
-## Running unit tests
+## Key commands
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm start          # Dev server → http://localhost:4200
+npm run build      # Production build
+npm test           # Unit tests (Karma/Jasmine)
+npm run watch      # Build watch mode
+```
 
-## Running end-to-end tests
+## Project structure
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```
+src/app/
+  components/         # Feature UI by area (home, t-shirt, customer, shared)
+  services/           # HTTP and business logic services
+  model/              # TypeScript interfaces
+  data-service/       # RxJS Subject-based shared state
+  configuration/msal/ # Azure AD OAuth config
+  theme/ mixin/       # Shared SCSS variables and mixins
+src/environments/     # Per-environment config (local is gitignored)
+```
 
-## Further help
+## Contributing
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Branch from `dev`; target PRs at `dev`
+- Standalone components only — no NgModules
+- State via RxJS Subjects in `data-service/` — no NgRx
+- All protected routes must include the MSAL guard
