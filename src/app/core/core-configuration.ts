@@ -7,5 +7,5 @@ export const currentEnvironment = env;
   providedIn: 'root',
 })
 export class Configuration {
-    emptyGuid: '00000000-0000-0000-0000-000000000000'
+    emptyGuid = '00000000-0000-0000-0000-000000000000'
 }

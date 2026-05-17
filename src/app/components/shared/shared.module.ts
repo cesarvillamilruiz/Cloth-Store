@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ButtonOneComponent } from './button-one/button-one.component';
 import { LoadingComponent } from './loading/loading.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
@@ -8,6 +9,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
   declarations: [ButtonOneComponent, LoadingComponent, ConfirmDialogComponent],
   imports: [
     CommonModule,
+    FormsModule,
         // MatIconModule,
         // MatDividerModule,
         // MatButtonModule,

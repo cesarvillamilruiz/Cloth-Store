@@ -8,13 +8,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class ConfirmDialogComponent {
   @Input() title = 'Confirm';
   @Input() message = 'Are you sure?';
-  @Output() closed = new EventEmitter<boolean>();
+  @Output() closed = new EventEmitter<string | null>();
+
+  designName = '';
 
   confirm() {
-    this.closed.emit(true);
+    this.closed.emit(this.designName.trim() || null);
   }
 
   cancel() {
-    this.closed.emit(false);
+    this.closed.emit(null);
   }
 }

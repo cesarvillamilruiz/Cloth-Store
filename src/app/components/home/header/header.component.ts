@@ -69,17 +69,15 @@ export class HeaderComponent {
     }
   }
 
-  onCloseDialog(result: boolean): void {
-    if(result){
-      this.applicationDataService.saveDesign();
-      this.navigateToFragment(this.fragment);
-    }
-    else{
+  onCloseDialog(name: string | null): void {
+    if (name !== null) {
+      this.applicationDataService.saveDesign(name);
+    } else {
       this.applicationDataService.deleteCurrentDesign();
-      this.navigateToFragment(this.fragment);
     }
 
     this.showSaveDesignDialog = false;
+    this.navigateToFragment(this.fragment);
   }
 
   private processSignInSIgnUp(): void {

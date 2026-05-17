@@ -34,6 +34,8 @@ import { Configuration } from 'src/app/core/core-configuration';
 import { OptionFont } from 'src/app/model/option/option-font.model';
 import { OptionPreDesign } from 'src/app/model/option/option-pre-design.model';
 import { BlobService } from 'src/app/services/blob/blob.service';
+import { DesignService } from 'src/app/services/design/design.service';
+import { CustomizationType } from 'src/app/enum/type-option.enum';
 
 @Component({
   selector: 'app-product-designer',
@@ -86,7 +88,8 @@ export class ProductDesignerComponent implements OnInit {
     private readonly optionService: OptionService,
     private readonly loadingService: LoadingService,
     private readonly configuration: Configuration,
-    private readonly blobService: BlobService) {}
+    private readonly blobService: BlobService,
+    private readonly designService: DesignService) {}
 
   ngOnInit(): void {
     this.subscribeToEvents();
@@ -111,9 +114,8 @@ export class ProductDesignerComponent implements OnInit {
     this.selectedIndexProduct = +DefaultTypeValue.zeroNumber;
     const initialColor = this.tShirtColor.find(x => x.name.toLowerCase() === ColorName.white);
     this.tShirtColorSelected = initialColor?.name ?? '';
-    const initialDesign = new Design();
-    initialDesign.location = Location.front;
-    this.design = initialDesign;
+    this.design = new Design();
+    this.design.location = Location.front;
     this.onAddProduct();
     this.setTShirtSource();
     this.setIsHiddenOptionProduct();
@@ -155,24 +157,52 @@ export class ProductDesignerComponent implements OnInit {
 
     this.applicationDataService.eventSaveDesign$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.dynamicComponentsArray.forEach(customization => {
-          const selectedCustomization = new Customization();
-          selectedCustomization.id = customization.instance.id;
-          selectedCustomization.zIndex = customization.instance.zIndex();
-          selectedCustomization.designId = customization.instance.designUrl;
-          selectedCustomization.width = customization.instance.width();
-          selectedCustomization.height = customization.instance.height();
+      .subscribe((name: string) => {
+        this.design.name = name;
+        this.design.customizations = this.dynamicComponentsArray.map(ref => {
+          const instance = ref.instance;
+          const c = new Customization();
 
-          if (customization.instance.optionType === OptionWindow.text) {
-            selectedCustomization.isHorizontalInverted = customization.instance.isHorizontalInverted;
-            selectedCustomization.isVerticalInverted = customization.instance.isVerticalInverted;
-            selectedCustomization.text = customization.instance?.text();
-            selectedCustomization.arch = customization.instance.arch();
+          c.customizationId = this.configuration.emptyGuid;
+          c.zIndex = instance.zIndex();
+          c.location = instance.location;
+          c.isHorizontalInverted = instance.isHorizontalInverted ?? false;
+          c.isVerticalInverted = instance.isVerticalInverted ?? false;
+          c.topDistance = instance.y();
+          c.leftDistance = instance.x();
+          c.width = instance.width();
+          c.height = instance.height();
+
+          if (instance.optionType === OptionWindow.text) {
+            c.type = CustomizationType.text;
+            c.text = instance.text();
+            c.fontSize = instance.width();
+            c.fontFamily = instance.fontFamily()?.value ?? '';
+            c.fontColorId = instance.fontColor()?.optionColorId ?? '';
+            c.outlineFontColorId = instance.outlineFontColor()?.optionColorId ?? '';
+            c.arch = instance.arch();
+          } else {
+            c.type = instance.optionType as unknown as CustomizationType;
+            c.imageUrl = instance.designUrl;
+            c.imageType = instance.optionType;
           }
+
+          return c;
         });
 
-        console.log(JSON.stringify(this.design, null, 2));
+        const isUpdate = !!this.design.designId;
+        const save$ = isUpdate
+          ? this.designService.update(this.design)
+          : this.designService.insert(this.design);
+
+        this.loadingService.show();
+        save$.subscribe({
+          next: (saved) => {
+            this.design.designId = saved.designId;
+            this.loadingService.hide();
+          },
+          error: () => this.loadingService.hide(),
+        });
       });
   }
 

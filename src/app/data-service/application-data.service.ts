@@ -6,13 +6,13 @@ import { Subject } from 'rxjs';
 })
 export class ApplicationDataService {
 
-  readonly eventSaveDesign$ = new Subject<void>();
+  readonly eventSaveDesign$ = new Subject<string>();
   readonly eventDeleteCurrentDesign$ = new Subject<void>();
 
   hasDesigns: boolean;
 
-  saveDesign(): void {
-    this.eventSaveDesign$.next();
+  saveDesign(name: string): void {
+    this.eventSaveDesign$.next(name);
   }
 
   deleteCurrentDesign(): void {

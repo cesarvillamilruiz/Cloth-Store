@@ -5,8 +5,7 @@ interface IDesign {
     designId: string;
     productId: string[];
     name: string;
-    // inventorySet: InventorySet[];
-    customization: Customization[];
+    customizations: Customization[];
     location: Location.front | Location.back;
 }
 
@@ -14,12 +13,11 @@ export class Design implements IDesign {
     designId: string;
     productId: string[];
     name: string;
-    // inventorySet: InventorySet[];
-    customization: Customization[];
+    customizations: Customization[];
     location: Location.front | Location.back;
 
     constructor() {
        this.productId = [];
-       this.customization = [];
+       this.customizations = [];
     }
 }
