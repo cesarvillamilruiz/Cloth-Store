@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { MsalService } from '@azure/msal-angular';
 import { ApplicationDataService } from 'src/app/data-service/application-data.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -42,8 +43,16 @@ export class HeaderComponent {
     });
   }
 
-  logout() {
-    this.msalService.logout();
+  logout(): void {
+    this.userService.logOut().subscribe({
+      next: (logoutUrl: string) => {
+        this.msalService.logout({ postLogoutRedirectUri: environment.baseDomain });
+        window.location.href = logoutUrl;
+      },
+      error: () => {
+        this.msalService.logout();
+      }
+    });
   }
 
   toggleShowAccountMenu(): void {

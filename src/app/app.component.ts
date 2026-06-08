@@ -27,8 +27,11 @@ export class AppComponent {
     this.msalService.initialize();
 
     this.msalService.handleRedirectObservable().subscribe({
-      next: () => {        
+      next: (result) => {
         this.userService.reviewAndUpdateLoggedUserintoStorage();
+        if (result) {
+          this.userService.logIn().subscribe();
+        }
       },
       error: (error) => {
         console.log(error);

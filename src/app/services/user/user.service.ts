@@ -47,7 +47,15 @@ export class UserService {
 
   logIn(): Observable<any> {
     return this.http.get<any>(
-      `${this.url}${this.controller}/Login`
+      `${this.url}${this.controller}/LogIn`
+    );
+  }
+
+  logOut(): Observable<string> {
+    const redirectUri = encodeURIComponent(environment.baseDomain);
+    return this.http.get(
+      `${this.url}${this.controller}/LogOut?postLogoutRedirectUri=${redirectUri}`,
+      { responseType: 'text' }
     );
   }
 }
