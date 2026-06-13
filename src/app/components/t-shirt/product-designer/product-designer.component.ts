@@ -178,6 +178,7 @@ export class ProductDesignerComponent implements OnInit {
             c.text = instance.text();
             c.fontSize = instance.width();
             c.fontFamily = instance.fontFamily()?.value ?? '';
+            c.fontId = instance.fontFamily()?.optionFontId ?? '';
             c.fontColorId = instance.fontColor()?.optionColorId ?? '';
             c.outlineFontColorId = instance.outlineFontColor()?.optionColorId ?? '';
             c.arch = instance.arch();

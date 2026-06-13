@@ -19,6 +19,7 @@ interface ICustomization {
     imageType: string;
 
     fontFamily: string;
+    fontId: string;
     text: string;
     fontSize: number;
     fontColorId: string;
@@ -44,6 +45,7 @@ export class Customization implements ICustomization {
     imageType: string;//
 
     fontFamily: string;
+    fontId: string;
     text: string;
     fontSize: number;//
     fontColorId: string;//
