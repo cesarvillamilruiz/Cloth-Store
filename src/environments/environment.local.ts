@@ -34,6 +34,7 @@ export const environment = {
         address: '/api/Address',
         option: '/api/Option',
         blob: '/api/Blob',
+        design: '/api/Design',
       }
     }
   };

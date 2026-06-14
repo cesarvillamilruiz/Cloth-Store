@@ -53,6 +53,14 @@
         </div>
     </div>
 
+    <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.designs">
+        <div class="productDesingContainer__optionMenu">
+            <app-option-designs
+                [designs]="userDesigns"
+                (closeOptionProduct)="onCloseOptionProduct()"></app-option-designs>
+        </div>
+    </div>
+
     <div class="productDesingContainer__optionProduct" *ngIf="currentOption()===option.draw">
         <div class="productDesingContainer__optionMenu">
             <app-option-draw

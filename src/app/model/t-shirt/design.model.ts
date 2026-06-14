@@ -7,6 +7,7 @@ interface IDesign {
     name: string;
     customizations: Customization[];
     location: Location.front | Location.back;
+    colorName?: string;
 }
 
 export class Design implements IDesign {
@@ -15,6 +16,7 @@ export class Design implements IDesign {
     name: string;
     customizations: Customization[];
     location: Location.front | Location.back;
+    colorName?: string;
 
     constructor() {
        this.productId = [];

@@ -1,0 +1,54 @@
+@import "../../../mixin/general/mixin.scss";
+@import "../../../theme/styles/variables";
+
+.optionDrawContainer{
+  height: 100%;
+  display: block;
+  &__title{
+    font-size: 0.9rem;
+    color: $blue-light;
+  }
+  &__subtitle{
+    font-size: .55em;
+    color: #8d9095;
+  }
+  &__closeButton{
+    font-size: 12px !important;
+  }
+  section{
+   max-height: 80%;
+  }
+}
+
+.designNode{
+  overflow-y: scroll;
+  max-height: 80%;
+  scrollbar-width: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.designThumb{
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 80px;
+  &__base{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  &__name{
+    display: block;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    line-height: 1.1;
+    color: $blue-light;
+    word-break: break-word;
+    white-space: normal;
+  }
+}

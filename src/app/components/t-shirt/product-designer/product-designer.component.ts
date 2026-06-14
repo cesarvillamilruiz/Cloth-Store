@@ -55,6 +55,7 @@ export class ProductDesignerComponent implements OnInit {
   optionSize: OptionSize[];
   optionFont: OptionFont[];
   optionPreDesign: OptionPreDesign[];
+  userDesigns: Design[] = [];
   tShirtColorSelected: string;
   option = OptionWindow;
   currenElementIndex = 0;
@@ -94,6 +95,14 @@ export class ProductDesignerComponent implements OnInit {
   ngOnInit(): void {
     this.subscribeToEvents();
     this.setOptions();
+    this.setUserDesigns();
+  }
+
+  private setUserDesigns(): void {
+    this.designService.getListByUser().subscribe({
+      next: (designs) => { this.userDesigns = designs ?? []; },
+      error: () => { this.userDesigns = []; },
+    });
   }
 
   @HostListener('window:resize', ['$event'])

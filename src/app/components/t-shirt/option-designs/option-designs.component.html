@@ -1,0 +1,22 @@
+<div class="optionDrawContainer d-flex flex-column p-3">
+    <header class="mt-3">
+      <h6 class="optionDrawContainer__title">Mis Diseños</h6>
+          <div class="d-flex justify-content-between flex-nowrap mt-4">
+              <h2>Agrega uno de tus diseños guardados</h2>
+              <button type="button" class="btn-close mr-3 optionDrawContainer__closeButton"
+                  (click)="closeOptionProduct.emit()" aria-label="Close"></button>
+          </div>
+          <p class="optionDrawContainer__subtitle">Elige entre los diseños que has creado</p>
+    </header>
+    <section>
+        <p *ngIf="!designs.length" class="optionDrawContainer__subtitle">Aún no tienes diseños guardados.</p>
+        <div *ngIf="designs.length" class="col-12 mb-2 designNode">
+            <div *ngFor="let design of designs" class="col-6 my-2 d-flex flex-column align-items-center">
+              <span class="designThumb">
+                <span class="designThumb__base" [style.backgroundImage]="getBackGroundImageUrl(design)"></span>
+              </span>
+              <p class="designThumb__name w-100 text-center">{{ design.name }}</p>
+            </div>
+        </div>
+    </section>
+  </div>

@@ -4,6 +4,7 @@ import { DesignElementComponent } from './design-element/design-element.componen
 import { DesignerComponent } from './designer/designer.component';
 import { OptionComponent } from './option/option.component';
 import { OptionClipartComponent } from './option-clipart/option-clipart.component';
+import { OptionDesignsComponent } from './option-designs/option-designs.component';
 import { OptionColorComponent } from './option-color/option-color.component';
 import { OptionDrawComponent } from './option-draw/option-draw.component';
 import { OptionFontComponent } from './option-font/option-font.component';
@@ -32,6 +33,7 @@ import { MatMenuModule } from '@angular/material/menu';
     OptionDrawComponent,
     OptionColorComponent,
     OptionClipartComponent,
+    OptionDesignsComponent,
     OptionComponent,
     DesignerComponent,
     DesignElementComponent
