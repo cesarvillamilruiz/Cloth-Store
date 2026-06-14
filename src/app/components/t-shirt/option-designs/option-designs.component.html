@@ -11,7 +11,8 @@
     <section>
         <p *ngIf="!designs.length" class="optionDrawContainer__subtitle">Aún no tienes diseños guardados.</p>
         <div *ngIf="designs.length" class="col-12 mb-2 designNode">
-            <div *ngFor="let design of designs" class="col-6 my-2 d-flex flex-column align-items-center">
+            <div *ngFor="let design of designs" role="button" class="col-6 my-2 d-flex flex-column align-items-center designThumb__item"
+              (click)="onSelectDesign(design)">
               <span class="designThumb">
                 <span class="designThumb__base" [style.backgroundImage]="getBackGroundImageUrl(design)"></span>
               </span>

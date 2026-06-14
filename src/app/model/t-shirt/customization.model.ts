@@ -17,6 +17,8 @@ interface ICustomization {
 
     imageUrl: string;
     imageType: string;
+    blobUrl?: string;
+    blobName?: string;
 
     fontFamily: string;
     fontId: string;
@@ -43,6 +45,8 @@ export class Customization implements ICustomization {
     
     imageUrl: string;
     imageType: string;//
+    blobUrl?: string;
+    blobName?: string;
 
     fontFamily: string;
     fontId: string;

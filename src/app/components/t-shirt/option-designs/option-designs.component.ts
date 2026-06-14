@@ -10,8 +10,13 @@ export class OptionDesignsComponent {
   @Input() designs: Design[] = [];
 
   @Output() closeOptionProduct = new EventEmitter<void>();
+  @Output() selectDesign = new EventEmitter<Design>();
 
   readonly defaultColorName = 'white';
+
+  onSelectDesign(design: Design): void {
+    this.selectDesign.emit(design);
+  }
 
   /**
    * Base garment background-image for the design, e.g. url(.../red-front.png).

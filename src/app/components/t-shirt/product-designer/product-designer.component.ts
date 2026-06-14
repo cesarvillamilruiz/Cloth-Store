@@ -105,6 +105,101 @@ export class ProductDesignerComponent implements OnInit {
     });
   }
 
+  onLoadDesign(design: Design): void {
+    this.onCloseOptionProduct();
+
+    this.dynamicComponentsArray.forEach(ref => ref.destroy());
+    this.dynamicComponentsArray = [];
+
+    this.design = new Design();
+    this.design.designId = design.designId;
+    this.design.name = design.name;
+    this.design.location = design.location ?? Location.front;
+    this.design.colorName = design.colorName;
+
+    this.tShirtColorSelected = design.colorName ?? ColorName.white;
+    const color = this.tShirtColor.find(x => x.name.toLowerCase() === this.tShirtColorSelected.toLowerCase());
+    this.design.productId.push(this.optionProduct.find(x => x?.colorId === color?.optionColorId)?.optionProductId ?? this.configuration.emptyGuid);
+    this.selectedIndexProduct = +DefaultTypeValue.zeroNumber;
+    this.setTShirtSource();
+
+    this.loadingService.show();
+    this.designService.getCustomizations(design.designId).subscribe({
+      next: (customizations) => {
+        [...(customizations ?? [])]
+          .sort((a, b) => a.zIndex - b.zIndex)
+          .forEach((customization, index) => {
+            const ref = this.createDesignElement(customization, index);
+            this.dynamicComponentsArray.push(ref);
+          });
+
+        this.currenElementIndex = +DefaultTypeValue.zeroNumber;
+        this.applicationDataService.hasDesigns = this.dynamicComponentsArray.length > 0;
+        this.isNewElement.set(false);
+        this.loadingService.hide();
+      },
+      error: () => this.loadingService.hide(),
+    });
+  }
+
+  private createDesignElement(customization: Customization, index: number): ComponentRef<DesignElementComponent> {
+    const isText = customization.type === CustomizationType.text;
+
+    const newDesignElementComponent = this.baseComponent.createComponent(DesignElementComponent);
+    const instance = newDesignElementComponent.instance;
+
+    instance.id = index;
+    instance.zIndex.set(customization.zIndex);
+    instance.optionType = customization.type as unknown as OptionWindow;
+    instance.showText = isText;
+    instance.location = customization.location;
+    instance.isVisible = customization.location === this.design.location;
+    instance.isHorizontalInverted = customization.isHorizontalInverted;
+    instance.isVerticalInverted = customization.isVerticalInverted;
+    instance.x.set(customization.leftDistance);
+    instance.y.set(customization.topDistance);
+    instance.isSelected.set(false);
+
+    if (isText) {
+      instance.text.set(customization.text);
+      instance.width.set(customization.fontSize ?? 50);
+      instance.height.set(50);
+      instance.arch.set(customization.arch ?? +DefaultTypeValue.zeroNumber);
+      instance.fontFamily.set(this.optionFont.find(x => x.optionFontId === customization.fontId) ?? this.optionFont[0]);
+      instance.fontColor.set(this.fontColor.find(x => x.optionColorId === customization.fontColorId) ?? this.fontColor[0]);
+      instance.outlineFontColor.set(this.outLineFontColor.find(x => x.optionColorId === customization.outlineFontColorId) ?? this.outLineFontColor[0]);
+    } else {
+      instance.designUrl = customization.blobUrl ?? customization.imageUrl;
+      instance.width.set(customization.width ?? 50);
+      instance.height.set(customization.height ?? 50);
+    }
+
+    this.wireElementSubscriptions(newDesignElementComponent);
+    return newDesignElementComponent;
+  }
+
+  private wireElementSubscriptions(ref: ComponentRef<DesignElementComponent>): void {
+    ref.instance.currentElement.subscribe(() => {
+      this.currenElementIndex = ref.instance.id;
+      this.inputValue = ref.instance.text();
+      this.isCloseOptionAllowed = false;
+      this.isNewElement.set(false);
+      this.dynamicComponentsArray.forEach((element) => {
+        element.instance.isSelected.set(false);
+        element.instance.showLayerOptions = false;
+        if (isSameValue(element.instance.id, this.currenElementIndex)) {
+          element.instance.isSelected.set(true);
+        }
+      });
+    });
+
+    ref.instance.onDeleteElement.subscribe((id: number) => { this.deleteElement(id); });
+    ref.instance.onMoveToFront.subscribe(() => { this.moveToFront(); });
+    ref.instance.onMoveToBack.subscribe(() => { this.moveToBack(); });
+    ref.instance.onMoveForward.subscribe(() => { this.moveForward(); });
+    ref.instance.onMoveBackward.subscribe(() => { this.moveBackward(); });
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.setIsHiddenOptionProduct();
@@ -140,7 +235,7 @@ export class ProductDesignerComponent implements OnInit {
   }
 
   private setTShirtSource(): void {
-    this.canvas.nativeElement.style.backgroundImage = `url(../../../../assets/img/${this.tShirtColorSelected.toLowerCase()}-${this.design?.location}.png)`;
+    this.canvas.nativeElement.style.backgroundImage = `url(../../../../assets/img/${this.tShirtColorSelected.toLowerCase()}-${this.design?.location?.toLocaleLowerCase()}.png)`;
   }
 
   private subscribeToEvents(): void {

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Customization } from 'src/app/model/t-shirt/customization.model';
 import { Design } from 'src/app/model/t-shirt/design.model';
 import { environment } from 'src/environments/environment';
 
@@ -34,5 +35,9 @@ export class DesignService {
 
   getListByUser(): Observable<Design[]> {
     return this.http.get<Design[]>(`${this.baseUrl}/GetDesignListByUserId`);
+  }
+
+  getCustomizations(designId: string): Observable<Customization[]> {
+    return this.http.get<Customization[]>(`${this.baseUrl}/GetCustomizationsByDesignId?designId=${designId}`);
   }
 }

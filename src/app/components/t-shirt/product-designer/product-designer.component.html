@@ -57,6 +57,7 @@
         <div class="productDesingContainer__optionMenu">
             <app-option-designs
                 [designs]="userDesigns"
+                (selectDesign)="onLoadDesign($event)"
                 (closeOptionProduct)="onCloseOptionProduct()"></app-option-designs>
         </div>
     </div>
