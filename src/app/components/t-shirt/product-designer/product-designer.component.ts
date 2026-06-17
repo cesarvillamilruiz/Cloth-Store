@@ -149,6 +149,7 @@ export class ProductDesignerComponent implements OnInit {
     const instance = newDesignElementComponent.instance;
 
     instance.id = index;
+    instance.customizationId = customization.customizationId;
     instance.zIndex.set(customization.zIndex);
     instance.optionType = customization.type as unknown as OptionWindow;
     instance.showText = isText;
@@ -265,34 +266,34 @@ export class ProductDesignerComponent implements OnInit {
         this.design.name = name;
         this.design.customizations = this.dynamicComponentsArray.map(ref => {
           const instance = ref.instance;
-          const c = new Customization();
+          const customization = new Customization();
 
-          c.customizationId = this.configuration.emptyGuid;
-          c.zIndex = instance.zIndex();
-          c.location = instance.location;
-          c.isHorizontalInverted = instance.isHorizontalInverted ?? false;
-          c.isVerticalInverted = instance.isVerticalInverted ?? false;
-          c.topDistance = instance.y();
-          c.leftDistance = instance.x();
-          c.width = instance.width();
-          c.height = instance.height();
+          customization.customizationId = !instance.customizationId ? this.configuration.emptyGuid : instance.customizationId;
+          customization.zIndex = instance.zIndex();
+          customization.location = instance.location;
+          customization.isHorizontalInverted = instance.isHorizontalInverted ?? false;
+          customization.isVerticalInverted = instance.isVerticalInverted ?? false;
+          customization.topDistance = instance.y();
+          customization.leftDistance = instance.x();
+          customization.width = instance.width();
+          customization.height = instance.height();
 
           if (instance.optionType === OptionWindow.text) {
-            c.type = CustomizationType.text;
-            c.text = instance.text();
-            c.fontSize = instance.width();
-            c.fontFamily = instance.fontFamily()?.value ?? '';
-            c.fontId = instance.fontFamily()?.optionFontId ?? '';
-            c.fontColorId = instance.fontColor()?.optionColorId ?? '';
-            c.outlineFontColorId = instance.outlineFontColor()?.optionColorId ?? '';
-            c.arch = instance.arch();
+            customization.type = CustomizationType.text;
+            customization.text = instance.text();
+            customization.fontSize = instance.width();
+            customization.fontFamily = instance.fontFamily()?.value ?? '';
+            customization.fontId = instance.fontFamily()?.optionFontId ?? '';
+            customization.fontColorId = instance.fontColor()?.optionColorId ?? '';
+            customization.outlineFontColorId = instance.outlineFontColor()?.optionColorId ?? '';
+            customization.arch = instance.arch();
           } else {
-            c.type = instance.optionType as unknown as CustomizationType;
-            c.imageUrl = instance.designUrl;
-            c.imageType = instance.optionType;
+            customization.type = instance.optionType as unknown as CustomizationType;
+            customization.imageUrl = instance.designUrl;
+            customization.imageType = instance.optionType;
           }
 
-          return c;
+          return customization;
         });
 
         const isUpdate = !!this.design.designId;

@@ -34,6 +34,7 @@ export class DesignElementComponent implements OnInit {
   @Input() designUrl: string;
   @Input() showText: boolean;
   @Input() isVisible: boolean;
+  @Input() customizationId: string;
 
   zIndex = model<number>(0);
   width = model<number>(50);
