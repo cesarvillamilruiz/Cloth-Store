@@ -106,7 +106,7 @@ export class OptionProductComponent implements OnInit, OnDestroy {
 
   getBackGroundImageUrl(productId: string): string {
     const colorId = this.optionProduct.find(x => x.optionProductId === productId)?.colorId ?? this.configuration.emptyGuid;
-    return `url(../../../../assets/img/${this.getColorName(colorId)}-${this.design.location}.png)`;
+    return `url(../../../../assets/img/${this.getColorName(colorId)}-${this.design.location?.toLocaleLowerCase()}.png)`;
   }
 
   getChangeOptionBackGroundClass(productId: string): string {
