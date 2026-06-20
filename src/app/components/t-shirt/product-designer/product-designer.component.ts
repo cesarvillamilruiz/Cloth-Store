@@ -236,7 +236,7 @@ export class ProductDesignerComponent implements OnInit {
   }
 
   private setTShirtSource(): void {
-    this.canvas.nativeElement.style.backgroundImage = `url(../../../../assets/img/${this.tShirtColorSelected.toLowerCase()}-${this.design?.location?.toLocaleLowerCase()}.png)`;
+    this.canvas.nativeElement.style.backgroundImage = `url(../../../../assets/img/${this.tShirtColorSelected.toLowerCase()}-${this.design?.location}.png)`;
   }
 
   private subscribeToEvents(): void {
