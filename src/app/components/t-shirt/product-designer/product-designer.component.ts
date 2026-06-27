@@ -171,6 +171,7 @@ export class ProductDesignerComponent implements OnInit {
       instance.outlineFontColor.set(this.outLineFontColor.find(x => x.optionColorId === customization.outlineFontColorId) ?? this.outLineFontColor[0]);
     } else {
       instance.designUrl = customization.blobUrl ?? customization.imageUrl;
+      instance.blobName = customization.blobName ?? '';
       instance.width.set(customization.width ?? 50);
       instance.height.set(customization.height ?? 50);
     }
@@ -291,6 +292,8 @@ export class ProductDesignerComponent implements OnInit {
             customization.type = instance.optionType as unknown as CustomizationType;
             customization.imageUrl = instance.designUrl;
             customization.imageType = instance.optionType;
+            customization.blobName = instance.blobName;
+            customization.blobUrl = instance.designUrl;
           }
 
           return customization;
@@ -360,7 +363,7 @@ export class ProductDesignerComponent implements OnInit {
     this.selectedIndexProduct = this.design?.productId.length - DefaultTypeValue.firstNumber;
   }
 
-  onSelectDesign(designUrl: string): void {
+  onSelectDesign(design: OptionPreDesign): void {
     this.validateExistingProduct();
 
     this.currenElementIndex = this.dynamicComponentsArray.length;
@@ -370,7 +373,8 @@ export class ProductDesignerComponent implements OnInit {
     newDesignElementComponent.instance.showText = false;
     newDesignElementComponent.instance.optionType = OptionWindow.draw;
     newDesignElementComponent.instance.isSelected.set(true);
-    newDesignElementComponent.instance.designUrl = designUrl;
+    newDesignElementComponent.instance.designUrl = design.blobUrl;
+    newDesignElementComponent.instance.blobName = design.blobName;
     newDesignElementComponent.instance.height.set(50);
     newDesignElementComponent.instance.width.set(50);
     newDesignElementComponent.instance.location = this.design.location;

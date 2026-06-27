@@ -32,6 +32,7 @@ export class DesignElementComponent implements OnInit {
   @Input() isVerticalInverted: boolean;
   @Input() location: Location.front | Location.back;
   @Input() designUrl: string;
+  @Input() blobName: string;
   @Input() showText: boolean;
   @Input() isVisible: boolean;
   @Input() customizationId: string;

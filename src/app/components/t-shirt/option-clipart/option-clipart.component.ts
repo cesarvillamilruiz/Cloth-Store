@@ -10,7 +10,7 @@ export class OptionClipartComponent {
   @Input() optionPreDesign: OptionPreDesign[];
 
   @Output() closeOptionProduct = new EventEmitter<void>();
-  @Output() selectedDesignName = new EventEmitter<string>();
+  @Output() selectedDesignName = new EventEmitter<OptionPreDesign>();
   
   categoryList: string[];
   optionPreDesignSelected: OptionPreDesign[];
@@ -30,8 +30,8 @@ export class OptionClipartComponent {
       index === self.findIndex((t) => t.category === item.category)).map(item => item.category);
   }
 
-  onSelectDesign(designUrl: string): void {
-    this.selectedDesignName.emit(designUrl);
+  onSelectDesign(design: OptionPreDesign): void {
+    this.selectedDesignName.emit(design);
   }
 
   onHideOption(): void {
